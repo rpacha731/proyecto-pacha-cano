@@ -1,0 +1,172 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+    <div class="container">
+
+        <a class="navbar-brand" href="">
+            <img src="../../../assets/wsp_icon.png" class="d-inline-block align-text-top img-fluid"
+                style="max-height: 70px;">
+        </a>
+
+        <!-- <a class="btn btn-outline-primary ms-auto me-2 d-block d-lg-none" href=""> USUARIO </a> -->
+
+        <button type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler">
+            <span class="navbar-toggler-icon"></span> </button>
+
+        <div id="navbarSupportedContent" class="collapse navbar-collapse justify-content-center text-center">
+            <ul class="navbar-nav mb-2">
+                <a class="nav-link active" href=""> Inicio </a>
+                <a class="nav-link active" href=""> Panel </a>
+            </ul>
+
+            <div class="dropdown d-lg-none">
+                <a class="btn btn-outline-warning dropdown-toggle" href="" role="button" id="dropdownMenuLink"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Usuario
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-lg-end text-center" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="dropdown d-none d-lg-block">
+            <a class="btn btn-outline-warning dropdown-toggle" href="" role="button" id="dropdownMenuLink"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Usuario
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-lg-end text-center" aria-labelledby="dropdownMenuLink">
+                <li><a role="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalRegistrarse">
+                        Registrarse </a></li>
+                <li><a role="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalIngresar">
+                        Ingresar </a> </li>
+
+            </ul>
+        </div>
+
+
+
+    </div>
+</nav>
+
+<div class="modal fade" id="modalRegistrarse" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"> Ingresar al sistema </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row gy-2">
+                    <div class="col-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="Nombre">
+                            <label for="floatingInput">Nombre</label>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="Apellido">
+                            <label for="floatingInput">Apellido</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                            <label for="floatingInput">Email</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="input-group">
+                            <div class="form-floating form-floating-group flex-grow-1">
+                                <input type="password" class="form-control" id="floatingInput" placeholder="Contraseña">
+                                <label for="floatingInput">Contraseña</label>
+                            </div>
+                            <span class="input-group-text cursor-pointer" id="basic-addon1"><i
+                                    class="bi bi-eye"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="input-group">
+                            <div class="form-floating form-floating-group flex-grow-1">
+                                <input type="password" class="form-control" id="floatingInput"
+                                    placeholder="Repetir contraseña">
+                                <label for="floatingInput">Repetir contraseña</label>
+                            </div>
+                            <span class="input-group-text cursor-pointer" id="basic-addon1"><i
+                                    class="bi bi-eye"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="form-floating">
+                            <input type="date" class="form-control" id="floatingInput"
+                                placeholder="Fecha de nacimiento">
+                            <label for="floatingInput">Fecha nacimiento</label>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-floating">
+                            <input type="number" class="form-control" id="floatingInput" placeholder="DNI">
+                            <label for="floatingInput">DNI</label>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-floating">
+                            <input type="tel" class="form-control" id="floatingInput" placeholder="Teléfono">
+                            <label for="floatingInput">Teléfono</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="modalIngresar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"> Ingresar al sistema </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row gy-2">
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <input type="email" [(ngModel)]="email"
+                                class="form-control" id="floatingInput" placeholder="name@example.com">
+                            <label for="floatingInput">Email</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="input-group">
+                            <div class="form-floating form-floating-group flex-grow-1">
+                                <input [(ngModel)]="password"
+                                    [type]="!showPass ? 'password' : 'text'" class="form-control"
+                                    aria-describedby="basic-addon1"
+                                    type="password" id="floatingInput" placeholder="Contraseña">
+                                <label for="floatingInput">Contraseña</label>
+                            </div>
+                            <span class="input-group-text cursor-pointer" id="basic-addon1" (click)="showPassword()">
+                                <i class="bi" [ngClass]="{
+                                    'bi-eye-slash': showPass,
+                                    'bi-eye': !showPass}"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cerrar </button>
+                <button type="button" class="btn btn-primary" (click)="ingresar()"> Ingresar </button>
+            </div>
+        </div>
+    </div>
+</div>
