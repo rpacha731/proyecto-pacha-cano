@@ -10,7 +10,7 @@ export class CargaDatosComponent implements OnInit {
   linesR : any[] = []
   lineaActual: any[] = ["-", "-", "-", "-"]
   index: number = 0;
-  frecuenciaMues : number = 500
+  frecuenciaMues : number = 1000
   cancelar : boolean = false
   habilitado: boolean = true
   habilitadoCar: boolean = true

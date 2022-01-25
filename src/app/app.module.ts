@@ -8,6 +8,8 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CargaDatosComponent } from './carga-datos/carga-datos.component';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,7 @@ import { CargaDatosComponent } from './carga-datos/carga-datos.component';
   imports: [
     BrowserModule,
     FormsModule, 
+    RouterModule,
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule

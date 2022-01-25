@@ -1,5 +1,7 @@
 
 export class SignupRequest {
-    email: string | undefined;
-    password: string | undefined;
+    nombre: string;
+    apellido: string;
+    email: string;
+    password: string;
 }
