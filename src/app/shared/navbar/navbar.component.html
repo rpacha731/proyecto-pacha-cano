@@ -26,9 +26,11 @@
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-lg-end text-center" aria-labelledby="dropdownMenuLink">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <li><a role="button" class="dropdown-item" data-bs-toggle="modal"
+                            data-bs-target="#modalRegistrarse">
+                            Registrarse </a></li>
+                    <li><a role="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalIngresar">
+                            Ingresar </a> </li>
                 </ul>
             </div>
         </div>
@@ -62,14 +64,14 @@
             </div>
             <div class="modal-body" [formGroup]="form">
                 <div class="row gy-2">
-                    <div class="col-6">
+                    <div class="col-12 col-sm-6">
                         <div class="form-floating">
                             <input type="text" class="form-control" id="nombreInput" formControlName="nombre"
                                 placeholder="Nombre" [class.is-invalid]="nombreInvalido">
                             <label for="nombreInput">Nombre</label>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-sm-6">
                         <div class="form-floating">
                             <input type="text" class="form-control" id="apellidoInput" formControlName="apellido"
                                 placeholder="Apellido" [class.is-invalid]="apellidoInvalido">
@@ -83,11 +85,11 @@
                             <label for="emailInput">Email</label>
                         </div>
                     </div>
-                    <div class="col-12">
-                        <div class="input-group">
+                    <div class="col-12 col-sm-6">
+                        <div class="input-group" style="flex-wrap: nowrap;">
                             <div class="form-floating form-floating-group flex-grow-1">
-                                <input type="password" class="form-control" formControlName="password" id="passwordInput"
-                                    placeholder="Contraseña" [class.is-invalid]="passwordInvalida"
+                                <input type="password" class="form-control" formControlName="password"
+                                    id="passwordInput" placeholder="Contraseña" [class.is-invalid]="passwordInvalida"
                                     [type]="mostrarCon1 ? 'password' : 'text'">
                                 <label for="passwordInput">Contraseña</label>
                             </div>
@@ -97,8 +99,8 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-12">
-                        <div class="input-group">
+                    <div class="col-12 col-sm-6">
+                        <div class="input-group" style="flex-wrap: nowrap;">
                             <div class="form-floating form-floating-group flex-grow-1">
                                 <input type="password" class="form-control" id="passwordInput2"
                                     placeholder="Repetir contraseña" formControlName="password2"
@@ -110,6 +112,29 @@
                                 (click)="mostrarCon2 = !mostrarCon2">
                                 <i class="bi" [ngClass]="mostrarCon2 ? 'bi-eye' : 'bi-eye-slash'"></i>
                             </span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="card p-2 px-3">
+                            <p class="card-text mb-1 text-primary" style="font-size: 15px;"> Roles a desarrollar </p>
+                            <div class="d-flex justify-content-between">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox"
+                                        id="flexSwitchCheckDefault">
+                                    <label class="form-check-label" for="flexSwitchCheckDefault" style="font-size: 14px;"> ROL_USER </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox"
+                                        id="flexSwitchCheckDefault">
+                                    <label class="form-check-label" for="flexSwitchCheckDefault" style="font-size: 14px;"> ROL_ADMIN </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox"
+                                        id="flexSwitchCheckDefault">
+                                    <label class="form-check-label" for="flexSwitchCheckDefault" style="font-size: 14px;"> ROL_OTHER </label>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -129,28 +154,27 @@
                 <h5 class="modal-title" id="exampleModalLabel"> Ingresar al sistema </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" [formGroup]="formLogin">
                 <div class="row gy-2">
                     <div class="col-12">
                         <div class="form-floating">
-                            <input type="email" [(ngModel)]="email"
-                                class="form-control" id="floatingInput" placeholder="name@example.com">
-                            <label for="floatingInput">Email</label>
+                            <input type="email" class="form-control" id="emailInputLogin" formControlName="userEmail"
+                                placeholder="name@example.com" [class.is-invalid]="emailInvalido">
+                            <label for="emailInputLogin">Email</label>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="input-group">
                             <div class="form-floating form-floating-group flex-grow-1">
-                                <input [(ngModel)]="password"
-                                    [type]="!showPass ? 'password' : 'text'" class="form-control"
-                                    aria-describedby="basic-addon1"
-                                    type="password" id="floatingInput" placeholder="Contraseña">
-                                <label for="floatingInput">Contraseña</label>
+                                <input type="password" class="form-control" formControlName="password"
+                                    id="passwordInputLogin" placeholder="Contraseña"
+                                    [class.is-invalid]="passwordInvalida" [type]="mostrarCon3 ? 'password' : 'text'">
+                                <label for="passwordInputLogin">Contraseña</label>
                             </div>
-                            <span class="input-group-text cursor-pointer" id="basic-addon1" (click)="showPassword()">
-                                <i class="bi" [ngClass]="{
-                                    'bi-eye-slash': showPass,
-                                    'bi-eye': !showPass}"></i></span>
+                            <span class="input-group-text cursor-pointer" id="basic-addon1"
+                                (click)="mostrarCon3 = !mostrarCon3">
+                                <i class="bi" [ngClass]="mostrarCon3 ? 'bi-eye' : 'bi-eye-slash'"></i>
+                            </span>
                         </div>
                     </div>
                 </div>

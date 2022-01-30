@@ -6,21 +6,24 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CargaDatosComponent } from './carga-datos/carga-datos.component';
 import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CrearOrdenComponent } from './crear-orden/crear-orden.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     FooterComponent,
-    CargaDatosComponent
+    CargaDatosComponent,
+    CrearOrdenComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule, 
+    FormsModule,
     RouterModule,
     ReactiveFormsModule,
     HttpClientModule,

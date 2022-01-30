@@ -5,6 +5,7 @@ import { map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IniciarSesionRequest } from './classes/login-request';
 import { SignupRequest } from './classes/signup.request';
+import { LocalService } from './local-service.service';
 
 @Injectable({
     providedIn: 'root'
@@ -13,37 +14,28 @@ export class AuthService {
 
     urlEndpoint: string;
         
-    constructor(private http: HttpClient, private router: Router) {
+    constructor( private http: HttpClient, 
+                 private router: Router, 
+                 private ls: LocalService ) {
       this.urlEndpoint = `${environment.urls.API_BASE_URL}`;  }
   
     signup(signupRequest: SignupRequest) {
       return this.http.post(`${this.urlEndpoint}/signup`, signupRequest);
     }
-  
-    headers = new HttpHeaders().set('Content-Type', 'application/json')
 
     login(usuario: IniciarSesionRequest) {
-      return this.http.post(`${this.urlEndpoint}/login`, usuario, {headers: this.headers}).pipe(
-        map((response:any) => {
-          localStorage.setItem('authToken', response.authtoken);
-          localStorage.setItem('userEmail', response.username);
-          localStorage.setItem("roles", response.roles);
+      return this.http.post(`${this.urlEndpoint}/login`, usuario).pipe(
+        map((response: any) => {
+          this.ls.setJsonValue('authToken', response.tokenEncript);
+          this.ls.setJsonValue('userEmail', response.userEmail);
+          this.ls.setJsonValue("refreshToken", response.refreshToken);
+          this.ls.setJsonValue("roles", response.roles);
+          this.ls.setJsonValue("expiraEn", response.expiraEn);  
           return response;
         })
       );
     }
   
-    getToken(): string | null {
-      return localStorage.getItem('authtoken');
-    }
-  
-    getuserEmail(): string | null {
-      return localStorage.getItem('userEmail');
-    }
    
-    getRoles() : string | null {
-      return localStorage.getItem('roles');
-    }
-  
   }
   

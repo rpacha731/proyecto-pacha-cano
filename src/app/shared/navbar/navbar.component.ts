@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { AuthService } from '../services/auth.service';
 import { IniciarSesionRequest } from '../services/classes/login-request';
 import { SignupRequest } from '../services/classes/signup.request';
+import { LocalService } from '../services/local-service.service';
 
 @Component({
   selector: 'app-navbar',
@@ -14,22 +15,22 @@ import { SignupRequest } from '../services/classes/signup.request';
 export class NavbarComponent implements OnInit {
 
   form: FormGroup
+  formLogin: FormGroup
   mostrarCon1: boolean = true
   mostrarCon2: boolean = true
+  mostrarCon3: boolean = true
   signupRequest: SignupRequest
 
   constructor( private authService: AuthService, 
-               private fb: FormBuilder, private router: Router ) { 
+               private fb: FormBuilder, 
+               private router: Router, 
+               private ls: LocalService ) { 
                 this.signupRequest = new SignupRequest();
                }
 
-  email: string = "";
-  password: string = "";
-  showPass: boolean = false;
-  iniciarSesionReq: IniciarSesionRequest = {userEmail : "", password: ""};
-
   ngOnInit(): void { 
-    this.createFormSignup(); 
+    this.createFormSignup();
+    this.createFormLogin();
   }
 
   createFormSignup() {
@@ -64,6 +65,13 @@ export class NavbarComponent implements OnInit {
       return (password == password2) ? false : true;
   }
 
+  createFormLogin() {
+    this.formLogin = this.fb.group({
+      userEmail: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]]
+    })
+  }
+
   signUp() {
     if (this.form.invalid) 
       return this.form.markAllAsTouched();
@@ -85,7 +93,7 @@ export class NavbarComponent implements OnInit {
       Swal.fire({
         icon: 'warning',
         title: 'Usuario existente',
-        text: "¡Ya existe el usuario! Por favor, ingrese con su cuenta o verifique su cuenta con su email.",
+        text: "¡Ya existe el usuario! Por favor, ingrese con su cuenta o pruebe otro email.",
         showCloseButton: true,
         confirmButtonText: "Iniciar Sesión"
       }).then((result) => {
@@ -94,31 +102,27 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  showPassword(){
-    this.showPass = !this.showPass;
-  };
-
   ingresar() {
+    if (this.formLogin.invalid) 
+      return this.formLogin.markAllAsTouched();
 
-    console.log(this.email);
-   
-    this.iniciarSesionReq.userEmail = this.email;
-    this.iniciarSesionReq.password = this.password;
+    const loginReq: IniciarSesionRequest = new IniciarSesionRequest();
+    loginReq.userEmail = this.formLogin.get('userEmail').value;
+    loginReq.password = this.formLogin.get('password').value;
 
-    this.authService.login(this.iniciarSesionReq).subscribe(response => {
-      
-        console.log(response);
-        $("#modalIngresar").toggle();
-
-      
+    this.authService.login(loginReq).subscribe(resp => {
+      console.log(resp);
+      $("#modalIngresar").toggle();
     }, err => {
+      console.log(err);
       Swal.fire({
         icon: 'error',
         title: 'Error al iniciar sesión',
         text: err.error.error == 'Unauthorized' ? 'Email o contraseña incorrectas. Por favor, revise los campos y vuelva a intentar' : err.error.error,
         confirmButtonColor: "#373737",
       });
-    });
+    })
+
   }
 
 }
