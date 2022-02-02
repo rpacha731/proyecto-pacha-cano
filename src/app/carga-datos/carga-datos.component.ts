@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-carga-datos',
@@ -15,7 +16,9 @@ export class CargaDatosComponent implements OnInit {
   habilitado: boolean = true
   habilitadoCar: boolean = true
 
-  constructor() { }
+  formDatosInicial: FormGroup
+
+  constructor( private fb: FormBuilder ) { }
 
   ngOnInit(): void {
   }
