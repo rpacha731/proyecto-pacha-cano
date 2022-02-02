@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
     <div class="container">
 
-        <a class="navbar-brand" href="">
+        <a class="navbar-brand" routerLink="/home">
             <img src="../../../assets/PC (1).svg" class="d-inline-block align-text-top img-fluid"
                 style="max-height: 70px;">
         </a>
@@ -15,12 +15,12 @@
 
         <div id="navbarSupportedContent" class="collapse navbar-collapse justify-content-center text-center">
             <ul class="navbar-nav">
-                <a class="nav-link active" href=""> Inicio </a>
-                <a class="nav-link active" href=""> Panel </a>
+                <a class="nav-link active" routerLink="/home"> Inicio </a>
+                <a class="nav-link active" routerLink="/home"> Panel </a>
             </ul>
 
             <div class="dropdown d-lg-none">
-                <a class="btn btn-outline-warning dropdown-toggle" href="" role="button" id="dropdownMenuLink"
+                <a class="btn btn-outline-warning dropdown-toggle" role="button" id="dropdownMenuLink"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     Usuario
                 </a>
@@ -36,7 +36,7 @@
         </div>
 
         <div class="dropdown d-none d-lg-block">
-            <a class="btn btn-outline-warning dropdown-toggle" href="" role="button" id="dropdownMenuLink"
+            <a class="btn btn-outline-warning dropdown-toggle" role="button" id="dropdownMenuLink"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 Usuario
             </a>
@@ -159,7 +159,7 @@
                     <div class="col-12">
                         <div class="form-floating">
                             <input type="email" class="form-control" id="emailInputLogin" formControlName="userEmail"
-                                placeholder="name@example.com" [class.is-invalid]="emailInvalido">
+                                placeholder="name@example.com" [class.is-invalid]="userEmailInvalido">
                             <label for="emailInputLogin">Email</label>
                         </div>
                     </div>
@@ -168,7 +168,7 @@
                             <div class="form-floating form-floating-group flex-grow-1">
                                 <input type="password" class="form-control" formControlName="password"
                                     id="passwordInputLogin" placeholder="Contraseña"
-                                    [class.is-invalid]="passwordInvalida" [type]="mostrarCon3 ? 'password' : 'text'">
+                                    [class.is-invalid]="passwordLogInvalida" [type]="mostrarCon3 ? 'password' : 'text'">
                                 <label for="passwordInputLogin">Contraseña</label>
                             </div>
                             <span class="input-group-text cursor-pointer" id="basic-addon1"
