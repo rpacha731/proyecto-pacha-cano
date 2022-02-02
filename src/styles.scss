@@ -3,7 +3,7 @@
 
 $font-family-base: 'Poppins', sans-serif; // Fuente base
 
-// $primary: $primario; //Color principal
+$primary: #C9FC6E; //Color principal
 // $secondary: $secundario; //Color secundario
 
 $enable-negative-margins: true;
@@ -15,3 +15,16 @@ $enable-negative-margins: true;
 .cursor-pointer{
     cursor: pointer;
 };
+
+.boton {
+    background-color: #C9FC6E;
+    border-color: #C9FC6E;
+}
+
+*::-webkit-scrollbar {
+    width: 10px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: #C9FC6E;
+  }
+

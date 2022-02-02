@@ -12,6 +12,7 @@ import { RouterModule } from '@angular/router';
 import { CrearOrdenComponent } from './crear-orden/crear-orden.component';
 import { HomeComponent } from './home/home.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,

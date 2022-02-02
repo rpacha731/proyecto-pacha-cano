@@ -1,7 +1,7 @@
 <div class="container pt-4 bg-light" style="min-height: 484px;">
 
-	<div class="row mb-2">
-		<div class="col-12">
+	<div class="row mb-2 justify-content-center">
+		<div class="col-12 col-md-12 col-lg-10">
 			<div class="card text-center">
 				<div class="card-header bg">
 					<h6 class="card-title m-0"> CREACIÓN DE ORDEN DE CARGA </h6>
@@ -10,163 +10,224 @@
 		</div>
 	</div>
 
+	<ng-container [formGroup]="form">
+		<div class="row mb-3 justify-content-center">
+			<div class="col-12 col-md-6 col-lg-5">
+
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-2">
+						<div class="d-flex justify-content-around align-items-baseline">
+							<p class="mb-0"> Número de orden </p>
+							<input type="number" class="form-control form-control-sm w-50" formControlName="numOrden"
+								[min]="1" [class.is-invalid]="numOrdenInvalido">
+						</div>
+					</div>
+				</div>
+
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-2">
+						<div class="d-flex justify-content-around align-items-baseline">
+							<p class="mb-0"> Código externo </p>
+							<input type="text" class="form-control form-control-sm w-50" formControlName="codExt"
+								[class.is-invalid]="codExtInvalido">
+						</div>
+					</div>
+				</div>
+
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-header text-black">
+						<h6 class="card-title m-0"> PRODUCTO </h6>
+					</div>
+
+					<div class="card-body p-2">
+						<div class="row mb-2">
+							<div class="col-12">
+								<div class="d-flex justify-content-around align-items-baseline">
+									<p class="mb-0"> Nombre </p>
+									<input type="text" class="form-control form-control-sm w-50"
+										formControlName="nombreProducto" [class.is-invalid]="nomProdInvalido">
+								</div>
+							</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-12">
+								<div class="d-flex justify-content-around align-items-baseline">
+									<p class="mb-0"> Descripción </p>
+									<input type="text" class="form-control form-control-sm w-50"
+										formControlName="descProducto" [class.is-invalid]="descProdInvalido">
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12">
+								<div class="d-flex justify-content-around align-items-baseline">
+									<p class="mb-0"> Código externo </p>
+									<input type="text" class="form-control form-control-sm w-50"
+										formControlName="codExtProducto" [class.is-invalid]="codExtProdInvalido">
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-header text-black">
+						<h6 class="card-title m-0"> CAMIÓN </h6>
+					</div>
+
+					<div class="card-body p-2">
+
+						<div class="row mb-2">
+							<div class="col-6">
+								<p class="mb-1"> Cisternado </p>
+								<input type="number" class="form-control form-control-sm w-75 mx-auto"
+									formControlName="cisterCamion" [min]="1" [class.is-invalid]="cistInvalido">
+							</div>
+							<div class="col-6">
+								<p class="mb-1"> Código externo </p>
+								<input type="text" class="form-control form-control-sm w-75 mx-auto"
+									formControlName="codExtCamion" [class.is-invalid]="codExtCamInvalido">
+							</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-12">
+								<div class="d-flex justify-content-around align-items-baseline">
+									<p class="mb-0"> Patente </p>
+									<input type="text" class="form-control form-control-sm w-50"
+										formControlName="patenteCamion" [class.is-invalid]="patCamInvalido">
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12">
+								<div class="d-flex justify-content-around align-items-baseline">
+									<p class="mb-0"> Descripción </p>
+									<input type="text" class="form-control form-control-sm w-50"
+										formControlName="descCamion" [class.is-invalid]="descCamInvalido">
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+
+			<div class="col-12 col-md-6 col-lg-5">
+
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-2">
+						<div class="d-flex justify-content-around align-items-baseline">
+							<p class="mb-0"> Fecha / Hora del turno </p>
+							<input type="datetime-local" class="form-control text-center form-control-sm w-50"
+								formControlName="fecHoraTurno" [class.is-invalid]="fecHoraInvalido">
+						</div>
+					</div>
+				</div>
+
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-2">
+						<div class="d-flex justify-content-around align-items-baseline">
+							<p class="mb-0"> Preset </p>
+							<input type="number" class="form-control form-control-sm w-50" formControlName="preset"
+								[min]="1" [class.is-invalid]="presetInvalido">
+						</div>
+					</div>
+				</div>
+
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-header text-black">
+						<h6 class="card-title m-0"> CLIENTE </h6>
+					</div>
+
+					<div class="card-body p-2">
+						<div class="row mb-2">
+							<div class="col-12">
+								<div class="d-flex justify-content-around align-items-baseline">
+									<p class="mb-0"> Contacto </p>
+									<input type="text" class="form-control form-control-sm w-50"
+										formControlName="contCliente" [class.is-invalid]="contCliInvalido">
+								</div>
+							</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-12">
+								<div class="d-flex justify-content-around align-items-baseline">
+									<p class="mb-0"> Razón social </p>
+									<input type="text" class="form-control form-control-sm w-50"
+										formControlName="razSocCliente" [class.is-invalid]="razSocInvalido">
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12">
+								<div class="d-flex justify-content-around align-items-baseline">
+									<p class="mb-0"> Código externo </p>
+									<input type="text" class="form-control form-control-sm w-50"
+										formControlName="codExtCliente" [class.is-invalid]="codExtCliInvalido">
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-header text-black">
+						<h6 class="card-title m-0"> CHOFER </h6>
+					</div>
+
+					<div class="card-body p-2">
+						<div class="row mb-2">
+							<div class="col-6">
+								<p class="mb-1"> Nombre </p>
+								<input type="text" class="form-control form-control-sm w-75 mx-auto"
+									formControlName="nombreChofer" [class.is-invalid]="nomChoInvalido">
+							</div>
+							<div class="col-6">
+								<p class="mb-1"> Apellido </p>
+								<input type="text" class="form-control form-control-sm w-75 mx-auto"
+									formControlName="apellidoChofer" [class.is-invalid]="apeChoInvalido">
+							</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-12">
+								<div class="d-flex justify-content-around align-items-baseline">
+									<p class="mb-0"> DNI </p>
+									<input type="number" class="form-control form-control-sm w-50"
+										formControlName="dniChofer" [min]="1" [class.is-invalid]="dniChoInvalido">
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12">
+								<div class="d-flex justify-content-around align-items-baseline">
+									<p class="mb-0"> Código Externo </p>
+									<input type="text" class="form-control form-control-sm w-50"
+										formControlName="codExtChofer" [class.is-invalid]="codExtChoInvalido">
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</ng-container>
+
 	<div class="row mb-3">
-		<div class="col-12 col-md-5">
-
-			<div class="card shadow-sm mb-2 text-center">
-				<div class="card-body p-2">
-					<div class="d-flex justify-content-around align-items-baseline">
-						<p class="mb-0"> Número de orden </p>
-						<input type="number" class="form-control form-control-sm w-50">
-					</div>
-				</div>
-			</div>
-
-			<div class="card shadow-sm mb-2 text-center">
-				<div class="card-body p-2">
-					<div class="d-flex justify-content-around align-items-baseline">
-						<p class="mb-0"> Código externo </p>
-						<input type="text" class="form-control form-control-sm w-50">
-					</div>
-				</div>
-			</div>
-
-			<div class="card shadow-sm mb-2 text-center">
-				<div class="card-header text-white" style="background-color: #876FFE;">
-					<h6 class="card-title m-0"> CAMIÓN </h6>
-				</div>
-
-				<div class="card-body p-2">
-					<div class="row mb-2">
-						<div class="col-12">
-							<div class="d-flex justify-content-around align-items-baseline">
-								<p class="mb-0"> Patente </p>
-								<input type="text" class="form-control form-control-sm" style="width: 250px;">
-							</div>
-						</div>
-					</div>
-
-					<div class="row mb-2">
-						<div class="col-12">
-							<div class="d-flex justify-content-around align-items-baseline">
-								<p class="mb-0"> Descripción </p>
-								<input type="text" class="form-control form-control-sm" style="width: 250px;">
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-6">
-								<p class="mb-1"> Cisternado </p>
-								<input type="number" class="form-control form-control-sm w-75 mx-auto">
-						</div>
-						<div class="col-6">
-								<p class="mb-1"> Código externo </p>
-								<input type="text" class="form-control form-control-sm w-75 mx-auto">
-						</div>
-					</div>
-					
-				</div>
-			</div>
-
-			<div class="card shadow-sm mb-2 text-center">
-				<div class="card-header text-white" style="background-color: #876FFE;">
-					<h6 class="card-title m-0"> CHOFER </h6>
-				</div>
-
-				<div class="card-body p-2">
-					<div class="row mb-2">
-						<div class="col-12">
-							<div class="d-flex justify-content-around align-items-baseline">
-								<p class="mb-0"> Patente </p>
-								<input type="text" class="form-control form-control-sm" style="width: 250px;">
-							</div>
-						</div>
-					</div>
-
-					<div class="row mb-2">
-						<div class="col-12">
-							<div class="d-flex justify-content-around align-items-baseline">
-								<p class="mb-0"> Descripción </p>
-								<input type="text" class="form-control form-control-sm" style="width: 250px;">
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-6">
-								<p class="mb-1"> Cisternado </p>
-								<input type="number" class="form-control form-control-sm w-75 mx-auto">
-						</div>
-						<div class="col-6">
-								<p class="mb-1"> Código externo </p>
-								<input type="text" class="form-control form-control-sm w-75 mx-auto">
-						</div>
-					</div>
-					
-				</div>
-			</div>
-
+		<div class="col d-flex justify-content-center">
+			<button class="btn boton" (click)="crear()"> CREAR ORDEN DE CARGA </button>
 		</div>
-
-
-		<div class="col-12 col-md-6">
-
-			<div class="card shadow-sm text-center" style="margin-bottom: 27px;">
-				<div class="card-header" style="background-color: #C9FC6E;">
-					<h6 class="card-title m-0"> SELECCIONE ARCHIVO CSV CON LOS DATOS DE CARGA </h6>
-				</div>
-				<div class="card-body">
-					<input class="form-control form-control-sm w-auto mx-auto" type="file" accept=".csv">
-				</div>
-			</div>
-
-
-			<div class="card shadow-sm mb-2 text-center">
-				<div class="card-header" style="background-color: #C9FC6E;">
-					<h6 class="card-title m-0"> OPCIONES </h6>
-				</div>
-				<div class="card-body">
-
-					<div>
-						<button class="btn btn-outline-danger btn-sm"> Cerrar orden / Parar carga </button>
-						<button class="btn btn-outline-success btn-sm ms-3"> Iniciar carga </button>
-					</div>
-					<div class="mx-auto mt-3 d-flex justify-content-center">
-						<span class="me-3"> Frecuencia muestreo </span>
-						<select class="form-select form-select-sm w-auto">
-							<option value="100"> 100 ms </option>
-							<option value="250"> 250 ms </option>
-							<option value="500"> 500 ms </option>
-							<option value="1000"> 1000 ms </option>
-						</select>
-					</div>
-
-				</div>
-			</div>
-
-		</div>
-
-
 	</div>
-
-	<div class="row">
-
-		<div class="col-12">
-
-			<div class="progress">
-				<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-					aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
-					style="width: 75%; background-color: #C9FC6E;"></div>
-			</div>
-
-			<div class="d-flex justify-content-between mt-3">
-				<p> Tiempo transcurrido: </p>
-				<p> Tiempo estimado: </p>
-			</div>
-
-		</div>
-
-	</div>
-
 </div>

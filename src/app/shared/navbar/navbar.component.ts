@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+
 import Swal from 'sweetalert2';
 import { AuthService } from '../services/auth.service';
 import { IniciarSesionRequest } from '../services/classes/login-request';
@@ -13,6 +14,8 @@ import { LocalService } from '../services/local-service.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+
+  @ViewChild('modalIngresar') modalIngresar: ElementRef
 
   form: FormGroup
   formLogin: FormGroup
@@ -72,6 +75,13 @@ export class NavbarComponent implements OnInit {
     })
   }
 
+  get userEmailInvalido() {
+    return this.formLogin.get('userEmail').invalid && this.formLogin.get('userEmail').touched;
+  }
+  get passwordLogInvalida() {
+    return this.formLogin.get('password').invalid && this.formLogin.get('password').touched;
+  }
+
   signUp() {
     if (this.form.invalid) 
       return this.form.markAllAsTouched();
@@ -113,6 +123,14 @@ export class NavbarComponent implements OnInit {
     this.authService.login(loginReq).subscribe(resp => {
       console.log(resp);
       $("#modalIngresar").toggle();
+      document.getElementsByClassName("modal-backdrop")[0].className = "hide"
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Login exitoso',
+        showCloseButton: true
+      }).then(() => this.router.navigate(['/home']));
+      
     }, err => {
       console.log(err);
       Swal.fire({
