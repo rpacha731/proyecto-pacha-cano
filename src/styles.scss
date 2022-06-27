@@ -1,7 +1,7 @@
-@import "../node_modules/bootstrap/scss/bootstrap.scss";
+
 @import "variables.scss";
 
-$font-family-base: 'Poppins', sans-serif; // Fuente base
+$font-family-base: 'Cantarell'; // Fuente base
 
 $primary: #C9FC6E; //Color principal
 // $secondary: $secundario; //Color secundario
@@ -9,7 +9,7 @@ $primary: #C9FC6E; //Color principal
 $enable-negative-margins: true;
 
 .bg {
-    background-color: #C9FC6E;
+    background-color: #C9FC6E !important;
 }
 
 .cursor-pointer{
@@ -23,8 +23,13 @@ $enable-negative-margins: true;
 
 *::-webkit-scrollbar {
     width: 10px;
+    height: 10px;
   }
   *::-webkit-scrollbar-thumb {
     background-color: #C9FC6E;
   }
 
+  @import "../node_modules/bootstrap/scss/bootstrap.scss";
+
+/* Importing Bootstrap SCSS file. */
+@import "~bootstrap/scss/bootstrap";

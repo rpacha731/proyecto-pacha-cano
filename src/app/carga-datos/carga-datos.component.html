@@ -4,42 +4,48 @@
 
 
             <div class="card shadow-sm mb-2 text-center">
-                <!-- <div class="card-header">
-                    <p class="m-0 fw-bold"> DATOS ACTUALES </p>
-                </div> -->
-                <div class="card-header" style="background-color: #C9FC6E;">
+                <div class="card-header bg">
                     <h6 class="card-title m-0"> DATOS ACTUALES </h6>
                 </div>
                 <div class="card-body">
                     <ul class="list-group">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             Masa acumulada
-                            <span class="badge text-dark rounded-pill" style="background-color: #C9FC6E; opacity: 0.8;">
+                            <span class="badge text-dark rounded-pill bg" style="opacity: 0.8;">
                                 {{lineaActual[0]}} KG </span>
                         </li>
 
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             Densidad
-                            <span class="badge text-dark rounded-pill"
-                                style="background-color: #C9FC6E; opacity: 0.8;">{{lineaActual[1]}} <span> KG / MT<sup>3
+                            <span class="badge text-dark rounded-pill bg" style="opacity: 0.8;">{{lineaActual[1]}}
+                                <span> KG / MT<sup>3
                                     </sup> </span> </span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             Temperatura
-                            <span class="badge text-dark rounded-pill"
-                                style="background-color: #C9FC6E; opacity: 0.8;">{{lineaActual[2]}} <span> ° C </span>
+                            <span class="badge text-dark rounded-pill bg" style="opacity: 0.8;">{{lineaActual[2]}}
+                                <span> ° C </span>
                             </span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             Caudal
-                            <span class="badge text-dark rounded-pill"
-                                style="background-color: #C9FC6E; opacity: 0.8;">{{lineaActual[3]}} <span> KG / HORA
+                            <span class="badge text-dark rounded-pill bg" style="opacity: 0.8;">{{lineaActual[3]}}
+                                <span> KG / HORA
                                 </span> </span>
                         </li>
                     </ul>
                 </div>
 
-                <div class="card-footer text-end">
+                <div class="card-footer text-end d-flex align-items-center">
+                    <div class="d-flex me-auto justify-content-center">
+                        <span class="me-3" style="margin-top: 2px;"> Frecuencia muestreo </span>
+                        <select class="form-select form-select-sm w-auto" [(ngModel)]="frecuenciaMues">
+                            <option value="100"> 100 ms </option>
+                            <option value="250"> 250 ms </option>
+                            <option value="500"> 500 ms </option>
+                            <option value="1000"> 1000 ms </option>
+                        </select>
+                    </div>
                     <span style="font-size: 15px;"> Iteración <span class="text-black ms-2"> {{index}} </span> </span>
                 </div>
             </div>
@@ -49,105 +55,90 @@
 
         <div class="col-12 col-md-6">
 
-            <div class="card shadow-sm text-center" style="margin-bottom: 27px;">
-                <div class="card-header" style="background-color: #C9FC6E;">
-                    <h6 class="card-title m-0"> SELECCIONE ARCHIVO CSV CON LOS DATOS DE CARGA </h6>
+            <div class="card shadow-sm" style="margin-bottom: 27px;">
+                <div class="card-header bg text-center">
+                    <h6 class="card-title m-0"> PASOS DE LA CARGA DE COMBUSTIBLE </h6>
                 </div>
-                <div class="card-body">
-                    <input class="form-control form-control-sm w-auto mx-auto" type="file" (change)="po($event)"
-                        accept=".csv">
-                </div>
-            </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex align-items-center">
+                        <span class="badge text-bg-secondary me-1" style="font-size: 10px; margin-top: 3px;"> 1 </span>
+                        Adjuntar la password de la orden de carga
+                        <button type="button" class="btn btn-outline-success btn-sm ms-auto"
+                            (click)="openModalPassw(template)" [disabled]="habilitado">
+                            Adjuntar password</button>
+                    </li>
 
-
-            <div class="card shadow-sm mb-2 text-center">
-                <div class="card-header" style="background-color: #C9FC6E;">
-                    <h6 class="card-title m-0"> OPCIONES </h6>
-                </div>
-                <div class="card-body">
-
-                    <div>
-                        <button class="btn btn-outline-danger btn-sm" (click)="cancelar = true; habilitado = true"
-                            [disabled]="habilitado"> Cerrar orden / Parar carga </button>
-                        <button class="btn btn-outline-success btn-sm ms-3" (click)="carga()"
-                            [disabled]="habilitadoCar"> Iniciar carga </button>
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-outline-primary btn-sm ms-3" data-bs-toggle="modal" data-bs-target="#datosInicial">
-                            Cargar datos iniciales</button>
-
-                        <!-- Modal -->
-                        <div class="modal fade" id="datosInicial" tabindex="-1" role="dialog" aria-labelledby="datosInicialLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title" id="datosInicialLabel">Datos iniciales</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                </button>
-                                </div>
-                                <div class="modal-body" [formGroup]="formDatosInicial">
-
-                                    <div class="col">
-                                        <div class="card-body p-2">
-                                            <div class="d-flex justify-content-center align-items-baseline">
-                                                <p class="mb-0" style="margin-right: 10%;"> Tara </p>
-                                                <input type="number" class="form-control form-control-sm w-50">
-                                            </div>
-                                        </div>
-
-                                        <div class="card-body p-2">
-                                            <div class="d-flex justify-content-center align-items-baseline">
-                                                <p class="mb-0" style="margin-right: 8px;"> Password </p>
-                                                <input type="number" class="form-control form-control-sm w-50" style="background-color: rgb(223, 217, 217); " disabled>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary">Enviar tara</button>
-                                    <button type="button" class="btn btn-secondary">Ver conciliación</button>
-                                </div>
-                            </div>
-                            </div>
+                    <li class="list-group-item d-flex align-items-center flex-column">
+                        <div>
+                            <span class="badge text-bg-secondary me-1" style="font-size: 10px;"> 2 </span>
+                            Cargar archivo CSV de los datos de carga
                         </div>
-                    </div>
-                    <div class="mx-auto mt-3 d-flex justify-content-center">
-                        <span class="me-3"> Frecuencia muestreo </span>
-                        <select class="form-select form-select-sm w-auto" [(ngModel)]="frecuenciaMues">
-                            <option value="100"> 100 ms </option>
-                            <option value="250"> 250 ms </option>
-                            <option value="500"> 500 ms </option>
-                            <option value="1000"> 1000 ms </option>
-                        </select>
-                    </div>
+                        <input class="form-control form-control-sm w-auto mx-auto mt-2" type="file"
+                            (change)="po($event)" accept=".csv">
+                    </li>
 
-                </div>
+                    <li class="list-group-item d-flex align-items-center">
+                        <span class="badge text-bg-secondary me-1" style="font-size: 10px; margin-top: 3px;"> 3 </span>
+                        Iniciar la carga de combustible
+                        <button class="btn btn-outline-success btn-sm ms-auto" (click)="carga()"
+                            [disabled]="habilitadoCarga">
+                            Iniciar carga </button>
+                    </li>
+
+                    <li class="list-group-item d-flex align-items-center">
+                        <span class="badge text-bg-secondary me-1" style="font-size: 10px; margin-top: 3px;"> 3 </span>
+                        Parar la carga / Cerrar orden 
+                        <button class="btn btn-outline-danger btn-sm ms-auto"
+                            (click)="cancelar = true; habilitado = true" [disabled]="habilitado"> Cerrar orden / Parar
+                            carga </button>
+                    </li>
+
+                </ul>
             </div>
 
         </div>
-
-
-
     </div>
 
     <div class="row">
 
         <div class="col-12">
 
-            <div class="progress">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%; background-color: #C9FC6E;"></div>
-            </div>
-            
+            <progressbar [max]="200" [value]="166" type="primary" [striped]="true" [animate]="true"></progressbar>
+
             <div class="d-flex justify-content-between mt-3">
                 <p> Tiempo transcurrido: </p>
                 <p> Tiempo estimado: </p>
             </div>
-            
+
         </div>
 
     </div>
 
 </div>
 
-    
+
+<ng-template #template>
+    <div class="modal-header">
+        <h5 class="mb-0">Password de la orden de carga : {{orden.numeroOrden}}</h5>
+        <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+            <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" [formGroup]="formPass">
+        <div class="row gy-2">
+            <div class="col-12">
+                <div class="form-floating">
+                    <input type="number" class="form-control" id="password" formControlName="password"
+                        placeholder="Password" [class.is-invalid]="passwordInvalida">
+                    <label for="password">Password</label>
+                    <small class="text-danger" *ngIf="err">El password no coincide con el de la orden de carga</small>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modalRef?.hide()"> Cancelar </button>
+        <button type="button" class="btn btn-primary" (click)="adjuPassw()"> Adjuntar password </button>
+    </div>
+</ng-template>

@@ -1,0 +1,128 @@
+<div class="container pt-3" style="min-height: 484px;">
+	<div class="row mb-3">
+		<div class="col text-white flex-column align-items-end d-flex" style="font-size: 11px;">
+			<span data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> Referencias <i class="bi bi-caret-down-fill" style="font-size: 7px;"></i> </span>
+			<div class="collapse" id="collapseExample">
+				<span class="me-3"> <i class="bi bi-handbag-fill"></i> Producto </span>
+				<span class="me-3"> <i class="bi bi-person-fill"></i> Cliente </span>
+				<span class="me-3"> <fa-icon [icon]="driver"></fa-icon> Chofer </span>
+				<span class="me-3"> <fa-icon [icon]="truck"></fa-icon> Camión </span>
+				<span class="me-3"> <fa-icon [icon]="result"></fa-icon> Ver conciliación </span>
+				<span class="badge rounded-pill E1 me-2">Estado E1</span>
+				<span class="badge rounded-pill E2 me-2">Estado E2</span>
+				<span class="badge rounded-pill E3 me-2">Estado E3</span>
+				<span class="badge rounded-pill E4">Estado E4</span>
+			</div>
+			
+		</div>
+	</div>
+	<div class="row">
+		<div class="col table-responsive">
+			<table class="table table-bordered text-white mx-auto" style="font-size: 13px; width: max-content;">
+				<thead>
+					<tr>
+						<th> # </th>
+						<th> N° Orden </th>
+						<th> COD_EXT </th>
+						<th> Turno </th>
+						<th> Momentos Carga </th>
+						<th> Momentos Pesos </th>
+						<th> Pesos </th>
+						<th> Preset </th>
+						<th>  </th> <!--Producto-->
+						<th>  </th> <!--Cliente-->
+						<th>  </th> <!--Chofer-->
+						<th>  </th> <!--Camion-->
+						<th style="writing-mode: vertical-rl; text-orientation: upright; font-size: 10px;">  </th> <!--Conciliacion-->
+						<th>  </th> <!--Acciones-->						
+					</tr>
+				</thead>
+				<tbody>
+					<ng-container *ngFor="let orden of ordenesPagina; let i = index;">
+						<tr [ngClass]="{E1: orden.estado == 'E1', E2: orden.estado == 'E2', E3: orden.estado == 'E3', E4: orden.estado == 'E4', 'text-black': orden.estado == 'E1'}" >
+							<td>{{orden.id}}</td>
+							<td>{{orden.numeroOrden}}</td>
+							<td>{{orden.codigoExterno}}</td>
+							<td>{{orden.fechaHoraTurno | fechahora}}</td>
+							<td><p class="mb-0">{{orden.fechaHoraInicioCarga | fechahora}} - </p> <p class="mb-0">{{orden.fechaHoraFinCarga | fechahora}}</p></td>
+							<td><p class="mb-0">{{orden.fechaHoraPesoInicial | fechahora}} - </p> <p class="mb-0">{{orden.fechaHoraPesoFinal | fechahora}}</p></td>
+							<td><p class="mb-0">{{orden.pesoInicial}} - </p> <p class="mb-0">{{orden.pesoFinal}}</p></td>
+							<td>{{orden.preset}}</td>
+							<td class="dropdown">
+								<i class="bi bi-handbag-fill dropdown-toggle cursor-pointer" id="dropdownProd" data-bs-toggle="dropdown"></i>
+								<ul class="dropdown-menu" aria-labelledby="dropdownProd">
+									<p class="dropdown-item mb-0" style="font-size: 11px;"> 
+										ID: {{orden.producto.id}} <br> Nombre: {{orden.producto.nombre}} <br> 
+										Descripción: {{orden.producto.descripcion}}</p>
+								</ul>
+							</td>
+							<td class="dropdown">
+								<i class="bi bi-person-fill dropdown-toggle cursor-pointer" id="dropdownCli" data-bs-toggle="dropdown"></i>
+								<ul class="dropdown-menu" aria-labelledby="dropdownCli">
+									<p class="dropdown-item mb-0" style="font-size: 11px;"> 
+										ID: {{orden.cliente.id}} <br> Razón social: {{orden.cliente.razonSocial}} <br> 
+										Contacto: {{orden.cliente.contacto}}</p>
+								</ul>
+							</td>
+							<td class="dropdown">
+								<fa-icon [icon]="driver" class="dropdown-toggle cursor-pointer" id="dropdownCho" data-bs-toggle="dropdown"></fa-icon>
+								<ul class="dropdown-menu" aria-labelledby="dropdownCho">
+									<p class="dropdown-item mb-0" style="font-size: 11px;"> 
+										ID: {{orden.chofer.id}} <br> Nombre y apellido: {{orden.chofer.nombre}} {{orden.chofer.apellido}} <br> 
+										DNI: {{orden.chofer.dni}}</p>
+								</ul>
+							</td>
+							<td class="dropdown">
+								<fa-icon [icon]="truck" class="dropdown-toggle cursor-pointer" id="dropdownCam" data-bs-toggle="dropdown"></fa-icon>
+								<ul class="dropdown-menu" aria-labelledby="dropdownCam">
+									<p class="dropdown-item mb-0" style="font-size: 11px;"> 
+										ID: {{orden.camion.id}} <br> Patente: {{orden.camion.patente}} <br> 
+										Descripción: {{orden.camion.descripcion}} <br> Cisternado: {{orden.camion.cisternado}}</p>
+								</ul>
+							</td>
+							<td class="cursor-pointer"><fa-icon [icon]="result"></fa-icon></td>
+							<td class="dropdown">
+								<i class="bi bi-three-dots-vertical dropdown-toggle cursor-pointer" id="dropdownAcc" data-bs-toggle="dropdown"></i>
+								<ul class="dropdown-menu" aria-labelledby="dropdownAcc" style="font-size: 13px;">
+									<li class="dropdown-item cursor-pointer" (click)="openModal(template, i)" *ngIf="orden.estado == 'E1'">Enviar tara / peso inicial</li>
+									<li class="dropdown-item cursor-pointer" *ngIf="orden.estado == 'E2'" (click)="cargarNafta(i)">Cargar gas / combustible</li>
+								</ul>
+							</td>						
+						</tr>
+					</ng-container>
+					
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col d-flex justify-content-center pt-3">
+				<pagination [totalItems]="totalItems" [itemsPerPage]="10" (pageChanged)="pageChanged($event)"></pagination>
+		</div>
+	</div>
+</div>
+
+
+<ng-template #template>
+	<div class="modal-header">
+		<h5 class="mb-0">Envío de tara / peso inicial</h5>
+		<button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+			<span aria-hidden="true" class="visually-hidden">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body" [formGroup]="formTara">
+		<div class="row gy-2">
+			<div class="col-12">
+				<div class="form-floating">
+					<input type="number" class="form-control" id="pesoInicial" formControlName="pesoInicial" [class.is-invalid]="pesoInicialInvalido">
+					<label for="pesoInicial">Peso inicial</label>
+				</div>
+				<div class="text-end"><span class="text-warning" style="font-size: 12px"> Peso inicial en kilogramos </span></div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" (click)="modalRef?.hide()"> Cancelar </button>
+		<button type="button" class="btn btn-primary" (click)="enviarTara()"> Enviar tara </button>
+	</div>
+</ng-template>

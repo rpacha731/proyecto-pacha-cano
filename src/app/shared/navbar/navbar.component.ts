@@ -1,11 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthControllerService, RequestDeLOGIN } from 'src/app/client';
 
 import Swal from 'sweetalert2';
-import { AuthService } from '../services/auth.service';
-import { IniciarSesionRequest } from '../services/classes/login-request';
-import { SignupRequest } from '../services/classes/signup.request';
 import { LocalService } from '../services/local-service.service';
 
 @Component({
@@ -22,13 +20,11 @@ export class NavbarComponent implements OnInit {
   mostrarCon1: boolean = true
   mostrarCon2: boolean = true
   mostrarCon3: boolean = true
-  signupRequest: SignupRequest
 
-  constructor( private authService: AuthService, 
+  constructor( private authService: AuthControllerService, 
                private fb: FormBuilder, 
                private router: Router, 
                private ls: LocalService ) { 
-                this.signupRequest = new SignupRequest();
                }
 
   ngOnInit(): void { 
@@ -86,14 +82,14 @@ export class NavbarComponent implements OnInit {
     if (this.form.invalid) 
       return this.form.markAllAsTouched();
 
-    this.signupRequest.nombre = this.form.controls.nombre.value
-    this.signupRequest.apellido = this.form.controls.apellido.value
-    this.signupRequest.email = this.form.controls.email.value
-    this.signupRequest.password = this.form.controls.password.value
+      var signupRequest: RequestDeLOGIN = {
+        userEmail: this.form.controls.email.value,
+        password: this.form.controls.password.value
+      }
 
-    console.log(this.signupRequest)
+    console.log(signupRequest)
 
-    this.authService.signup(this.signupRequest).subscribe((response: any) => {
+    this.authService.registroUsingPOST(signupRequest).subscribe((response: any) => {
       Swal.fire({
         icon: 'success',
         title: 'Registro exitoso',
@@ -116,11 +112,12 @@ export class NavbarComponent implements OnInit {
     if (this.formLogin.invalid) 
       return this.formLogin.markAllAsTouched();
 
-    const loginReq: IniciarSesionRequest = new IniciarSesionRequest();
-    loginReq.userEmail = this.formLogin.get('userEmail').value;
-    loginReq.password = this.formLogin.get('password').value;
+    var loginReq: RequestDeLOGIN = {
+      userEmail: this.formLogin.controls.userEmail.value,
+      password: this.formLogin.controls.password.value
+    };
 
-    this.authService.login(loginReq).subscribe(resp => {
+    this.authService.loginUsingPOST(loginReq).subscribe(resp => {
       console.log(resp);
       $("#modalIngresar").toggle();
       document.getElementsByClassName("modal-backdrop")[0].className = "hide"

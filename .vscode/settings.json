@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "/bin/python3"
+    "python.pythonPath": "/bin/python3",
+    "angular.enable-strict-mode-prompt": false
 }

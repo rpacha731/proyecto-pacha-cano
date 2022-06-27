@@ -1,4 +1,4 @@
-<div class="container pt-4 bg-light" style="min-height: 484px;">
+<div class="container pt-5 bg-light pb-4" style="min-height: 484px;">
 
 	<div class="row mb-2 justify-content-center">
 		<div class="col-12 col-md-12 col-lg-10">
@@ -35,83 +35,116 @@
 				</div>
 
 				<div class="card shadow-sm mb-2 text-center">
-					<div class="card-header text-black">
+					<div class="card-header text-black bg">
 						<h6 class="card-title m-0"> PRODUCTO </h6>
 					</div>
 
 					<div class="card-body p-2">
-						<div class="row mb-2">
-							<div class="col-12">
-								<div class="d-flex justify-content-around align-items-baseline">
-									<p class="mb-0"> Nombre </p>
-									<input type="text" class="form-control form-control-sm w-50"
-										formControlName="nombreProducto" [class.is-invalid]="nomProdInvalido">
+						<div class="row mb-1">
+							<div class="col d-flex justify-content-around">
+								<select class="form-select form-select-sm w-auto" formControlName="producto" [class.is-invalid]="proInvalido">
+									<option value="" selected hidden>Seleccione un producto</option>
+									<option [ngValue]="prod" *ngFor="let prod of productos">{{prod.nombre}}</option>
+								</select>
+								<button class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#collapseExample"
+									aria-expanded="false" aria-controls="collapseExample" (click)="newPro = !newPro"> <i
+										class="bi bi-plus-circle-fill" style="font-size: 12px"></i> Nuevo producto
+								</button>
+							</div>
+							<div class="collapse mt-3" id="collapseExample">
+								<div class="row mb-2">
+									<div class="col-12">
+										<div class="d-flex justify-content-around align-items-baseline">
+											<p class="mb-0"> Nombre </p>
+											<input type="text" class="form-control form-control-sm w-50"
+												formControlName="nombreProducto" [class.is-invalid]="nomProdInvalido">
+										</div>
+									</div>
+								</div>
+
+								<div class="row mb-2">
+									<div class="col-12">
+										<div class="d-flex justify-content-around align-items-baseline">
+											<p class="mb-0"> Descripción </p>
+											<input type="text" class="form-control form-control-sm w-50"
+												formControlName="descProducto" [class.is-invalid]="descProdInvalido">
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-12">
+										<div class="d-flex justify-content-around align-items-baseline">
+											<p class="mb-0"> Código externo </p>
+											<input type="text" class="form-control form-control-sm w-50"
+												formControlName="codExtProducto"
+												[class.is-invalid]="codExtProdInvalido">
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 
-						<div class="row mb-2">
-							<div class="col-12">
-								<div class="d-flex justify-content-around align-items-baseline">
-									<p class="mb-0"> Descripción </p>
-									<input type="text" class="form-control form-control-sm w-50"
-										formControlName="descProducto" [class.is-invalid]="descProdInvalido">
-								</div>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-12">
-								<div class="d-flex justify-content-around align-items-baseline">
-									<p class="mb-0"> Código externo </p>
-									<input type="text" class="form-control form-control-sm w-50"
-										formControlName="codExtProducto" [class.is-invalid]="codExtProdInvalido">
-								</div>
-							</div>
-						</div>
 
 					</div>
 				</div>
 
 				<div class="card shadow-sm mb-2 text-center">
-					<div class="card-header text-black">
+					<div class="card-header text-black bg">
 						<h6 class="card-title m-0"> CAMIÓN </h6>
 					</div>
 
 					<div class="card-body p-2">
-
-						<div class="row mb-2">
-							<div class="col-6">
-								<p class="mb-1"> Cisternado </p>
-								<input type="number" class="form-control form-control-sm w-75 mx-auto"
-									formControlName="cisterCamion" [min]="1" [class.is-invalid]="cistInvalido">
+						<div class="row mb-1">
+							<div class="col d-flex justify-content-around">
+								<select class="form-select form-select-sm w-auto" formControlName="camion" [class.is-invalid]="camInvalido">
+									<option value="" selected hidden>Seleccione un camion</option>
+									<option [ngValue]="cam" *ngFor="let cam of camiones">{{cam.patente}}</option>
+								</select>
+								<button class="btn btn-sm btn-primary" data-bs-toggle="collapse"
+									href="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2" (click)="newCam = !newCam"> <i
+										class="bi bi-plus-circle-fill" style="font-size: 12px"></i> Nuevo camión
+								</button>
 							</div>
-							<div class="col-6">
-								<p class="mb-1"> Código externo </p>
-								<input type="text" class="form-control form-control-sm w-75 mx-auto"
-									formControlName="codExtCamion" [class.is-invalid]="codExtCamInvalido">
-							</div>
-						</div>
 
-						<div class="row mb-2">
-							<div class="col-12">
-								<div class="d-flex justify-content-around align-items-baseline">
-									<p class="mb-0"> Patente </p>
-									<input type="text" class="form-control form-control-sm w-50"
-										formControlName="patenteCamion" [class.is-invalid]="patCamInvalido">
+							<div class="collapse mt-3" id="collapseExample2">
+								<div class="row mb-2">
+									<div class="col-6">
+										<p class="mb-1"> Cisternado </p>
+										<input type="number" class="form-control form-control-sm w-75 mx-auto"
+											formControlName="cisterCamion" [min]="1" [class.is-invalid]="cistInvalido">
+									</div>
+									<div class="col-6">
+										<p class="mb-1"> Código externo </p>
+										<input type="text" class="form-control form-control-sm w-75 mx-auto"
+											formControlName="codExtCamion" [class.is-invalid]="codExtCamInvalido">
+									</div>
+								</div>
+
+								<div class="row mb-2">
+									<div class="col-12">
+										<div class="d-flex justify-content-around align-items-baseline">
+											<p class="mb-0"> Patente </p>
+											<input type="text" class="form-control form-control-sm w-50"
+												formControlName="patenteCamion" [class.is-invalid]="patCamInvalido">
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-12">
+										<div class="d-flex justify-content-around align-items-baseline">
+											<p class="mb-0"> Descripción </p>
+											<input type="text" class="form-control form-control-sm w-50"
+												formControlName="descCamion" [class.is-invalid]="descCamInvalido">
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 
-						<div class="row">
-							<div class="col-12">
-								<div class="d-flex justify-content-around align-items-baseline">
-									<p class="mb-0"> Descripción </p>
-									<input type="text" class="form-control form-control-sm w-50"
-										formControlName="descCamion" [class.is-invalid]="descCamInvalido">
-								</div>
-							</div>
-						</div>
+
+
 
 					</div>
 				</div>
@@ -141,82 +174,116 @@
 				</div>
 
 				<div class="card shadow-sm mb-2 text-center">
-					<div class="card-header text-black">
+					<div class="card-header text-black bg">
 						<h6 class="card-title m-0"> CLIENTE </h6>
 					</div>
 
 					<div class="card-body p-2">
-						<div class="row mb-2">
-							<div class="col-12">
-								<div class="d-flex justify-content-around align-items-baseline">
-									<p class="mb-0"> Contacto </p>
-									<input type="text" class="form-control form-control-sm w-50"
-										formControlName="contCliente" [class.is-invalid]="contCliInvalido">
+						<div class="row mb-1">
+							<div class="col d-flex justify-content-around">
+								<select class="form-select form-select-sm w-auto" formControlName="cliente" [class.is-invalid]="cliInvalido">
+									<option value="" selected hidden>Seleccione un cliente</option>
+									<option [ngValue]="cli" *ngFor="let cli of clientes">{{cli.razonSocial}}</option>
+								</select>
+								<button class="btn btn-sm btn-primary" data-bs-toggle="collapse"
+									href="#collapseExample3" aria-expanded="false" aria-controls="collapseExample3" (click)="newCli = !newCli"> <i
+										class="bi bi-plus-circle-fill" style="font-size: 12px"></i> Nuevo cliente
+								</button>
+							</div>
+
+							<div class="collapse mt-2" id="collapseExample3">
+								<div class="row mb-2">
+									<div class="col-12">
+										<div class="d-flex justify-content-around align-items-baseline">
+											<p class="mb-0"> Contacto </p>
+											<input type="text" class="form-control form-control-sm w-50"
+												formControlName="contCliente" [class.is-invalid]="contCliInvalido">
+										</div>
+									</div>
+								</div>
+
+								<div class="row mb-2">
+									<div class="col-12">
+										<div class="d-flex justify-content-around align-items-baseline">
+											<p class="mb-0"> Razón social </p>
+											<input type="text" class="form-control form-control-sm w-50"
+												formControlName="razSocCliente" [class.is-invalid]="razSocInvalido">
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-12">
+										<div class="d-flex justify-content-around align-items-baseline">
+											<p class="mb-0"> Código externo </p>
+											<input type="text" class="form-control form-control-sm w-50"
+												formControlName="codExtCliente" [class.is-invalid]="codExtCliInvalido">
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 
-						<div class="row mb-2">
-							<div class="col-12">
-								<div class="d-flex justify-content-around align-items-baseline">
-									<p class="mb-0"> Razón social </p>
-									<input type="text" class="form-control form-control-sm w-50"
-										formControlName="razSocCliente" [class.is-invalid]="razSocInvalido">
-								</div>
-							</div>
-						</div>
 
-						<div class="row">
-							<div class="col-12">
-								<div class="d-flex justify-content-around align-items-baseline">
-									<p class="mb-0"> Código externo </p>
-									<input type="text" class="form-control form-control-sm w-50"
-										formControlName="codExtCliente" [class.is-invalid]="codExtCliInvalido">
-								</div>
-							</div>
-						</div>
+
 
 					</div>
 				</div>
 
 				<div class="card shadow-sm mb-2 text-center">
-					<div class="card-header text-black">
+					<div class="card-header text-black bg">
 						<h6 class="card-title m-0"> CHOFER </h6>
 					</div>
 
 					<div class="card-body p-2">
-						<div class="row mb-2">
-							<div class="col-6">
-								<p class="mb-1"> Nombre </p>
-								<input type="text" class="form-control form-control-sm w-75 mx-auto"
-									formControlName="nombreChofer" [class.is-invalid]="nomChoInvalido">
-							</div>
-							<div class="col-6">
-								<p class="mb-1"> Apellido </p>
-								<input type="text" class="form-control form-control-sm w-75 mx-auto"
-									formControlName="apellidoChofer" [class.is-invalid]="apeChoInvalido">
+
+						<div class="row mb-1">
+							<div class="col d-flex justify-content-around">
+								<select class="form-select form-select-sm w-auto" formControlName="chofer" [class.is-invalid]="choInvalido">
+									<option value="" selected hidden>Seleccione un chofer</option>
+									<option [ngValue]="cho" *ngFor="let cho of choferes">{{cho.nombre}}</option>
+								</select>
+								<button class="btn btn-sm btn-primary" data-bs-toggle="collapse"
+									href="#collapseExample4" aria-expanded="false" aria-controls="collapseExample4" (click)="newCho = !newCho"> <i
+										class="bi bi-plus-circle-fill" style="font-size: 12px"></i> Nuevo chofer
+								</button>
 							</div>
 						</div>
+						<div class="collapse mt-2" id="collapseExample4">
+							<div class="row mb-2">
+								<div class="col-6">
+									<p class="mb-1"> Nombre </p>
+									<input type="text" class="form-control form-control-sm w-75 mx-auto"
+										formControlName="nombreChofer" [class.is-invalid]="nomChoInvalido">
+								</div>
+								<div class="col-6">
+									<p class="mb-1"> Apellido </p>
+									<input type="text" class="form-control form-control-sm w-75 mx-auto"
+										formControlName="apellidoChofer" [class.is-invalid]="apeChoInvalido">
+								</div>
+							</div>
 
-						<div class="row mb-2">
-							<div class="col-12">
-								<div class="d-flex justify-content-around align-items-baseline">
-									<p class="mb-0"> DNI </p>
-									<input type="number" class="form-control form-control-sm w-50"
-										formControlName="dniChofer" [min]="1" [class.is-invalid]="dniChoInvalido">
+							<div class="row mb-2">
+								<div class="col-12">
+									<div class="d-flex justify-content-around align-items-baseline">
+										<p class="mb-0"> DNI </p>
+										<input type="number" class="form-control form-control-sm w-50"
+											formControlName="dniChofer" [min]="1" [class.is-invalid]="dniChoInvalido">
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-12">
+									<div class="d-flex justify-content-around align-items-baseline">
+										<p class="mb-0"> Código Externo </p>
+										<input type="text" class="form-control form-control-sm w-50"
+											formControlName="codExtChofer" [class.is-invalid]="codExtChoInvalido">
+									</div>
 								</div>
 							</div>
 						</div>
 
-						<div class="row">
-							<div class="col-12">
-								<div class="d-flex justify-content-around align-items-baseline">
-									<p class="mb-0"> Código Externo </p>
-									<input type="text" class="form-control form-control-sm w-50"
-										formControlName="codExtChofer" [class.is-invalid]="codExtChoInvalido">
-								</div>
-							</div>
-						</div>
 
 					</div>
 				</div>
@@ -227,7 +294,7 @@
 
 	<div class="row mb-3">
 		<div class="col d-flex justify-content-center">
-			<button class="btn boton" (click)="crear()"> CREAR ORDEN DE CARGA </button>
+			<button class="btn btn-primary" (click)="crear()"> CREAR ORDEN DE CARGA </button>
 		</div>
 	</div>
 </div>
