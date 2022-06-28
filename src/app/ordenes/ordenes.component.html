@@ -1,7 +1,8 @@
 <div class="container pt-3" style="min-height: 484px;">
 	<div class="row mb-3">
-		<div class="col text-white flex-column align-items-end d-flex" style="font-size: 11px;">
-			<span data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> Referencias <i class="bi bi-caret-down-fill" style="font-size: 7px;"></i> </span>
+		<div class="col text-white justify-content-between d-flex" style="font-size: 11px;">
+			<input type="text" class="form-control form-control-sm" style="width: 400px; margin-left: 82px;" id="inputBuscar" placeholder="Buscar" (keyup)="buscar()"[(ngModel)]="cadena">
+			<span data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> Referencias <i class="bi bi-caret-down-fill" style="font-size: 10px; margin-right: 82px;"></i> </span>
 			<div class="collapse" id="collapseExample">
 				<span class="me-3"> <i class="bi bi-handbag-fill"></i> Producto </span>
 				<span class="me-3"> <i class="bi bi-person-fill"></i> Cliente </span>
@@ -19,7 +20,6 @@
 
 	<div class="row">
 		<div class="col table-responsive">
-			<input type="text" class="form-control" id="exampleFormControlInput1" placeholder="¿Buscás algo?">
 			<table class="table table-bordered text-white mx-auto" style="font-size: 13px; width: max-content;">
 				<thead>
 					<tr>
@@ -41,7 +41,7 @@
 				</thead>
 				<tbody>
 					<ng-container *ngFor="let orden of ordenesPagina; let i = index;">
-						<tr [ngClass]="{E1: orden.estado == 'E1', E2: orden.estado == 'E2', E3: orden.estado == 'E3', E4: orden.estado == 'E4', 'text-black': orden.estado == 'E1'}" >
+						<tr [ngClass]="{E1: orden.estado == 'E1', E2: orden.estado == 'E2', E3: orden.estado == 'E3', E4: orden.estado == 'E4'}" >
 							<td>{{orden.id}}</td>
 							<td>{{orden.numeroOrden}}</td>
 							<td>{{orden.codigoExterno}}</td>

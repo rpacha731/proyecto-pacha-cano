@@ -6,6 +6,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FechaHoraPipe implements PipeTransform {
 
   transform(fecha: any): string {
+    if (fecha == "null")
+      return "Sin datos";
     return new Date(fecha).toLocaleDateString('es-ES', {day: '2-digit', month:'2-digit', year: '2-digit', 
                                                         hour: '2-digit', minute: '2-digit'})
   }

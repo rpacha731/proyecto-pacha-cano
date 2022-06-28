@@ -19,6 +19,7 @@ export class OrdenesComponent implements OnInit {
   driver = faIdCard;
   result = faSquarePollHorizontal;
   ind: number;
+  cadena: string;
 
   formTara: FormGroup;
   modalRef?: BsModalRef;
@@ -39,6 +40,16 @@ export class OrdenesComponent implements OnInit {
   ngOnInit() {
     this.cargarOrdenes();
     this.createFormTara();
+  }
+
+  buscar() {
+    console.log(this.cadena);
+    var ordenesAux: OrdenDeCarga[] = [];
+    this.ordenes.forEach(o => {
+      if (o.numeroOrden.toString().includes(this.cadena) || o.codigoExterno.toLowerCase().includes(this.cadena))
+        ordenesAux.push(o);
+    })
+    console.log(ordenesAux);
   }
 
   createFormTara() {
