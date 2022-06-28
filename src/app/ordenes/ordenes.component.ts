@@ -87,11 +87,11 @@ export class OrdenesComponent implements OnInit {
     this.loading = true
 
     var pesoInicialReq: RequestDelPesoInicial = {
-      numeroOrden: this.ordenes[this.ind].numeroOrden,
+      numeroOrden: this.ordenesPagina[this.ind].numeroOrden,
       pesoInicial: this.formTara.controls.pesoInicial.value
     }
     this.ordenesService.adjuntarTaraUsingPUT(pesoInicialReq).subscribe((resp: any) => {
-      this.ordenes[this.ind] = resp
+      this.ordenesPagina[this.ind] = resp
       Swal.fire({
         title: 'Peso inicial adjuntado',
         html: 'El peso inicial ha sido adjuntado correctamente, la PASSWORD para la carga de combustible es: <span class="text-danger">' + resp.password + 
@@ -111,7 +111,7 @@ export class OrdenesComponent implements OnInit {
   }
 
   cargarNafta(index: number) {
-    this.router.navigate(['/carga', this.ordenes[index].numeroOrden])
+    this.router.navigate(['/carga', this.ordenesPagina[index].numeroOrden])
   }
 
 

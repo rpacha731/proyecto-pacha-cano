@@ -19,10 +19,15 @@ import { AdminUsersComponent } from './admin-users/admin-users.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { PipesModule } from './pipes/pipes.module';
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
+import { NotificacionesComponent } from './shared/notificaciones/notificaciones.component';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     NavbarComponent,
     FooterComponent,
@@ -30,8 +35,11 @@ import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
     CrearOrdenComponent,
     HomeComponent,
     OrdenesComponent,
-      AdminUsersComponent
-   ],
+    AdminUsersComponent,
+    NotificacionesComponent,
+    LoginComponent,
+    RegisterComponent
+  ],
   imports: [
     BrowserModule,
     FormsModule,
@@ -39,12 +47,14 @@ import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
     ReactiveFormsModule,
     PipesModule,
     HttpClientModule,
-    AppRoutingModule, 
+    AppRoutingModule,
     FontAwesomeModule,
     ApiModule,
     PaginationModule.forRoot(),
     ModalModule.forRoot(),
-    ProgressbarModule.forRoot()
+    ProgressbarModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

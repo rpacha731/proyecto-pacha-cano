@@ -19,168 +19,73 @@
                 <a class="nav-link active" routerLink="/ordenes"> Panel </a>
             </ul>
 
-            <div class="dropdown d-lg-none">
-                <button class="btn btn-outline-warning dropdown-toggle" type="button" id="dropdownMenuLink" data-bs-toggle="dropdown">
+            <div class="d-lg-none d-flex justify-content-center">
+                <app-notificaciones class="me-3"></app-notificaciones>
+
+
+                <button class="btn btn-outline-warning" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                     Usuario
                 </button>
 
-                <ul class="dropdown-menu dropdown-menu-lg-end text-center" aria-labelledby="dropdownMenuLink">
+                
+                <!-- <ul class="dropdown-menu dropdown-menu-lg-end dropdown-menu-dark text-center"
+                    aria-labelledby="dropdownMenuLink">
                     <li><a role="button" class="dropdown-item" data-bs-toggle="modal"
                             data-bs-target="#modalRegistrarse">
                             Registrarse </a></li>
                     <li><a role="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalIngresar">
                             Ingresar </a> </li>
-                </ul>
+                </ul> -->
+
             </div>
+
+
+
         </div>
 
-        <div class="dropdown d-none d-lg-block">
-            <button class="btn btn-outline-warning dropdown-toggle" role="button" id="dropdownMenuLink1" data-bs-toggle="dropdown">
-                Usuario
-            </button>
+        <div class="d-none d-lg-flex">
+            <app-notificaciones class="me-3"></app-notificaciones>
 
-            <ul class="dropdown-menu dropdown-menu-lg-end text-center" aria-labelledby="dropdownMenuLink1">
-                <li><a role="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalRegistrarse">
-                        Registrarse </a></li>
-                <li><a role="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalIngresar">
-                        Ingresar </a> </li>
+            <button class="btn btn-outline-warning" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+            Usuario
+        </button>
 
-            </ul>
         </div>
+
+    
+
 
 
 
     </div>
 </nav>
 
-<div class="modal fade" id="modalRegistrarse" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"> Registrarse en el sistema </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" [formGroup]="form">
-                <div class="row gy-2">
-                    <div class="col-12 col-sm-6">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="nombreInput" formControlName="nombre"
-                                placeholder="Nombre" [class.is-invalid]="nombreInvalido">
-                            <label for="nombreInput">Nombre</label>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="apellidoInput" formControlName="apellido"
-                                placeholder="Apellido" [class.is-invalid]="apellidoInvalido">
-                            <label for="apellidoInput">Apellido</label>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-floating">
-                            <input type="email" class="form-control" id="emailInput" formControlName="email"
-                                placeholder="name@example.com" [class.is-invalid]="emailInvalido">
-                            <label for="emailInput">Email</label>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <div class="input-group" style="flex-wrap: nowrap;">
-                            <div class="form-floating form-floating-group flex-grow-1">
-                                <input type="password" class="form-control" formControlName="password"
-                                    id="passwordInput" placeholder="Contraseña" [class.is-invalid]="passwordInvalida"
-                                    [type]="mostrarCon1 ? 'password' : 'text'">
-                                <label for="passwordInput">Contraseña</label>
-                            </div>
-                            <span class="input-group-text cursor-pointer" id="basic-addon1"
-                                (click)="mostrarCon1 = !mostrarCon1">
-                                <i class="bi" [ngClass]="mostrarCon1 ? 'bi-eye' : 'bi-eye-slash'"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <div class="input-group" style="flex-wrap: nowrap;">
-                            <div class="form-floating form-floating-group flex-grow-1">
-                                <input type="password" class="form-control" id="passwordInput2"
-                                    placeholder="Repetir contraseña" formControlName="password2"
-                                    [class.is-invalid]="passwordInvalida2 || passwordDistinta"
-                                    [type]="mostrarCon2 ? 'password' : 'text'">
-                                <label for="passqordInput2">Repetir contraseña</label>
-                            </div>
-                            <span class="input-group-text cursor-pointer" id="basic-addon1"
-                                (click)="mostrarCon2 = !mostrarCon2">
-                                <i class="bi" [ngClass]="mostrarCon2 ? 'bi-eye' : 'bi-eye-slash'"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="card p-2 px-3">
-                            <p class="card-text mb-1 text-success" style="font-size: 15px;"> Roles a desarrollar </p>
-                            <div class="d-flex justify-content-between">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                    <label class="form-check-label" for="flexSwitchCheckDefault"
-                                        style="font-size: 14px;"> ROL_USER </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault1">
-                                    <label class="form-check-label" for="flexSwitchCheckDefault1"
-                                        style="font-size: 14px;"> ROL_ADMIN </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault2">
-                                    <label class="form-check-label" for="flexSwitchCheckDefault2"
-                                        style="font-size: 14px;"> ROL_OTHER </label>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cancelar </button>
-                <button type="button" class="btn btn-primary" (click)="signUp()"> Registrarse </button>
-            </div>
-        </div>
+<div class="offcanvas offcanvas-end bg-dark text-white" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasRightLabel">Opciones</h5>
+        <button type="button" class="btn-close text-bg-primary" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-</div>
+    <div class="offcanvas-body">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <i class="fa fa-user-circle"></i>
+                <span class="text-muted">Registrarse</span>
 
-<div class="modal" id="modalIngresar" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"> Ingresar al sistema </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" [formGroup]="formLogin">
-                <div class="row gy-2">
-                    <div class="col-12">
-                        <div class="form-floating">
-                            <input type="email" class="form-control" id="emailInputLogin" formControlName="userEmail"
-                                placeholder="name@example.com" [class.is-invalid]="userEmailInvalido">
-                            <label for="emailInputLogin">Email</label>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="input-group">
-                            <div class="form-floating form-floating-group flex-grow-1">
-                                <input type="password" class="form-control" formControlName="password"
-                                    id="passwordInputLogin" placeholder="Contraseña"
-                                    [class.is-invalid]="passwordLogInvalida" [type]="mostrarCon3 ? 'password' : 'text'">
-                                <label for="passwordInputLogin">Contraseña</label>
-                            </div>
-                            <span class="input-group-text cursor-pointer" id="basic-addon1"
-                                (click)="mostrarCon3 = !mostrarCon3">
-                                <i class="bi" [ngClass]="mostrarCon3 ? 'bi-eye' : 'bi-eye-slash'"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cerrar </button>
-                <button type="button" class="btn btn-primary" (click)="ingresar()"> Ingresar </button>
-            </div>
-        </div>
+            </li>
+            <li class="list-group-item">
+                <a href="">
+                    <i class="fa fa-cogs"></i>
+                    <span class="text-muted">Ingresar</span>
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="">
+                    <i class="fa fa-sign-out"></i>
+                    <span class="text-muted">Cerrar sesión</span>
+                </a>
+            </li>
+        </ul>
     </div>
 </div>
