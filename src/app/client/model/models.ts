@@ -10,4 +10,5 @@ export * from './requestDeLOGIN';
 export * from './requestDelPesoFinal';
 export * from './requestDelPesoInicial';
 export * from './rol';
+export * from './signupRequest';
 export * from './view';

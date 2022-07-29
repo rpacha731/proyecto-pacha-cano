@@ -5,87 +5,58 @@
             <img src="../../../assets/PC (1).svg" class="d-inline-block align-text-top img-fluid"
                 style="max-height: 70px;">
         </a>
-
-        <!-- <a class="btn btn-outline-primary ms-auto me-2 d-block d-lg-none" href=""> USUARIO </a> -->
-
         <button type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
             class="navbar-toggler">
             <span class="navbar-toggler-icon"></span> </button>
 
         <div id="navbarSupportedContent" class="collapse navbar-collapse justify-content-center text-center">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav" style="margin-left: 75px;">
                 <a class="nav-link active" routerLink="/home"> Inicio </a>
                 <a class="nav-link active" routerLink="/ordenes"> Panel </a>
             </ul>
 
             <div class="d-lg-none d-flex justify-content-center">
                 <app-notificaciones class="me-3"></app-notificaciones>
-
-
                 <button class="btn btn-outline-warning" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                    Usuario
-                </button>
-
-                
-                <!-- <ul class="dropdown-menu dropdown-menu-lg-end dropdown-menu-dark text-center"
-                    aria-labelledby="dropdownMenuLink">
-                    <li><a role="button" class="dropdown-item" data-bs-toggle="modal"
-                            data-bs-target="#modalRegistrarse">
-                            Registrarse </a></li>
-                    <li><a role="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalIngresar">
-                            Ingresar </a> </li>
-                </ul> -->
-
+                    Usuario </button>
             </div>
-
-
-
         </div>
-
         <div class="d-none d-lg-flex">
             <app-notificaciones class="me-3"></app-notificaciones>
-
             <button class="btn btn-outline-warning" type="button" data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-            Usuario
-        </button>
-
+                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                Usuario </button>
         </div>
-
-    
-
-
-
-
     </div>
 </nav>
 
-<div class="offcanvas offcanvas-end bg-dark text-white" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+<div class="offcanvas offcanvas-end bg-dark text-white" tabindex="-1" id="offcanvasRight"
+    aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasRightLabel">Opciones</h5>
         <button type="button" class="btn-close text-bg-primary" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
         <ul class="list-group">
-            <li class="list-group-item">
-                <i class="fa fa-user-circle"></i>
-                <span class="text-muted">Registrarse</span>
+            <li class="list-group-item list-group-item-action cursor-pointer" routerLink="/register"
+                data-bs-dismiss="offcanvas" *ngIf="!isLoggedIn()">
+                <i class="bi bi-pencil-square me-2" style="font-size: 14px;"></i>
+                <span class="text-black">Registrarse</span>
 
             </li>
-            <li class="list-group-item">
-                <a href="">
-                    <i class="fa fa-cogs"></i>
-                    <span class="text-muted">Ingresar</span>
-                </a>
+            <li class="list-group-item list-group-item-action cursor-pointer" routerLink="/login"
+                data-bs-dismiss="offcanvas" *ngIf="!isLoggedIn()">
+                <i class="bi bi-box-arrow-in-right me-2" style="margin-left: -2px;"></i>
+                <span class="text-black">Ingresar</span>
             </li>
-            <li class="list-group-item">
-                <a href="">
-                    <i class="fa fa-sign-out"></i>
-                    <span class="text-muted">Cerrar sesión</span>
-                </a>
+            <li class="list-group-item list-group-item-action cursor-pointer" data-bs-dismiss="offcanvas" (click)="logout()" *ngIf="isLoggedIn()">
+                <i class="bi bi-box-arrow-in-left me-2"></i>
+                <span class="text-black">Cerrar sesión</span>
             </li>
         </ul>
     </div>
 </div>
+
+<app-loading [load]="loading"></app-loading>

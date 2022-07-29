@@ -1,10 +1,11 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 import { OrdenCargaControllerService, OrdenDeCarga } from '../client';
+import { RequestDelPesoFinal } from '../client/model/requestDelPesoFinal';
 
 @Component({
   selector: 'app-carga-datos',
@@ -35,7 +36,8 @@ export class CargaDatosComponent implements OnInit {
   constructor(private ap: ActivatedRoute,
     private api: OrdenCargaControllerService,
     private modalService: BsModalService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.ap.params.subscribe(resp => {
@@ -51,7 +53,14 @@ export class CargaDatosComponent implements OnInit {
       console.log(resp)
     }, err => {
       console.log(err)
-    } )
+      Swal.fire({
+        title: 'Error',
+        html: 'No existe la orden de carga número: <strong>' + this.numeroOrden + '</strong>',
+        icon: 'error'
+      }).then(() => {
+        this.router.navigate(['/home']);
+      })
+    })
   }
 
   createForm() {
@@ -84,7 +93,7 @@ export class CargaDatosComponent implements OnInit {
     }
   }
 
-  po(fileInput: Event) {
+  csv(fileInput: Event) {
 
     let file = (<HTMLInputElement>fileInput.target).files?.item(0)
 
@@ -137,5 +146,19 @@ export class CargaDatosComponent implements OnInit {
     this.subscriptions = [];
   }
 
+  cerrarOrden() {
+    this.cancelar = true; this.habilitado = true; 
+    let request: RequestDelPesoFinal = {
+      numeroOrden: this.numeroOrden,
+      pesoFinal: this.orden.pesoFinal
+    } 
+    this.api.adjuntarPesoFinalUsingPUT(request).subscribe(resp => {
+      console.log(resp)
+    }
+    , err => {
+      console.log(err)
+    }
+    )
+  }
 
 }

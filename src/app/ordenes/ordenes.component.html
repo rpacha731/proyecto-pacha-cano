@@ -1,106 +1,85 @@
 <div class="container pt-3" style="min-height: 484px;">
 	<div class="row mb-3">
-		<div class="col text-white justify-content-between d-flex" style="font-size: 11px;">
-			<input type="text" class="form-control form-control-sm" style="width: 400px; margin-left: 82px;" id="inputBuscar" placeholder="Buscar" (keyup)="buscar()"[(ngModel)]="cadena">
-			<span data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> Referencias <i class="bi bi-caret-down-fill" style="font-size: 10px; margin-right: 82px;"></i> </span>
-			<div class="collapse" id="collapseExample">
-				<span class="me-3"> <i class="bi bi-handbag-fill"></i> Producto </span>
-				<span class="me-3"> <i class="bi bi-person-fill"></i> Cliente </span>
-				<span class="me-3"> <fa-icon [icon]="driver"></fa-icon> Chofer </span>
-				<span class="me-3"> <fa-icon [icon]="truck"></fa-icon> Camión </span>
-				<span class="me-3"> <fa-icon [icon]="result"></fa-icon> Ver conciliación </span>
-				<span class="badge rounded-pill E1 me-2">Estado E1</span>
-				<span class="badge rounded-pill E2 me-2">Estado E2</span>
-				<span class="badge rounded-pill E3 me-2">Estado E3</span>
-				<span class="badge rounded-pill E4">Estado E4</span>
-			</div>
-			
+		<div class="col text-white align-items-end flex-column d-flex" style="font-size: 11px;">
+
+
 		</div>
 	</div>
 
 	<div class="row">
 		<div class="col table-responsive">
-			<input type="text" class="form-control w-auto mb-3" id="myInput" placeholder="Buscar...">
+
 			<table class="table table-bordered text-white mx-auto" style="font-size: 13px; width: max-content;">
 				<thead>
+					<tr style="border-top: 0;">
+						<td colspan="11" class="td-aux">
+							<div class="d-flex justify-content-between">
+								<input type="text" class="form-control form-control-sm w-25" placeholder="Buscar..."
+									id="inputBuscar" (keyup)="buscar()" [(ngModel)]="cadena">
+
+								<div class="my-auto">
+									<span class="badge rounded-pill E1 me-2">Estado E1</span>
+									<span class="badge rounded-pill E2 me-2">Estado E2</span>
+									<span class="badge rounded-pill E3 me-2">Estado E3</span>
+									<span class="badge rounded-pill E4">Estado E4</span>
+
+								</div>
+							</div>
+
+
+
+
+						</td>
+					</tr>
 					<tr>
-						<th> # </th>
 						<th> N° Orden </th>
-						<th> COD_EXT </th>
 						<th> Turno </th>
 						<th> Momentos Carga </th>
-						<th> Momentos Pesos </th>
-						<th> Pesos </th>
+						<th> Última masa / caudal / temperatura </th>
 						<th> Preset </th>
-						<th>  </th> <!--Producto-->
-						<th>  </th> <!--Cliente-->
-						<th>  </th> <!--Chofer-->
-						<th>  </th> <!--Camion-->
-						<th style="writing-mode: vertical-rl; text-orientation: upright; font-size: 10px;">  </th> <!--Conciliacion-->
-						<th>  </th> <!--Acciones-->						
+						<th> </th>
+						<!--Producto-->
 					</tr>
 				</thead>
 				<tbody>
 					<ng-container *ngFor="let orden of ordenesPagina; let i = index;">
-						<tr [ngClass]="{E1: orden.estado == 'E1', E2: orden.estado == 'E2', E3: orden.estado == 'E3', E4: orden.estado == 'E4'}" >
-							<td>{{orden.id}}</td>
+						<tr
+							[ngClass]="{E1: orden.estado == 'E1', E2: orden.estado == 'E2', E3: orden.estado == 'E3', E4: orden.estado == 'E4'}">
 							<td>{{orden.numeroOrden}}</td>
-							<td>{{orden.codigoExterno}}</td>
 							<td>{{orden.fechaHoraTurno | fechahora}}</td>
-							<td><p class="mb-0">{{orden.fechaHoraInicioCarga | fechahora}} - </p> <p class="mb-0">{{orden.fechaHoraFinCarga | fechahora}}</p></td>
-							<td><p class="mb-0">{{orden.fechaHoraPesoInicial | fechahora}} - </p> <p class="mb-0">{{orden.fechaHoraPesoFinal | fechahora}}</p></td>
-							<td><p class="mb-0">{{orden.pesoInicial}} - </p> <p class="mb-0">{{orden.pesoFinal}}</p></td>
-							<td>{{orden.preset}}</td>
-							<td class="dropdown">
-								<i class="bi bi-handbag-fill dropdown-toggle cursor-pointer" id="dropdownProd" data-bs-toggle="dropdown"></i>
-								<ul class="dropdown-menu" aria-labelledby="dropdownProd">
-									<p class="dropdown-item mb-0" style="font-size: 11px;"> 
-										ID: {{orden.producto.id}} <br> Nombre: {{orden.producto.nombre}} <br> 
-										Descripción: {{orden.producto.descripcion}}</p>
-								</ul>
+							<td>
+								<p class="mb-0">{{orden.fechaHoraInicioCarga | fechahora}} - {{orden.fechaHoraFinCarga |
+									fechahora}}</p>
 							</td>
-							<td class="dropdown">
-								<i class="bi bi-person-fill dropdown-toggle cursor-pointer" id="dropdownCli" data-bs-toggle="dropdown"></i>
-								<ul class="dropdown-menu" aria-labelledby="dropdownCli">
-									<p class="dropdown-item mb-0" style="font-size: 11px;"> 
-										ID: {{orden.cliente.id}} <br> Razón social: {{orden.cliente.razonSocial}} <br> 
-										Contacto: {{orden.cliente.contacto}}</p>
-								</ul>
+
+							<td>
+								<p class="mb-0">{{orden.pesoInicial}} - {{orden.pesoFinal}} </p>
 							</td>
-							<td class="dropdown">
-								<fa-icon [icon]="driver" class="dropdown-toggle cursor-pointer" id="dropdownCho" data-bs-toggle="dropdown"></fa-icon>
-								<ul class="dropdown-menu" aria-labelledby="dropdownCho">
-									<p class="dropdown-item mb-0" style="font-size: 11px;"> 
-										ID: {{orden.chofer.id}} <br> Nombre y apellido: {{orden.chofer.nombre}} {{orden.chofer.apellido}} <br> 
-										DNI: {{orden.chofer.dni}}</p>
-								</ul>
+							<td> {{orden.preset}} kg</td>
+							<td>
+								<span class="badge rounded-pill bg-primary me-2 text-black cursor-pointer"
+									(click)="openDetails(details, i)"> Ver detalles </span>
+								<span class="badge rounded-pill bg-primary text-black cursor-pointer"> Acciones </span>
 							</td>
-							<td class="dropdown">
-								<fa-icon [icon]="truck" class="dropdown-toggle cursor-pointer" id="dropdownCam" data-bs-toggle="dropdown"></fa-icon>
-								<ul class="dropdown-menu" aria-labelledby="dropdownCam">
-									<p class="dropdown-item mb-0" style="font-size: 11px;"> 
-										ID: {{orden.camion.id}} <br> Patente: {{orden.camion.patente}} <br> 
-										Descripción: {{orden.camion.descripcion}} <br> Cisternado: {{orden.camion.cisternado}}</p>
-								</ul>
-							</td>
-							<td class="cursor-pointer"><fa-icon [icon]="result"></fa-icon></td>
-							<td class="dropdown">
-								<i class="bi bi-three-dots-vertical dropdown-toggle cursor-pointer" id="dropdownAcc" data-bs-toggle="dropdown"></i>
-								<ul class="dropdown-menu" aria-labelledby="dropdownAcc" style="font-size: 13px;">
-									<li class="dropdown-item cursor-pointer" (click)="openModal(template, i)" *ngIf="orden.estado == 'E1'">Enviar tara / peso inicial</li>
-									<li class="dropdown-item cursor-pointer" *ngIf="orden.estado == 'E2'" (click)="cargarNafta(i)">Cargar gas / combustible</li>
-								</ul>
-							</td>						
+
+
+							<!-- <button class="dropdown btn btn-sm">
+														<i class="bi bi-three-dots-vertical dropdown-toggle cursor-pointer" id="dropdownAcc" data-bs-toggle="dropdown"></i>
+														<ul class="dropdown-menu" aria-labelledby="dropdownAcc" style="font-size: 13px;">
+															<li class="dropdown-item cursor-pointer" (click)="openModal(template, i)" *ngIf="orden.estado == 'E1'">Enviar tara / peso inicial</li>
+															<li class="dropdown-item cursor-pointer" *ngIf="orden.estado == 'E2'" (click)="cargarNafta(i)">Cargar gas / combustible</li>
+														</ul>
+													</button> -->
 						</tr>
 					</ng-container>
-					
+
 				</tbody>
 			</table>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col d-flex justify-content-center pt-3">
-				<pagination [totalItems]="totalItems" [itemsPerPage]="10" (pageChanged)="pageChanged($event)"></pagination>
+			<pagination [totalItems]="totalItems" [itemsPerPage]="10" (pageChanged)="pageChanged($event)"></pagination>
 		</div>
 	</div>
 </div>
@@ -117,10 +96,12 @@
 		<div class="row gy-2">
 			<div class="col-12">
 				<div class="form-floating">
-					<input type="number" class="form-control" id="pesoInicial" formControlName="pesoInicial" [class.is-invalid]="pesoInicialInvalido">
+					<input type="number" class="form-control" id="pesoInicial" formControlName="pesoInicial"
+						[class.is-invalid]="pesoInicialInvalido">
 					<label for="pesoInicial">Peso inicial</label>
 				</div>
-				<div class="text-end"><span class="text-warning" style="font-size: 12px"> Peso inicial en kilogramos </span></div>
+				<div class="text-end"><span class="text-warning" style="font-size: 12px"> Peso inicial en kilogramos
+					</span></div>
 			</div>
 		</div>
 	</div>
@@ -128,4 +109,203 @@
 		<button type="button" class="btn btn-secondary" (click)="modalRef?.hide()"> Cancelar </button>
 		<button type="button" class="btn btn-primary" (click)="enviarTara()"> Enviar tara </button>
 	</div>
+</ng-template>
+
+<ng-template #details>
+	<div class="modal-header">
+		<h6 class="mb-0"> Orden de carga {{ordencita.numeroOrden}} </h6>
+		<button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+			<span aria-hidden="true" class="visually-hidden">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body" style="padding-top: 0px;">
+		<div class="row justify-content-end mb-2">
+			<div class="col text-end">
+				<span data-bs-toggle="collapse" class="cursor-pointer" href="#collapseExample" aria-expanded="false"
+					aria-controls="collapseExample" style="font-size: 10px;"> Referencias <i
+						class="bi bi-caret-down-fill" style="font-size: 7px;"></i> </span>
+				<div class="collapse text-black" style="font-size: 10px" id="collapseExample">
+
+					<span class="me-3 ms-2"> <i class="bi bi-handbag-fill"></i> Producto </span>
+					<span class="me-3"> <i class="bi bi-person-fill"></i> Cliente </span>
+					<span class="me-3">
+						<fa-icon [icon]="driver"></fa-icon> Chofer
+					</span>
+					<span class="me-3">
+						<fa-icon [icon]="truck"></fa-icon> Camión
+					</span>
+					<!-- <span class="me-2">
+						<fa-icon [icon]="result"></fa-icon> Ver conciliación
+					</span> -->
+
+				</div>
+			</div>
+
+		</div>
+
+		<div class="row mb-1 justify-content-center">
+
+			<div class="col-12 col-md-6 col-lg-5 align-self-center">
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-1">
+						<div class="d-flex justify-content-around align-items-baseline">
+							<p class="mb-0"> Código externo: <br> {{ordencita.codigoExterno}} </p>
+						</div>
+					</div>
+				</div>
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-1">
+						<div class="d-flex justify-content-around align-items-baseline">
+							<p class="mb-0"> Fecha y hora del turno: <br> {{ordencita.fechaHoraTurno | fechahora}} </p>
+						</div>
+					</div>
+				</div>
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-1">
+						<div class="d-flex justify-content-around align-items-baseline">
+							<p class="mb-0"> Fecha y hora de recepción: <br> {{ordencita.fechaHoraRecepcion |
+								fechahora}} </p>
+						</div>
+					</div>
+				</div>
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-1">
+						<div class="d-flex justify-content-around align-items-baseline">
+							<p class="mb-0"> Fecha y hora de peso inicial: <br> {{ordencita.fechaHoraPesoInicial |
+								fechahora}} </p>
+						</div>
+					</div>
+				</div>
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-1">
+						<div class="d-flex justify-content-around align-items-baseline">
+							<p class="mb-0"> Fecha y hora de inicio de carga: <br> {{ordencita.fechaHoraInicioCarga |
+								fechahora}} </p>
+						</div>
+					</div>
+				</div>
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-1">
+						<div class="d-flex justify-content-around align-items-baseline">
+							<p class="mb-0"> Fecha y hora de peso final: <br> {{ordencita.fechaHoraPesoFinal |
+								fechahora}} </p>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+
+
+
+
+
+
+			<div class="col-12 col-md-6 col-lg-5">
+				
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-1">
+						<div class="d-flex justify-content-around align-items-baseline">
+							<p class="mb-0"> Peso inicial: {{ordencita.pesoInicial}} <br>
+								Peso final: {{ordencita.pesoFinal}} </p>
+						</div>
+					</div>
+				</div>
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-1">
+						<div class="d-flex justify-content-around align-items-baseline">
+							<p class="mb-0"> Preset: <br> {{ordencita.preset}} </p>
+						</div>
+					</div>
+				</div>
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-1">
+						<div class="d-flex justify-content-around align-items-baseline">
+							<p class="mb-0"> Última masa acumulada: {{ordencita.pesoInicial}} <br>
+								Última densidad: {{ordencita.pesoFinal}} <br>
+								Última temperatura: {{ordencita.pesoFinal}} </p>
+						</div>
+					</div>
+				</div>
+
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-1">
+						<div class="d-flex justify-content-around align-items-baseline">
+							<p class="mb-0"> Fecha y hora de fin de carga: <br> {{ordencita.fechaHoraFinCarga |
+								fechahora}} </p>
+						</div>
+					</div>
+				</div>
+
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-1">
+						<div class="d-flex justify-content-around align-items-baseline">
+
+							<button class="dropdown btn btn-sm cursor-pointer" data-bs-toggle="dropdown">
+								<i class="bi bi-handbag-fill dropdown-toggle" id="dropdownProd"
+									></i>
+								<ul class="dropdown-menu" aria-labelledby="dropdownProd">
+									<p class="dropdown-item mb-0 text-black" style="font-size: 11px;">
+										ID: {{ordencita.producto.id}} <br> Nombre: {{ordencita.producto.nombre}} <br>
+										Descripción: {{ordencita.producto.descripcion}}</p>
+								</ul>
+							</button>
+
+							<button class="dropdown btn btn-sm cursor-pointer" data-bs-toggle="dropdown">
+								<i class="bi bi-person-fill dropdown-toggle" id="dropdownCli"
+									></i>
+								<ul class="dropdown-menu" aria-labelledby="dropdownCli">
+									<p class="dropdown-item mb-0" style="font-size: 11px;">
+										ID: {{ordencita.cliente.id}} <br> Razón social:
+										{{ordencita.cliente.razonSocial}} <br>
+										Contacto: {{ordencita.cliente.contacto}}</p>
+								</ul>
+							</button>
+
+							<button class="dropdown btn btn-sm cursor-pointer" data-bs-toggle="dropdown">
+								<fa-icon [icon]="driver" class="dropdown-toggle" id="dropdownCho"
+									></fa-icon>
+								<ul class="dropdown-menu" aria-labelledby="dropdownCho">
+									<p class="dropdown-item mb-0" style="font-size: 11px;">
+										ID: {{ordencita.chofer.id}} <br> Nombre y apellido: {{ordencita.chofer.nombre}}
+										{{ordencita.chofer.apellido}} <br>
+										DNI: {{ordencita.chofer.dni}}</p>
+								</ul>
+							</button>
+
+							<button class="dropdown btn btn-sm cursor-pointer" data-bs-toggle="dropdown">
+								<fa-icon [icon]="truck" class="dropdown-toggle" id="dropdownCam"
+									></fa-icon>
+								<ul class="dropdown-menu" aria-labelledby="dropdownCam">
+									<p class="dropdown-item mb-0" style="font-size: 11px;">
+										ID: {{ordencita.camion.id}} <br> Patente: {{ordencita.camion.patente}} <br>
+										Descripción: {{ordencita.camion.descripcion}} <br> Cisternado:
+										{{ordencita.camion.cisternado}}</p>
+								</ul>
+							</button>
+<!-- 
+							<button class="btn btn-sm cursor-pointer">
+								<fa-icon [icon]="result"></fa-icon>
+							</button> -->
+
+
+						</div>
+					</div>
+				</div>
+
+				<div class="card border-0 mb-2 text-center">
+					<div class="card-body p-1">
+						<button class="btn ctn-sm btn-primary"> Ver conciliación </button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	
+
+		
+	</div>
+	
+
+
 </ng-template>

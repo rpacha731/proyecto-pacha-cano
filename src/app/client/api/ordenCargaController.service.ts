@@ -70,9 +70,9 @@ export class OrdenCargaControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public adjuntarDatoCargaUsingPUT(caudal: number, densidad: number, masaAcumulada: number, numeroOrden: number, password: number, temperatura: number, observe?: 'body', reportProgress?: boolean): Observable<string>;
-    public adjuntarDatoCargaUsingPUT(caudal: number, densidad: number, masaAcumulada: number, numeroOrden: number, password: number, temperatura: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
-    public adjuntarDatoCargaUsingPUT(caudal: number, densidad: number, masaAcumulada: number, numeroOrden: number, password: number, temperatura: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
+    public adjuntarDatoCargaUsingPUT(caudal: number, densidad: number, masaAcumulada: number, numeroOrden: number, password: number, temperatura: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public adjuntarDatoCargaUsingPUT(caudal: number, densidad: number, masaAcumulada: number, numeroOrden: number, password: number, temperatura: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public adjuntarDatoCargaUsingPUT(caudal: number, densidad: number, masaAcumulada: number, numeroOrden: number, password: number, temperatura: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
     public adjuntarDatoCargaUsingPUT(caudal: number, densidad: number, masaAcumulada: number, numeroOrden: number, password: number, temperatura: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (caudal === null || caudal === undefined) {
@@ -123,7 +123,7 @@ export class OrdenCargaControllerService {
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            '*/*'
+            'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -135,7 +135,7 @@ export class OrdenCargaControllerService {
             'application/json'
         ];
 
-        return this.httpClient.put<string>(`${this.basePath}/api/v1/ordenes-carga/carga`,
+        return this.httpClient.put<any>(`${this.basePath}/api/v1/ordenes-carga/carga`,
             null,
             {
                 params: queryParameters,
@@ -154,9 +154,9 @@ export class OrdenCargaControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public adjuntarPesoFinalUsingPUT(pesoFinalRequest: RequestDelPesoFinal, observe?: 'body', reportProgress?: boolean): Observable<string>;
-    public adjuntarPesoFinalUsingPUT(pesoFinalRequest: RequestDelPesoFinal, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
-    public adjuntarPesoFinalUsingPUT(pesoFinalRequest: RequestDelPesoFinal, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
+    public adjuntarPesoFinalUsingPUT(pesoFinalRequest: RequestDelPesoFinal, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public adjuntarPesoFinalUsingPUT(pesoFinalRequest: RequestDelPesoFinal, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public adjuntarPesoFinalUsingPUT(pesoFinalRequest: RequestDelPesoFinal, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
     public adjuntarPesoFinalUsingPUT(pesoFinalRequest: RequestDelPesoFinal, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (pesoFinalRequest === null || pesoFinalRequest === undefined) {
@@ -183,7 +183,7 @@ export class OrdenCargaControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<string>(`${this.basePath}/api/v1/ordenes-carga/peso-final`,
+        return this.httpClient.put<any>(`${this.basePath}/api/v1/ordenes-carga/peso-final`,
             pesoFinalRequest,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -201,9 +201,9 @@ export class OrdenCargaControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public adjuntarTaraUsingPUT(pesoInicialRequest: RequestDelPesoInicial, observe?: 'body', reportProgress?: boolean): Observable<string>;
-    public adjuntarTaraUsingPUT(pesoInicialRequest: RequestDelPesoInicial, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
-    public adjuntarTaraUsingPUT(pesoInicialRequest: RequestDelPesoInicial, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
+    public adjuntarTaraUsingPUT(pesoInicialRequest: RequestDelPesoInicial, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public adjuntarTaraUsingPUT(pesoInicialRequest: RequestDelPesoInicial, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public adjuntarTaraUsingPUT(pesoInicialRequest: RequestDelPesoInicial, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
     public adjuntarTaraUsingPUT(pesoInicialRequest: RequestDelPesoInicial, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (pesoInicialRequest === null || pesoInicialRequest === undefined) {
@@ -230,7 +230,7 @@ export class OrdenCargaControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<string>(`${this.basePath}/api/v1/ordenes-carga/tara`,
+        return this.httpClient.put<any>(`${this.basePath}/api/v1/ordenes-carga/tara`,
             pesoInicialRequest,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -249,9 +249,9 @@ export class OrdenCargaControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public cambiarFrecuenciaUsingPUT(frecuencia: number, numOrden: number, observe?: 'body', reportProgress?: boolean): Observable<string>;
-    public cambiarFrecuenciaUsingPUT(frecuencia: number, numOrden: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
-    public cambiarFrecuenciaUsingPUT(frecuencia: number, numOrden: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
+    public cambiarFrecuenciaUsingPUT(frecuencia: number, numOrden: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public cambiarFrecuenciaUsingPUT(frecuencia: number, numOrden: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public cambiarFrecuenciaUsingPUT(frecuencia: number, numOrden: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
     public cambiarFrecuenciaUsingPUT(frecuencia: number, numOrden: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (frecuencia === null || frecuencia === undefined) {
@@ -265,9 +265,6 @@ export class OrdenCargaControllerService {
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         if (frecuencia !== undefined && frecuencia !== null) {
             queryParameters = queryParameters.set('frecuencia', <any>frecuencia);
-        }
-        if (numOrden !== undefined && numOrden !== null) {
-            queryParameters = queryParameters.set('numOrden', <any>numOrden);
         }
 
         let headers = this.defaultHeaders;
@@ -286,7 +283,7 @@ export class OrdenCargaControllerService {
             'application/json'
         ];
 
-        return this.httpClient.put<string>(`${this.basePath}/api/v1/ordenes-carga/cambiar-frecuencia`,
+        return this.httpClient.put<any>(`${this.basePath}/api/v1/ordenes-carga/cambiar-frecuencia/${encodeURIComponent(String(numOrden))}`,
             null,
             {
                 params: queryParameters,
@@ -305,9 +302,9 @@ export class OrdenCargaControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public cerrarOrdenUsingPOST(numOrden: number, observe?: 'body', reportProgress?: boolean): Observable<string>;
-    public cerrarOrdenUsingPOST(numOrden: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
-    public cerrarOrdenUsingPOST(numOrden: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
+    public cerrarOrdenUsingPOST(numOrden: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public cerrarOrdenUsingPOST(numOrden: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public cerrarOrdenUsingPOST(numOrden: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
     public cerrarOrdenUsingPOST(numOrden: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (numOrden === null || numOrden === undefined) {
@@ -330,7 +327,7 @@ export class OrdenCargaControllerService {
             'application/json'
         ];
 
-        return this.httpClient.post<string>(`${this.basePath}/api/v1/ordenes-carga/cerrar/${encodeURIComponent(String(numOrden))}`,
+        return this.httpClient.post<any>(`${this.basePath}/api/v1/ordenes-carga/cerrar/${encodeURIComponent(String(numOrden))}`,
             null,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -348,9 +345,9 @@ export class OrdenCargaControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public crearOrdenCargaUsingPOST(ordenCarga: OrdenDeCarga, observe?: 'body', reportProgress?: boolean): Observable<string>;
-    public crearOrdenCargaUsingPOST(ordenCarga: OrdenDeCarga, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
-    public crearOrdenCargaUsingPOST(ordenCarga: OrdenDeCarga, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
+    public crearOrdenCargaUsingPOST(ordenCarga: OrdenDeCarga, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public crearOrdenCargaUsingPOST(ordenCarga: OrdenDeCarga, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public crearOrdenCargaUsingPOST(ordenCarga: OrdenDeCarga, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
     public crearOrdenCargaUsingPOST(ordenCarga: OrdenDeCarga, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (ordenCarga === null || ordenCarga === undefined) {
@@ -377,7 +374,7 @@ export class OrdenCargaControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<string>(`${this.basePath}/api/v1/ordenes-carga`,
+        return this.httpClient.post<any>(`${this.basePath}/api/v1/ordenes-carga`,
             ordenCarga,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -389,7 +386,7 @@ export class OrdenCargaControllerService {
     }
 
     /**
-     * listadoCamiones
+     * Listado completo de los camiones
      * 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -425,7 +422,7 @@ export class OrdenCargaControllerService {
     }
 
     /**
-     * listadoChoferes
+     * Listado completo de los choferes
      * 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -461,7 +458,7 @@ export class OrdenCargaControllerService {
     }
 
     /**
-     * listadoClientes
+     * Listado completo de los clientes
      * 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -497,15 +494,15 @@ export class OrdenCargaControllerService {
     }
 
     /**
-     * Listar órdenes de carga según el estado
+     * Listar ordenes de carga según el estado
      * 
      * @param i i
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public listadoPorEstadoUsingGET(i: number, observe?: 'body', reportProgress?: boolean): Observable<string>;
-    public listadoPorEstadoUsingGET(i: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
-    public listadoPorEstadoUsingGET(i: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
+    public listadoPorEstadoUsingGET(i: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public listadoPorEstadoUsingGET(i: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public listadoPorEstadoUsingGET(i: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
     public listadoPorEstadoUsingGET(i: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (i === null || i === undefined) {
@@ -527,7 +524,7 @@ export class OrdenCargaControllerService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<string>(`${this.basePath}/api/v1/ordenes-carga/E${encodeURIComponent(String(i))}`,
+        return this.httpClient.get<any>(`${this.basePath}/api/v1/ordenes-carga/E${encodeURIComponent(String(i))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -538,7 +535,7 @@ export class OrdenCargaControllerService {
     }
 
     /**
-     * listadoProductos
+     * Listado completo de los productos
      * 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -610,15 +607,56 @@ export class OrdenCargaControllerService {
     }
 
     /**
+     * Buscar orden de carga por id
+     * 
+     * @param id id
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public loadByIdUsingGET(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public loadByIdUsingGET(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public loadByIdUsingGET(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public loadByIdUsingGET(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling loadByIdUsingGET.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.get<any>(`${this.basePath}/api/v1/ordenes-carga/${encodeURIComponent(String(id))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Buscar orden de carga por número de orden
      * 
      * @param numOrden numOrden
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public loadByNumOrdenUsingGET(numOrden: number, observe?: 'body', reportProgress?: boolean): Observable<string>;
-    public loadByNumOrdenUsingGET(numOrden: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
-    public loadByNumOrdenUsingGET(numOrden: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
+    public loadByNumOrdenUsingGET(numOrden: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public loadByNumOrdenUsingGET(numOrden: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public loadByNumOrdenUsingGET(numOrden: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
     public loadByNumOrdenUsingGET(numOrden: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (numOrden === null || numOrden === undefined) {
@@ -640,7 +678,7 @@ export class OrdenCargaControllerService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<string>(`${this.basePath}/api/v1/ordenes-carga/numero-orden/${encodeURIComponent(String(numOrden))}`,
+        return this.httpClient.get<any>(`${this.basePath}/api/v1/ordenes-carga/numero-orden/${encodeURIComponent(String(numOrden))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -651,15 +689,15 @@ export class OrdenCargaControllerService {
     }
 
     /**
-     * Cargar conciliación de orden de carga
+     * Buscar conciliación de orden de carga por número de orden
      * 
      * @param numOrden numOrden
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public loadConciliacionUsingGET(numOrden: number, observe?: 'body', reportProgress?: boolean): Observable<string>;
-    public loadConciliacionUsingGET(numOrden: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
-    public loadConciliacionUsingGET(numOrden: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
+    public loadConciliacionUsingGET(numOrden: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public loadConciliacionUsingGET(numOrden: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public loadConciliacionUsingGET(numOrden: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
     public loadConciliacionUsingGET(numOrden: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (numOrden === null || numOrden === undefined) {
@@ -681,48 +719,7 @@ export class OrdenCargaControllerService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<string>(`${this.basePath}/api/v1/ordenes-carga/conciliacion/${encodeURIComponent(String(numOrden))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Buscar orden de carga por id
-     * 
-     * @param id id
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public loadUsingGET(id: number, observe?: 'body', reportProgress?: boolean): Observable<string>;
-    public loadUsingGET(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
-    public loadUsingGET(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
-    public loadUsingGET(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling loadUsingGET.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.get<string>(`${this.basePath}/api/v1/ordenes-carga/${encodeURIComponent(String(id))}`,
+        return this.httpClient.get<any>(`${this.basePath}/api/v1/ordenes-carga/conciliacion/${encodeURIComponent(String(numOrden))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

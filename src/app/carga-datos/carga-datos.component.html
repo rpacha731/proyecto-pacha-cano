@@ -1,7 +1,6 @@
-<div class="container pt-4 bg-light" style="min-height: 484px;">
-    <div class="row mb-3">
+<div class="container bg-dark" style="min-height: 484px;">
+    <div class="row mt-5 mb-3">
         <div class="col-12 col-md-6">
-
 
             <div class="card shadow-sm mb-2 text-center">
                 <div class="card-header bg">
@@ -74,7 +73,7 @@
                             Cargar archivo CSV de los datos de carga
                         </div>
                         <input class="form-control form-control-sm w-auto mx-auto mt-2" type="file"
-                            (change)="po($event)" accept=".csv">
+                            (change)="csv($event)" accept=".csv">
                     </li>
 
                     <li class="list-group-item d-flex align-items-center">
@@ -87,9 +86,9 @@
 
                     <li class="list-group-item d-flex align-items-center">
                         <span class="badge text-bg-secondary me-1" style="font-size: 10px; margin-top: 3px;"> 3 </span>
-                        Parar la carga / Cerrar orden 
-                        <button class="btn btn-outline-danger btn-sm ms-auto"
-                            (click)="cancelar = true; habilitado = true" [disabled]="habilitado"> Cerrar orden / Parar
+                        Parar la carga / Cerrar orden
+                        <button class="btn btn-outline-danger btn-sm ms-auto" (click)="cerrarOrden()"
+                            [disabled]="habilitado"> Cerrar orden / Parar
                             carga </button>
                     </li>
 
@@ -103,11 +102,12 @@
 
         <div class="col-12">
 
-            <progressbar [max]="200" [value]="166" type="primary" [striped]="true" [animate]="true"></progressbar>
+            <progressbar [max]="orden.preset" [value]="lineaActual[0]" type="primary" [striped]="true" [animate]="true">
+            </progressbar>
 
-            <div class="d-flex justify-content-between mt-3">
-                <p> Tiempo transcurrido: </p>
-                <p> Tiempo estimado: </p>
+            <div class="d-flex justify-content-between mt-3 bg-light rounded p-2 ps-3 pe-3">
+                <p class="m-0"> Tiempo transcurrido: </p>
+                <p class="m-0"> Tiempo estimado: </p>
             </div>
 
         </div>

@@ -1,92 +1,94 @@
-<div class="modal fade" id="modalRegistrarse" data-bs-backdrop="static" tabindex="-1"
-	aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel"> Registrarse en el sistema </h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body" [formGroup]="form">
-				<div class="row gy-2">
-					<div class="col-12 col-sm-6">
-						<div class="form-floating">
-							<input type="text" class="form-control" id="nombreInput" formControlName="nombre"
-								placeholder="Nombre" [class.is-invalid]="nombreInvalido">
-							<label for="nombreInput">Nombre</label>
-						</div>
-					</div>
-					<div class="col-12 col-sm-6">
-						<div class="form-floating">
-							<input type="text" class="form-control" id="apellidoInput" formControlName="apellido"
-								placeholder="Apellido" [class.is-invalid]="apellidoInvalido">
-							<label for="apellidoInput">Apellido</label>
-						</div>
-					</div>
-					<div class="col-12">
-						<div class="form-floating">
-							<input type="email" class="form-control" id="emailInput" formControlName="email"
-								placeholder="name@example.com" [class.is-invalid]="emailInvalido">
-							<label for="emailInput">Email</label>
-						</div>
-					</div>
-					<div class="col-12 col-sm-6">
-						<div class="input-group" style="flex-wrap: nowrap;">
-							<div class="form-floating form-floating-group flex-grow-1">
-								<input type="password" class="form-control" formControlName="password"
-									id="passwordInput" placeholder="Contraseña" [class.is-invalid]="passwordInvalida"
-									[type]="mostrarCon1 ? 'password' : 'text'">
-								<label for="passwordInput">Contraseña</label>
+<div class="container">
+	<div class="row" style="min-height: 484px;">
+
+		<div class="col-6 text-white text-center justify-content-center d-flex flex-column">
+			<img src="../../../assets/PC (1).svg" class="mb-3" style="max-height: 100px;">
+			<h4>Sistema de Gestión de Ordenes de Carga</h4>
+			<p>Por favor ingrese sus datos para registrarse</p>
+		</div>
+
+		<div class="col-6 justify-content-center d-flex flex-column">
+			<div class="card text-center">
+
+				<div class="card-header bg">
+					<h5 class="card-title m-0">Registro</h5>
+				</div>
+
+				<div class="card-body" [formGroup]="form">
+					<div class="row mb-2">
+						<div class="d-flex justify-content-around">
+							<div class="input-group input-group-sm w-100 me-2">
+								<span class="input-group-text" id="nombre">
+									<i class="bi bi-person"></i>
+								</span>
+								<input type="text" class="form-control form-control-sm" aria-describedby="nombre"
+									placeholder="Nombre" [class.is-invalid]="nombreInvalido" formControlName="nombre">
 							</div>
-							<span class="input-group-text cursor-pointer" id="basic-addon1"
-								(click)="mostrarCon1 = !mostrarCon1">
-								<i class="bi" [ngClass]="mostrarCon1 ? 'bi-eye' : 'bi-eye-slash'"></i>
-							</span>
-						</div>
-					</div>
-					<div class="col-12 col-sm-6">
-						<div class="input-group" style="flex-wrap: nowrap;">
-							<div class="form-floating form-floating-group flex-grow-1">
-								<input type="password" class="form-control" id="passwordInput2"
-									placeholder="Repetir contraseña" formControlName="password2"
-									[class.is-invalid]="passwordInvalida2 || passwordDistinta"
-									[type]="mostrarCon2 ? 'password' : 'text'">
-								<label for="passqordInput2">Repetir contraseña</label>
-							</div>
-							<span class="input-group-text cursor-pointer" id="basic-addon1"
-								(click)="mostrarCon2 = !mostrarCon2">
-								<i class="bi" [ngClass]="mostrarCon2 ? 'bi-eye' : 'bi-eye-slash'"></i>
-							</span>
-						</div>
-					</div>
-					<div class="col-12">
-						<div class="card p-2 px-3">
-							<p class="card-text mb-1 text-success" style="font-size: 15px;"> Roles a desarrollar </p>
-							<div class="d-flex justify-content-between">
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-									<label class="form-check-label" for="flexSwitchCheckDefault"
-										style="font-size: 14px;"> ROL_USER </label>
-								</div>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault1">
-									<label class="form-check-label" for="flexSwitchCheckDefault1"
-										style="font-size: 14px;"> ROL_ADMIN </label>
-								</div>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault2">
-									<label class="form-check-label" for="flexSwitchCheckDefault2"
-										style="font-size: 14px;"> ROL_OTHER </label>
-								</div>
+
+							<div class="input-group input-group-sm w-100">
+								<span class="input-group-text" id="apellido">
+									<i class="bi bi-person"></i>
+								</span>
+								<input type="text" class="form-control form-control-sm" aria-describedby="apellido"
+									placeholder="Apellido" [class.is-invalid]="apellidoInvalido"
+									formControlName="apellido">
 							</div>
 
 						</div>
 					</div>
+
+					<div class="row mb-2">
+						<div class="d-flex justify-content-around">
+							<div class="input-group input-group-sm w-100">
+								<span class="input-group-text" id="email">
+									<i class="bi bi-envelope"></i>
+								</span>
+								<input type="email" class="form-control form-control-sm" aria-describedby="email"
+									placeholder="Email" [class.is-invalid]="emailInvalido" formControlName="email">
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="d-flex justify-content-around">
+							<div class="input-group input-group-sm w-100 me-2">
+								<span class="input-group-text" id="password">
+									<i class="bi bi-lock"></i>
+								</span>
+								<input type="password" class="form-control form-control-sm" aria-describedby="password"
+									placeholder="Contraseña" [class.is-invalid]="passwordInvalida"
+									[type]="mostrarCon1 ? 'password' : 'text'" formControlName="password">
+								<span class="input-group-text cursor-pointer" (click)="mostrarCon1 = !mostrarCon1">
+									<i class="bi" [ngClass]="mostrarCon1 ? 'bi-eye' : 'bi-eye-slash'"></i>
+								</span>
+							</div>
+
+							<div class="input-group input-group-sm w-100">
+								<span class="input-group-text" id="password2">
+									<i class="bi bi-lock"></i>
+								</span>
+								<input type="password" class="form-control form-control-sm" aria-describedby="password2"
+									placeholder="Confirmar contraseña"
+									[class.is-invalid]="passwordInvalida2 || passwordDistinta"
+									[type]="mostrarCon2 ? 'password' : 'text'" formControlName="password2">
+								<span class="input-group-text cursor-pointer" (click)="mostrarCon2 = !mostrarCon2">
+									<i class="bi" [ngClass]="mostrarCon2 ? 'bi-eye' : 'bi-eye-slash'"></i>
+								</span>
+							</div>
+						</div>
+					</div>
+
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cancelar </button>
-				<button type="button" class="btn btn-primary" (click)="signUp()"> Registrarse </button>
+
+				<div class="card-footer bg-white">
+					<button class="btn btn-primary btn-sm" [disabled]="form.invalid"
+						(click)="signUp()">Registrarse</button>
+				</div>
+
 			</div>
 		</div>
+
 	</div>
 </div>
+
+<app-loading [load]="loading"></app-loading>

@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AuthControllerService, RequestDeLOGIN } from '../client';
+import { SignupRequest } from '../client/model/signupRequest';
+import { AuthService } from '../shared/services/auth.service';
+import { LocalService } from '../shared/services/local-service.service';
 
 @Component({
   selector: 'app-register',
@@ -14,10 +17,13 @@ export class RegisterComponent implements OnInit {
   mostrarCon1: boolean = true
   mostrarCon2: boolean = true
   form: FormGroup;
+  loading: boolean = false;
 
   constructor(private fb: FormBuilder, 
-    private authService: AuthControllerService,
-    private router: Router) { }
+    private authServiceREST: AuthControllerService,
+    private authService: AuthService,
+    private router: Router, 
+    private ls: LocalService) { }
 
   ngOnInit() {
     this.createFormSignup();
@@ -29,7 +35,7 @@ export class RegisterComponent implements OnInit {
       apellido: ['', Validators.required],
       email: ['', [Validators.email, Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      password2: ['', [Validators.required]]
+      password2: ['', [Validators.required, Validators.minLength(8)]]
     })
   }
 
@@ -59,20 +65,27 @@ export class RegisterComponent implements OnInit {
     if (this.form.invalid)
       return this.form.markAllAsTouched();
 
-    var signupRequest: RequestDeLOGIN = {
-      userEmail: this.form.controls.email.value,
+    var signupRequest: SignupRequest = {
+      nombre: this.form.controls.nombre.value,
+      apellido: this.form.controls.apellido.value,
+      email: this.form.controls.email.value,
       password: this.form.controls.password.value
     }
 
-    console.log(signupRequest)
+    this.loading = true;
 
-    this.authService.registroUsingPOST(signupRequest).subscribe((response: any) => {
+    this.authServiceREST.registroUsingPOST(signupRequest).subscribe((response: any) => {
+      this.loading = false;
       Swal.fire({
         icon: 'success',
         title: 'Registro exitoso',
         showCloseButton: true
-      }).then(() => this.router.navigate(['/home']));
+      }).then(() => {
+        this.authService.setData(response);
+        this.router.navigate(['/home'])
+      });
     }, (err: any) => {
+      const statusCode = err.status
       Swal.fire({
         icon: 'warning',
         title: 'Usuario existente',

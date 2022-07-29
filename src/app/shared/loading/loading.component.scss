@@ -1,0 +1,44 @@
+@import '../../../variables.scss';
+
+.bg-loading{
+    width: 100%;
+    height: 100% !important;
+    position:fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    background-color: rgba(97, 95, 95, 0.514);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .spinner-border{
+        width: 80px;
+        height: 80px;
+        color: $primario;
+    }
+    .spinner,.spinner:after{
+        display: block;
+        width: 95px;
+        height: 95px;
+        border-radius: 50%;
+     }
+    .spinner {
+        background-color: transparent;
+        border-top: 10px solid $primario;
+        border-right: 10px solid $primario;
+        border-bottom: 10px solid $primario;
+        border-left: 10px solid rgba(66,139,202,.2);
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        animation-duration: 1s;
+        animation-name: spinner-loading
+     }
+}
+
+@keyframes spinner-loading{
+  0% {
+      transform: rotate(0deg)
+  } to {
+      transform: rotate(1turn)
+  }
+}

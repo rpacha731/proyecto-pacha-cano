@@ -20,6 +20,7 @@ export class OrdenesComponent implements OnInit {
   result = faSquarePollHorizontal;
   ind: number;
   cadena: string;
+  ordencita: OrdenDeCarga;
 
   formTara: FormGroup;
   modalRef?: BsModalRef;
@@ -123,6 +124,17 @@ export class OrdenesComponent implements OnInit {
       })
     );
     this.modalRef = this.modalService.show(template, { class: 'modal-md' });
+  };
+
+  openDetails(template: TemplateRef<any>, index: number) {
+    this.ind = index;
+    this.ordencita = this.ordenesPagina[index];
+    this.subscriptions.push(
+      this.modalService.onHide.subscribe(() => {
+        this.unsubscribe();
+      })
+    );
+    this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
   };
 
   unsubscribe() {

@@ -24,6 +24,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { LoadingComponent } from './shared/loading/loading.component';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { RegisterComponent } from './register/register.component';
     CargaDatosComponent,
     CrearOrdenComponent,
     HomeComponent,
+    LoadingComponent,
     OrdenesComponent,
     AdminUsersComponent,
     NotificacionesComponent,

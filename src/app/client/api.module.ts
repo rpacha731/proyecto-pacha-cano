@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { AdminControllerService } from './api/adminController.service';
 import { AuthControllerService } from './api/authController.service';
 import { BasicErrorControllerService } from './api/basicErrorController.service';
+import { NotificacionesControllerService } from './api/notificacionesController.service';
 import { OrdenCargaControllerService } from './api/ordenCargaController.service';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
 
@@ -17,6 +18,7 @@ import { ModuleWithProviders } from '@angular/compiler/src/core';
     AdminControllerService,
     AuthControllerService,
     BasicErrorControllerService,
+    NotificacionesControllerService,
     OrdenCargaControllerService ]
 })
 export class ApiModule {

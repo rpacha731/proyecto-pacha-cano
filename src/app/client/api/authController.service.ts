@@ -19,6 +19,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 import { RequestDeLOGIN } from '../model/requestDeLOGIN';
+import { SignupRequest } from '../model/signupRequest';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -59,13 +60,23 @@ export class AuthControllerService {
     /**
      * Devuelve el usuario actualmente logueado
      * 
+     * @param tokenEncript tokenEncript
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public authInfoUsingGET(observe?: 'body', reportProgress?: boolean): Observable<string>;
-    public authInfoUsingGET(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
-    public authInfoUsingGET(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
-    public authInfoUsingGET(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public authInfoUsingGET(tokenEncript: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public authInfoUsingGET(tokenEncript: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public authInfoUsingGET(tokenEncript: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public authInfoUsingGET(tokenEncript: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (tokenEncript === null || tokenEncript === undefined) {
+            throw new Error('Required parameter tokenEncript was null or undefined when calling authInfoUsingGET.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (tokenEncript !== undefined && tokenEncript !== null) {
+            queryParameters = queryParameters.set('tokenEncript', <any>tokenEncript);
+        }
 
         let headers = this.defaultHeaders;
 
@@ -82,8 +93,9 @@ export class AuthControllerService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<string>(`${this.basePath}/api/v1/auth-info`,
+        return this.httpClient.get<any>(`${this.basePath}/api/v1/auth-info`,
             {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -99,9 +111,9 @@ export class AuthControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public loginUsingPOST(loginRequest: RequestDeLOGIN, observe?: 'body', reportProgress?: boolean): Observable<string>;
-    public loginUsingPOST(loginRequest: RequestDeLOGIN, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
-    public loginUsingPOST(loginRequest: RequestDeLOGIN, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
+    public loginUsingPOST(loginRequest: RequestDeLOGIN, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public loginUsingPOST(loginRequest: RequestDeLOGIN, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public loginUsingPOST(loginRequest: RequestDeLOGIN, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
     public loginUsingPOST(loginRequest: RequestDeLOGIN, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (loginRequest === null || loginRequest === undefined) {
@@ -128,7 +140,7 @@ export class AuthControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<string>(`${this.basePath}/api/v1/login`,
+        return this.httpClient.post<any>(`${this.basePath}/api/v1/login`,
             loginRequest,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -140,19 +152,68 @@ export class AuthControllerService {
     }
 
     /**
-     * Registro en el servidor
+     * Cierra la sesión actual
      * 
-     * @param loginRequest loginRequest
+     * @param token token
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public registroUsingPOST(loginRequest: RequestDeLOGIN, observe?: 'body', reportProgress?: boolean): Observable<string>;
-    public registroUsingPOST(loginRequest: RequestDeLOGIN, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
-    public registroUsingPOST(loginRequest: RequestDeLOGIN, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
-    public registroUsingPOST(loginRequest: RequestDeLOGIN, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public logoutUsingPOST(token: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public logoutUsingPOST(token: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public logoutUsingPOST(token: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public logoutUsingPOST(token: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (loginRequest === null || loginRequest === undefined) {
-            throw new Error('Required parameter loginRequest was null or undefined when calling registroUsingPOST.');
+        if (token === null || token === undefined) {
+            throw new Error('Required parameter token was null or undefined when calling logoutUsingPOST.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (token !== undefined && token !== null) {
+            queryParameters = queryParameters.set('token', <any>token);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+
+        return this.httpClient.post<any>(`${this.basePath}/api/v1/logout`,
+            null,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Registro en el servidor
+     * 
+     * @param signupRequest signupRequest
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public registroUsingPOST(signupRequest: SignupRequest, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public registroUsingPOST(signupRequest: SignupRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public registroUsingPOST(signupRequest: SignupRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public registroUsingPOST(signupRequest: SignupRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (signupRequest === null || signupRequest === undefined) {
+            throw new Error('Required parameter signupRequest was null or undefined when calling registroUsingPOST.');
         }
 
         let headers = this.defaultHeaders;
@@ -175,8 +236,8 @@ export class AuthControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<string>(`${this.basePath}/api/v1/sign-up`,
-            loginRequest,
+        return this.httpClient.post<any>(`${this.basePath}/api/v1/sign-up`,
+            signupRequest,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

@@ -11,21 +11,9 @@
  */
 
 
-/**
- * Clase que describe al producto
- */
-export interface Producto { 
-    /**
-     * Código externo del producto
-     */
-    codigoExterno: string;
-    /**
-     * Descripción del producto
-     */
-    descripcion: string;
-    id?: number;
-    /**
-     * Nombre del producto
-     */
-    nombre: string;
+export interface SignupRequest { 
+    apellido?: string;
+    email?: string;
+    nombre?: string;
+    password?: string;
 }

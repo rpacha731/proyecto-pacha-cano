@@ -18,14 +18,13 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
-import { RequestDeCambioDeRol } from '../model/requestDeCambioDeRol';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 
 
 @Injectable()
-export class AdminControllerService {
+export class NotificacionesControllerService {
 
     protected basePath = 'http://localhost:8080';
     public defaultHeaders = new HttpHeaders();
@@ -57,19 +56,24 @@ export class AdminControllerService {
 
 
     /**
-     * Cambiar roles de un usuario
+     * Borra una notificación
      * 
-     * @param changeRolesRequest changeRolesRequest
+     * @param idNotif idNotif
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public changeRoleUsingPUT(changeRolesRequest: RequestDeCambioDeRol, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public changeRoleUsingPUT(changeRolesRequest: RequestDeCambioDeRol, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public changeRoleUsingPUT(changeRolesRequest: RequestDeCambioDeRol, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public changeRoleUsingPUT(changeRolesRequest: RequestDeCambioDeRol, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public borrarNotificacionUsuarioUsingPOST(idNotif: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public borrarNotificacionUsuarioUsingPOST(idNotif: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public borrarNotificacionUsuarioUsingPOST(idNotif: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public borrarNotificacionUsuarioUsingPOST(idNotif: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (changeRolesRequest === null || changeRolesRequest === undefined) {
-            throw new Error('Required parameter changeRolesRequest was null or undefined when calling changeRoleUsingPUT.');
+        if (idNotif === null || idNotif === undefined) {
+            throw new Error('Required parameter idNotif was null or undefined when calling borrarNotificacionUsuarioUsingPOST.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (idNotif !== undefined && idNotif !== null) {
+            queryParameters = queryParameters.set('idNotif', <any>idNotif);
         }
 
         let headers = this.defaultHeaders;
@@ -87,14 +91,11 @@ export class AdminControllerService {
         const consumes: string[] = [
             'application/json'
         ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
 
-        return this.httpClient.put<any>(`${this.basePath}/api/v1/admin/users/changeRoles`,
-            changeRolesRequest,
+        return this.httpClient.post<any>(`${this.basePath}/api/notificaciones-user/borrar`,
+            null,
             {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -104,15 +105,64 @@ export class AdminControllerService {
     }
 
     /**
-     * Lista de usuarios
+     * Lee una notificación
+     * 
+     * @param idNotif idNotif
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public leerNotificacionUsuarioUsingPOST(idNotif: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public leerNotificacionUsuarioUsingPOST(idNotif: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public leerNotificacionUsuarioUsingPOST(idNotif: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public leerNotificacionUsuarioUsingPOST(idNotif: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (idNotif === null || idNotif === undefined) {
+            throw new Error('Required parameter idNotif was null or undefined when calling leerNotificacionUsuarioUsingPOST.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (idNotif !== undefined && idNotif !== null) {
+            queryParameters = queryParameters.set('idNotif', <any>idNotif);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+
+        return this.httpClient.post<any>(`${this.basePath}/api/notificaciones-user/leer`,
+            null,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Obtiene las notificaciones del usuario
      * 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public listarUsuariosUsingGET(observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public listarUsuariosUsingGET(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public listarUsuariosUsingGET(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public listarUsuariosUsingGET(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public notificacionesUsuarioUsingGET(observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public notificacionesUsuarioUsingGET(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public notificacionesUsuarioUsingGET(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public notificacionesUsuarioUsingGET(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -129,7 +179,7 @@ export class AdminControllerService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<any>(`${this.basePath}/api/v1/admin/users`,
+        return this.httpClient.get<any>(`${this.basePath}/api/notificaciones-user`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

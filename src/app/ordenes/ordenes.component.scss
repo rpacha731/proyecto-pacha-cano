@@ -1,17 +1,27 @@
-
 .E1 {
-    background-color: #323332;
+  background-color: #323332;
 }
+
 .E2 {
-    background-color: #435241;
+  background-color: #435241;
 }
+
 .E3 {
-    background-color: #6d9459;
+  background-color: #6d9459;
 }
+
 .E4 {
-    background-color: #a6d969;
+  background-color: #a6d969;
 }
 
 .dropdown-toggle::after {
-    display:none;
+  display: none;
+}
+
+.td-aux {
+  border-left: 0;
+  border-right: 0;
+  padding-bottom: 8px;
+  padding-left: 0;
+  border-top: 0;
 }
