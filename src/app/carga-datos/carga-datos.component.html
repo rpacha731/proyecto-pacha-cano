@@ -1,8 +1,8 @@
 <div class="container bg-dark" style="min-height: 484px;">
-    <div class="row mt-5 mb-3">
+    <div class="row mt-5 mb-4 align-items-center">
         <div class="col-12 col-md-6">
 
-            <div class="card shadow-sm mb-2 text-center">
+            <div class="card shadow-sm text-center">
                 <div class="card-header bg">
                     <h6 class="card-title m-0"> DATOS ACTUALES </h6>
                 </div>
@@ -38,7 +38,7 @@
                 <div class="card-footer text-end d-flex align-items-center">
                     <div class="d-flex me-auto justify-content-center">
                         <span class="me-3" style="margin-top: 2px;"> Frecuencia muestreo </span>
-                        <select class="form-select form-select-sm w-auto" [(ngModel)]="frecuenciaMues">
+                        <select class="form-select form-select-sm w-auto" [(ngModel)]="frecuenciaMues" (change)="intervalo()">
                             <option value="100"> 100 ms </option>
                             <option value="250"> 250 ms </option>
                             <option value="500"> 500 ms </option>
@@ -54,7 +54,7 @@
 
         <div class="col-12 col-md-6">
 
-            <div class="card shadow-sm" style="margin-bottom: 27px;">
+            <div class="card shadow-sm" >
                 <div class="card-header bg text-center">
                     <h6 class="card-title m-0"> PASOS DE LA CARGA DE COMBUSTIBLE </h6>
                 </div>
@@ -72,7 +72,7 @@
                             <span class="badge text-bg-secondary me-1" style="font-size: 10px;"> 2 </span>
                             Cargar archivo CSV de los datos de carga
                         </div>
-                        <input class="form-control form-control-sm w-auto mx-auto mt-2" type="file"
+                        <input class="form-control form-control-sm w-auto mx-auto mt-2" type="file" [disabled]="habilitado2"
                             (change)="csv($event)" accept=".csv">
                     </li>
 
@@ -80,16 +80,23 @@
                         <span class="badge text-bg-secondary me-1" style="font-size: 10px; margin-top: 3px;"> 3 </span>
                         Iniciar la carga de combustible
                         <button class="btn btn-outline-success btn-sm ms-auto" (click)="carga()"
-                            [disabled]="habilitadoCarga">
+                            [disabled]="habilitado3">
                             Iniciar carga </button>
                     </li>
 
                     <li class="list-group-item d-flex align-items-center">
-                        <span class="badge text-bg-secondary me-1" style="font-size: 10px; margin-top: 3px;"> 3 </span>
+                        <span class="badge text-bg-secondary me-1" style="font-size: 10px; margin-top: 3px;"> 4 </span>
                         Parar la carga / Cerrar orden
                         <button class="btn btn-outline-danger btn-sm ms-auto" (click)="cerrarOrden()"
-                            [disabled]="habilitado"> Cerrar orden / Parar
+                            [disabled]="habilitado4"> Cerrar orden / Parar
                             carga </button>
+                    </li>
+
+                    <li class="list-group-item d-flex align-items-center">
+                        <span class="badge text-bg-secondary me-1" style="font-size: 10px; margin-top: 3px;"> 5 </span>
+                        Adjuntar el peso final
+                        <button class="btn btn-outline-info btn-sm ms-auto" (click)="openModalPesoFinal(template3)"
+                            [disabled]="habilitado5"> Adjuntar peso </button>
                     </li>
 
                 </ul>
@@ -102,7 +109,7 @@
 
         <div class="col-12">
 
-            <progressbar [max]="orden.preset" [value]="lineaActual[0]" type="primary" [striped]="true" [animate]="true">
+            <progressbar [max]="max" [value]="actual" type="info" [striped]="true" [animate]="true">
             </progressbar>
 
             <div class="d-flex justify-content-between mt-3 bg-light rounded p-2 ps-3 pe-3">
@@ -142,3 +149,92 @@
         <button type="button" class="btn btn-primary" (click)="adjuPassw()"> Adjuntar password </button>
     </div>
 </ng-template>
+
+
+
+
+<ng-template #template3>
+    <div class="modal-header">
+        <h5 class="mb-0">Peso final de la orden de carga : {{orden.numeroOrden}}</h5>
+        <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+            <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" [formGroup]="formPesoF">
+        <div class="row gy-2">
+            <div class="col-12">
+                <div class="form-floating">
+                    <input type="number" class="form-control" id="pesoFinal" formControlName="pesoFinal"
+                        placeholder="Ej: 15000" [class.is-invalid]="pesoFinalInvalido">
+                    <label for="pesoFinal">Peso final</label>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modalRef?.hide()"> Cancelar </button>
+        <button type="button" class="btn btn-primary" (click)="adjuntarPesoF()"> Adjuntar peso final </button>
+    </div>
+</ng-template>
+
+
+<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="childModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="childModalLabel">Conciliación de la orden n° {{conciliacion.numeroOrden}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="childModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card shadow-sm mb-2 text-center">
+                            <div class="card-body p-1">
+                                <div class="d-flex justify-content-around align-items-baseline">
+                                    <p class="mb-0"> Peso inicial y final: <br> 
+                                        {{conciliacion.pesoInicial}} / {{conciliacion.pesoFinal}} </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card shadow-sm mb-2 text-center">
+                            <div class="card-body p-1">
+                                <div class="d-flex justify-content-around align-items-baseline">
+                                    <p class="mb-0"> Neto balanza y diferencia con caudal: <br> 
+                                        {{conciliacion.netoBalanza}} / {{conciliacion.difBalanzaYCaudal}} </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                    <div class="col-6">
+                        <div class="card shadow-sm mb-2 text-center">
+                            <div class="card-body p-1">
+                                <div class="d-flex justify-content-around align-items-baseline">
+                                    <p class="mb-0"> Masa acumulada total y caudal promedio: <br> 
+                                        {{conciliacion.masaAcumuladaTotal}} / {{conciliacion.caudalPromedio}} </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card shadow-sm mb-2 text-center">
+                            <div class="card-body p-1">
+                                <div class="d-flex justify-content-around align-items-baseline">
+                                    <p class="mb-0"> Temperatura y densidad promedio: <br> 
+                                        {{conciliacion.temperaturaPromedio}} / {{conciliacion.densidadPromedio}} </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="childModal.hide()"> Aaceptar </button>
+            </div>
+        </div>
+    </div>
+</div>

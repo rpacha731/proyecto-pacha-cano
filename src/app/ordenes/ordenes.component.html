@@ -33,6 +33,7 @@
 					</tr>
 					<tr>
 						<th> N° Orden </th>
+						<th> Código externo </th>
 						<th> Turno </th>
 						<th> Momentos Carga </th>
 						<th> Última masa / caudal / temperatura </th>
@@ -42,10 +43,11 @@
 					</tr>
 				</thead>
 				<tbody>
-					<ng-container *ngFor="let orden of ordenesPagina; let i = index;">
+					<ng-container *ngFor="let orden of ordenesPaginaAux; let i = index;">
 						<tr
 							[ngClass]="{E1: orden.estado == 'E1', E2: orden.estado == 'E2', E3: orden.estado == 'E3', E4: orden.estado == 'E4'}">
 							<td>{{orden.numeroOrden}}</td>
+							<td>{{orden.codigoExterno}}</td>
 							<td>{{orden.fechaHoraTurno | fechahora}}</td>
 							<td>
 								<p class="mb-0">{{orden.fechaHoraInicioCarga | fechahora}} - {{orden.fechaHoraFinCarga |
@@ -53,23 +55,26 @@
 							</td>
 
 							<td>
-								<p class="mb-0">{{orden.pesoInicial}} - {{orden.pesoFinal}} </p>
+								<p *ngIf="orden.registroDatosCarga.length == 0" class="mb-0"> Sin datos </p>
+								<p *ngIf="orden.registroDatosCarga.length != 0" class="mb-0">
+									{{orden.registroDatosCarga.at(-1).masaAcumulada}} kg |
+									{{orden.registroDatosCarga.at(-1).caudal}} kg/hora |
+									{{orden.registroDatosCarga.at(-1).temperatura}} °C </p>
 							</td>
 							<td> {{orden.preset}} kg</td>
 							<td>
 								<span class="badge rounded-pill bg-primary me-2 text-black cursor-pointer"
 									(click)="openDetails(details, i)"> Ver detalles </span>
-								<span class="badge rounded-pill bg-primary text-black cursor-pointer"> Acciones </span>
+								<span class="badge rounded-pill bg-primary text-black cursor-pointer dropdown"
+									id="dropdownAcc" data-bs-toggle="dropdown"> Acciones
+									<ul class="dropdown-menu" aria-labelledby="dropdownAcc" style="font-size: 13px;">
+										<li class="dropdown-item cursor-pointer" (click)="openModal(template, i)"
+											*ngIf="orden.estado == 'E1'">Enviar tara / peso inicial</li>
+										<li class="dropdown-item cursor-pointer" *ngIf="orden.estado == 'E2'"
+											(click)="cargarNafta(i)">Cargar gas / combustible</li>
+									</ul>
+								</span>
 							</td>
-
-
-							<!-- <button class="dropdown btn btn-sm">
-														<i class="bi bi-three-dots-vertical dropdown-toggle cursor-pointer" id="dropdownAcc" data-bs-toggle="dropdown"></i>
-														<ul class="dropdown-menu" aria-labelledby="dropdownAcc" style="font-size: 13px;">
-															<li class="dropdown-item cursor-pointer" (click)="openModal(template, i)" *ngIf="orden.estado == 'E1'">Enviar tara / peso inicial</li>
-															<li class="dropdown-item cursor-pointer" *ngIf="orden.estado == 'E2'" (click)="cargarNafta(i)">Cargar gas / combustible</li>
-														</ul>
-													</button> -->
 						</tr>
 					</ng-container>
 
@@ -111,6 +116,63 @@
 	</div>
 </ng-template>
 
+<ng-template #concil> 
+
+	<div class="modal-header">
+		<h5 class="modal-title">Conciliación de la orden n° {{conciliacion.numeroOrden}}</h5>
+		<button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef2?.hide()">
+			<span aria-hidden="true" class="visually-hidden">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-6">
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-1">
+						<div class="d-flex justify-content-around align-items-baseline">
+							<p class="mb-0"> Peso inicial y final: <br> 
+								{{conciliacion.pesoInicial}} kg / {{conciliacion.pesoFinal}} kg </p>
+						</div>
+					</div>
+				</div>
+
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-1">
+						<div class="d-flex justify-content-around align-items-baseline">
+							<p class="mb-0"> Neto balanza y diferencia con caudal: <br> 
+								{{conciliacion.netoBalanza}} kg / {{conciliacion.diferenciaBalanzaYCaudal}} kg </p>
+						</div>
+					</div>
+				</div>
+
+				
+			</div>
+			<div class="col-6">
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-1">
+						<div class="d-flex justify-content-around align-items-baseline">
+							<p class="mb-0"> Masa acumulada total y caudal promedio: <br> 
+								{{conciliacion.masaAcumuladaTotal | number:'1.2-2' }} kg / {{conciliacion.caudalPromedio | number:'1.2-2'}} kg/hora </p>
+						</div>
+					</div>
+				</div>
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-1">
+						<div class="d-flex justify-content-around align-items-baseline">
+							<p class="mb-0"> Temperatura y densidad promedio: <br> 
+								{{conciliacion.temperaturaPromedio | number:'1.2-2'}} °C / {{conciliacion.densidadPromedio | number:'1.2-2'}} kg/mt </p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" (click)="modalRef2.hide()"> Aceptar </button>
+	</div>
+
+</ng-template>
+
 <ng-template #details>
 	<div class="modal-header">
 		<h6 class="mb-0"> Orden de carga {{ordencita.numeroOrden}} </h6>
@@ -134,9 +196,6 @@
 					<span class="me-3">
 						<fa-icon [icon]="truck"></fa-icon> Camión
 					</span>
-					<!-- <span class="me-2">
-						<fa-icon [icon]="result"></fa-icon> Ver conciliación
-					</span> -->
 
 				</div>
 			</div>
@@ -144,8 +203,7 @@
 		</div>
 
 		<div class="row mb-1 justify-content-center">
-
-			<div class="col-12 col-md-6 col-lg-5 align-self-center">
+			<div class="col-12 col-md-6 col-lg-5">
 				<div class="card shadow-sm mb-2 text-center">
 					<div class="card-body p-1">
 						<div class="d-flex justify-content-around align-items-baseline">
@@ -153,6 +211,101 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-1">
+						<div class="d-flex justify-content-around align-items-baseline">
+							<p class="mb-0"> Peso inicial: {{ordencita.pesoInicial == -1  ? 'Sin datos' :
+								ordencita.pesoInicial + ' kg'}} <br>
+								Peso final: {{ordencita.pesoFinal == -1 ? 'Sin datos' : ordencita.pesoFinal + ' kg'}}
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-1">
+						<div class="d-flex justify-content-around align-items-baseline">
+							<p class="mb-0"> Preset: <br> {{ordencita.preset}} kg </p>
+						</div>
+					</div>
+				</div>
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-1">
+						<div class="d-flex justify-content-around align-items-baseline">
+							<p class="mb-0" *ngIf="ordencita.registroDatosCarga.length != 0">
+								Última masa acumulada:
+								{{ordencita.registroDatosCarga.at(-1).masaAcumulada + ' kg'}} <br>
+								Última densidad:
+								{{ordencita.registroDatosCarga.at(-1).densidad + ' kg/mt'}} <br>
+								Última temperatura:
+								{{ordencita.registroDatosCarga.at(-1).temperatura + ' °C'}} </p>
+							<p class="mb-0" *ngIf="ordencita.registroDatosCarga.length == 0">
+								Última masa acumulada: Sin datos <br>
+								Última densidad: Sin datos <br>
+								Última temperatura: Sin datos</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="card shadow-sm mb-2 text-center">
+					<div class="card-body p-1">
+						<div class="d-flex justify-content-around align-items-baseline">
+
+							<button class="dropdown btn btn-sm cursor-pointer" data-bs-toggle="dropdown">
+								<i class="bi bi-handbag-fill dropdown-toggle" id="dropdownProd"></i>
+								<ul class="dropdown-menu" aria-labelledby="dropdownProd">
+									<p class="dropdown-item mb-0 text-black" style="font-size: 11px;">
+										ID: {{ordencita.producto.id}} <br> Nombre: {{ordencita.producto.nombre}} <br>
+										Descripción: {{ordencita.producto.descripcion}}</p>
+								</ul>
+							</button>
+
+							<button class="dropdown btn btn-sm cursor-pointer" data-bs-toggle="dropdown">
+								<i class="bi bi-person-fill dropdown-toggle" id="dropdownCli"></i>
+								<ul class="dropdown-menu" aria-labelledby="dropdownCli">
+									<p class="dropdown-item mb-0" style="font-size: 11px;">
+										ID: {{ordencita.cliente.id}} <br> Razón social:
+										{{ordencita.cliente.razonSocial}} <br>
+										Contacto: {{ordencita.cliente.contacto}}</p>
+								</ul>
+							</button>
+
+							<button class="dropdown btn btn-sm cursor-pointer" data-bs-toggle="dropdown">
+								<fa-icon [icon]="driver" class="dropdown-toggle" id="dropdownCho"></fa-icon>
+								<ul class="dropdown-menu" aria-labelledby="dropdownCho">
+									<p class="dropdown-item mb-0" style="font-size: 11px;">
+										ID: {{ordencita.chofer.id}} <br> Nombre y apellido: {{ordencita.chofer.nombre}}
+										{{ordencita.chofer.apellido}} <br>
+										DNI: {{ordencita.chofer.dni}}</p>
+								</ul>
+							</button>
+
+							<button class="dropdown btn btn-sm cursor-pointer" data-bs-toggle="dropdown">
+								<fa-icon [icon]="truck" class="dropdown-toggle" id="dropdownCam"></fa-icon>
+								<ul class="dropdown-menu" aria-labelledby="dropdownCam">
+									<p class="dropdown-item mb-0" style="font-size: 11px;">
+										ID: {{ordencita.camion.id}} <br> Patente: {{ordencita.camion.patente}} <br>
+										Descripción: {{ordencita.camion.descripcion}} <br> Cisternado:
+										{{ordencita.camion.cisternado}}</p>
+								</ul>
+							</button>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="card border-0 mb-2 text-center" *ngIf="ordencita.estado == 'E4'">
+					<div class="card-body p-1">
+						<button class="btn ctn-sm btn-primary" (click)="openConcil(concil)"> Ver conciliación </button>
+					</div>
+				</div>
+			</div>
+
+
+
+
+			<div class="col-12 col-md-6 col-lg-5 align-self-center">
+
 				<div class="card shadow-sm mb-2 text-center">
 					<div class="card-body p-1">
 						<div class="d-flex justify-content-around align-items-baseline">
@@ -193,41 +346,6 @@
 					</div>
 				</div>
 
-
-			</div>
-
-
-
-
-
-
-			<div class="col-12 col-md-6 col-lg-5">
-				
-				<div class="card shadow-sm mb-2 text-center">
-					<div class="card-body p-1">
-						<div class="d-flex justify-content-around align-items-baseline">
-							<p class="mb-0"> Peso inicial: {{ordencita.pesoInicial}} <br>
-								Peso final: {{ordencita.pesoFinal}} </p>
-						</div>
-					</div>
-				</div>
-				<div class="card shadow-sm mb-2 text-center">
-					<div class="card-body p-1">
-						<div class="d-flex justify-content-around align-items-baseline">
-							<p class="mb-0"> Preset: <br> {{ordencita.preset}} </p>
-						</div>
-					</div>
-				</div>
-				<div class="card shadow-sm mb-2 text-center">
-					<div class="card-body p-1">
-						<div class="d-flex justify-content-around align-items-baseline">
-							<p class="mb-0"> Última masa acumulada: {{ordencita.pesoInicial}} <br>
-								Última densidad: {{ordencita.pesoFinal}} <br>
-								Última temperatura: {{ordencita.pesoFinal}} </p>
-						</div>
-					</div>
-				</div>
-
 				<div class="card shadow-sm mb-2 text-center">
 					<div class="card-body p-1">
 						<div class="d-flex justify-content-around align-items-baseline">
@@ -237,75 +355,10 @@
 					</div>
 				</div>
 
-				<div class="card shadow-sm mb-2 text-center">
-					<div class="card-body p-1">
-						<div class="d-flex justify-content-around align-items-baseline">
-
-							<button class="dropdown btn btn-sm cursor-pointer" data-bs-toggle="dropdown">
-								<i class="bi bi-handbag-fill dropdown-toggle" id="dropdownProd"
-									></i>
-								<ul class="dropdown-menu" aria-labelledby="dropdownProd">
-									<p class="dropdown-item mb-0 text-black" style="font-size: 11px;">
-										ID: {{ordencita.producto.id}} <br> Nombre: {{ordencita.producto.nombre}} <br>
-										Descripción: {{ordencita.producto.descripcion}}</p>
-								</ul>
-							</button>
-
-							<button class="dropdown btn btn-sm cursor-pointer" data-bs-toggle="dropdown">
-								<i class="bi bi-person-fill dropdown-toggle" id="dropdownCli"
-									></i>
-								<ul class="dropdown-menu" aria-labelledby="dropdownCli">
-									<p class="dropdown-item mb-0" style="font-size: 11px;">
-										ID: {{ordencita.cliente.id}} <br> Razón social:
-										{{ordencita.cliente.razonSocial}} <br>
-										Contacto: {{ordencita.cliente.contacto}}</p>
-								</ul>
-							</button>
-
-							<button class="dropdown btn btn-sm cursor-pointer" data-bs-toggle="dropdown">
-								<fa-icon [icon]="driver" class="dropdown-toggle" id="dropdownCho"
-									></fa-icon>
-								<ul class="dropdown-menu" aria-labelledby="dropdownCho">
-									<p class="dropdown-item mb-0" style="font-size: 11px;">
-										ID: {{ordencita.chofer.id}} <br> Nombre y apellido: {{ordencita.chofer.nombre}}
-										{{ordencita.chofer.apellido}} <br>
-										DNI: {{ordencita.chofer.dni}}</p>
-								</ul>
-							</button>
-
-							<button class="dropdown btn btn-sm cursor-pointer" data-bs-toggle="dropdown">
-								<fa-icon [icon]="truck" class="dropdown-toggle" id="dropdownCam"
-									></fa-icon>
-								<ul class="dropdown-menu" aria-labelledby="dropdownCam">
-									<p class="dropdown-item mb-0" style="font-size: 11px;">
-										ID: {{ordencita.camion.id}} <br> Patente: {{ordencita.camion.patente}} <br>
-										Descripción: {{ordencita.camion.descripcion}} <br> Cisternado:
-										{{ordencita.camion.cisternado}}</p>
-								</ul>
-							</button>
-<!-- 
-							<button class="btn btn-sm cursor-pointer">
-								<fa-icon [icon]="result"></fa-icon>
-							</button> -->
-
-
-						</div>
-					</div>
-				</div>
-
-				<div class="card border-0 mb-2 text-center">
-					<div class="card-body p-1">
-						<button class="btn ctn-sm btn-primary"> Ver conciliación </button>
-					</div>
-				</div>
 			</div>
+
 		</div>
 
-	
-
-		
 	</div>
-	
-
 
 </ng-template>

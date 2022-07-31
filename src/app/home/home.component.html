@@ -5,6 +5,8 @@
 			<p> Que desea hacer? </p>
 			<a class="btn btn-primary me-3" routerLink="/carga" *ngIf="hasRole('ROLE_ADMIN') || hasRole('ROLE_USER')"
 				(click)="openModal(template)"> CARGAR </a>
+			<a class="btn btn-primary me-3" routerLink="/admin-users" *ngIf="hasRole('ROLE_ADMIN')"
+				routerLink="/admin-users"> Administración de usuarios </a>
 			<a class="btn btn-primary" routerLink="/crear-orden" *ngIf="hasRole('ROLE_ADMIN')"> CREAR </a>
 		</div>
 	</div>

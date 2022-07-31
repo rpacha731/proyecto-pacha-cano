@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [UserGuard] },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'crear-orden', component: CrearOrdenComponent, canActivate: [AdminGuard] },
-  { path: 'admin-users', component: AdminUsersComponent },
+  { path: 'admin-users', component: AdminUsersComponent, canActivate: [AdminGuard] },
   { path: 'ordenes', component: OrdenesComponent },
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},

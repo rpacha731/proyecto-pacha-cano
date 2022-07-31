@@ -1,53 +1,82 @@
-<div class="container pt-3">
-	<div class="row mb-2">
-		<div class="col text-white text-center">
-			<h4> Administración de usuarios </h4>
+<div class="container pt-5">
+	<div class="row mb-2 justify-content-center" style="min-height: 484px;">
+		<div class="col-8 text-white text-center">
+
+			<div class="card">
+				<div class="card-header bg">
+					<h5 class="card-title text-black m-0">Administración de usuarios</h5>
+				</div>
+
+				<div class="card-body">
+					<div class="row">
+						<div class="col table-responsive">
+							<table class="table table-bordered text-black mx-auto" style="font-size: 13px; width: max-content;">
+								<thead>
+									<tr>
+										<th> ID </th>
+										<th> Nombre </th>
+										<th> Apellido </th>
+										<th> Email </th>
+										<th> Activo </th>
+										<th> Roles </th>
+										<th>  </th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let user of users; let i = index ">
+										<td> {{ user.id }} </td>
+										<td> {{ user.nombre }} </td>
+										<td> {{ user.apellido }} </td>
+										<td> {{ user.email }} </td>
+										<td> <span class="badge rounded-pill"
+												[ngClass]="{'text-bg-primary': user.enabled, 'text-bg-danger': !user.enabled}">
+												{{ user.enabled ? 'Activo' : 'Inactivo' }}
+											</span></td>
+										<td class="d-flex flex-column">
+											<p *ngFor="let rol of user.roles; let ind = index"
+												class="badge mb-0 rounded-pill text-bg-warning"
+												[ngClass]="{'mt-0': ind == 0, 'mt-1': ind > 0}" > {{rol.nombre}} </p>
+										</td>
+										<td>
+
+											<span class="badge rounded-pill bg-info text-black cursor-pointer dropdown" id="dropdownAcc" data-bs-toggle="dropdown"> 
+												Acciones <i class="bi bi-caret-down-fill ms-1" style="font-size: 8px;"></i>
+												<ul class="dropdown-menu" aria-labelledby="dropdownAcc" style="font-size: 13px;">
+													<li class="dropdown-item cursor-pointer" (click)="actDesac(i)"> {{ user.enabled ?
+														'Desactivar' : 'Activar' }} </li>
+													<li class="dropdown-item" (click)="openModal(template, i)">Cambiar roles</li>
+												</ul>
+											</span>
+											
+											<!-- <i class="bi bi-three-dots-vertical dropdown-toggle cursor-pointer" id="dropdownAcc"
+												data-bs-toggle="dropdown"></i>
+											<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAcc"
+												style="font-size: 13px;">
+												<li class="dropdown-item cursor-pointer" (click)="actDesac(i)"> {{ user.enabled ?
+													'Desactivar' : 'Activar' }} </li>
+												<li class="dropdown-item" (click)="openModal(template, i)">Cambiar roles</li>
+											</ul> -->
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+
+
+
+
+
+			</div>
+
+
+
+
 		</div>
 	</div>
-	<div class="row">
-		<div class="col table-responsive">
-			<table class="table table-bordered text-white mx-auto" style="font-size: 13px; width: max-content;">
-				<thead>
-					<tr>
-						<th> ID </th>
-						<th> Nombre </th>
-						<th> Apellido </th>
-						<th> Email </th>
-						<th> Activo </th>
-						<th> Roles </th>
-						<th> Acciones </th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr *ngFor="let user of users; let i = index ">
-						<td> {{ user.id }} </td>
-						<td> {{ user.nombre }} </td>
-						<td> {{ user.apellido }} </td>
-						<td> {{ user.email }} </td>
-						<td> <span class="badge rounded-pill"
-								[ngClass]="{'text-bg-primary': user.enabled, 'text-bg-danger': !user.enabled}">
-								{{ user.enabled ? 'Activo' : 'Inactivo' }}
-							</span></td>
-						<td class="d-flex flex-column">
-							<p *ngFor="let rol of user.roles; let ind = index"
-								class="badge mb-0 rounded-pill text-bg-warning"
-								[ngClass]="{'mt-0': ind == 0, 'mt-1': ind > 0}"> {{rol.nombre}} </p>
-						</td>
-						<td class="dropdown text-end">
-							<i class="bi bi-three-dots-vertical dropdown-toggle cursor-pointer" id="dropdownAcc"
-								data-bs-toggle="dropdown"></i>
-							<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAcc"
-								style="font-size: 13px;">
-								<li class="dropdown-item cursor-pointer" (click)="actDesac(i)"> {{ user.enabled ?
-									'Desactivar' : 'Activar' }} </li>
-								<li class="dropdown-item" (click)="openModal(template, i)">Cambiar roles</li>
-							</ul>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
+	
 </div>
 
 

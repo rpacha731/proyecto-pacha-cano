@@ -24,14 +24,18 @@ export class OrdenesComponent implements OnInit {
 
   formTara: FormGroup;
   modalRef?: BsModalRef;
+  modalRef2?: BsModalRef;
   subscriptions: Subscription[] = [];
 
   totalItems: number;
   currentPage: number = 1;
 
+  conciliacion: any = {}
+
   ordenes: OrdenDeCarga[] = []
   loading: boolean = false
   ordenesPagina: OrdenDeCarga[] = []
+  ordenesPaginaAux: OrdenDeCarga[] = []
 
   constructor(private ordenesService: OrdenCargaControllerService,
     private router: Router,
@@ -45,12 +49,17 @@ export class OrdenesComponent implements OnInit {
 
   buscar() {
     console.log(this.cadena);
-    var ordenesAux: OrdenDeCarga[] = [];
+    if (this.cadena == '') {
+      this.ordenesPaginaAux = this.ordenes;
+      return;
+    }
+    this.ordenesPaginaAux = []
     this.ordenes.forEach(o => {
       if (o.numeroOrden.toString().includes(this.cadena) || o.codigoExterno.toLowerCase().includes(this.cadena))
-        ordenesAux.push(o);
+        this.ordenesPaginaAux.push(o);
     })
-    console.log(ordenesAux);
+    this.totalItems = this.ordenesPaginaAux.length
+    console.log(this.ordenesPaginaAux);
   }
 
   createFormTara() {
@@ -68,7 +77,7 @@ export class OrdenesComponent implements OnInit {
     this.ordenesService.listadoUsingGET().subscribe((resp: any) => {
       this.ordenes = resp
       this.totalItems = this.ordenes.length
-      this.ordenesPagina = this.ordenes.slice(0, 10)
+      this.ordenesPaginaAux = this.ordenes.slice(0, 10);
       console.log(this.ordenes)
       console.log(this.ordenesPagina)
     })
@@ -77,7 +86,7 @@ export class OrdenesComponent implements OnInit {
   pageChanged(event: PageChangedEvent): void {
     const startItem = (event.page - 1) * event.itemsPerPage;
     const endItem = event.page * event.itemsPerPage;
-    this.ordenesPagina = this.ordenes.slice(startItem, endItem);
+    this.ordenesPaginaAux = this.ordenes.slice(startItem, endItem);
   }
 
   enviarTara() {
@@ -88,11 +97,11 @@ export class OrdenesComponent implements OnInit {
     this.loading = true
 
     var pesoInicialReq: RequestDelPesoInicial = {
-      numeroOrden: this.ordenesPagina[this.ind].numeroOrden,
+      numeroOrden: this.ordenesPaginaAux[this.ind].numeroOrden,
       pesoInicial: this.formTara.controls.pesoInicial.value
     }
     this.ordenesService.adjuntarTaraUsingPUT(pesoInicialReq).subscribe((resp: any) => {
-      this.ordenesPagina[this.ind] = resp
+      this.ordenesPaginaAux[this.ind] = resp
       Swal.fire({
         title: 'Peso inicial adjuntado',
         html: 'El peso inicial ha sido adjuntado correctamente, la PASSWORD para la carga de combustible es: <span class="text-danger">' + resp.password + 
@@ -112,9 +121,14 @@ export class OrdenesComponent implements OnInit {
   }
 
   cargarNafta(index: number) {
-    this.router.navigate(['/carga', this.ordenesPagina[index].numeroOrden])
+    this.router.navigate(['/carga', this.ordenesPaginaAux[index].numeroOrden])
   }
 
+
+  detail(index: number) {
+    this.ind = index;
+    this.ordencita = this.ordenesPaginaAux[index];
+  }
 
   openModal(template: TemplateRef<any>, index: number) {
     this.ind = index;
@@ -128,7 +142,7 @@ export class OrdenesComponent implements OnInit {
 
   openDetails(template: TemplateRef<any>, index: number) {
     this.ind = index;
-    this.ordencita = this.ordenesPagina[index];
+    this.ordencita = this.ordenesPaginaAux[index];
     this.subscriptions.push(
       this.modalService.onHide.subscribe(() => {
         this.unsubscribe();
@@ -136,6 +150,25 @@ export class OrdenesComponent implements OnInit {
     );
     this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
   };
+
+  openConcil(template: TemplateRef<any>) {
+
+    this.ordenesService.loadConciliacionUsingGET(this.ordencita.numeroOrden).subscribe((resp: any) => {
+      this.conciliacion = resp
+      console.log(this.conciliacion)
+    }, err => {
+      console.log(err)
+    }
+    )
+
+    this.subscriptions.push(
+      this.modalService.onHide.subscribe(() => {
+        this.unsubscribe();
+      })
+    );
+    this.modalRef.hide()
+    this.modalRef2 = this.modalService.show(template, { class: 'modal-md' });
+  }
 
   unsubscribe() {
     this.subscriptions.forEach((subscription: Subscription) => {

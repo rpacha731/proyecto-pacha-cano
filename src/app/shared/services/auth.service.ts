@@ -21,7 +21,7 @@ export class AuthService {
   }
 
   getEmailUser(): string {
-    return this.ls.getJsonValue('userEmail');
+    return this.ls.getJsonValue('username');
   }
 
   isLoggedIn(): boolean {
@@ -41,12 +41,13 @@ export class AuthService {
   }
 
   setData(response: any) {
+    console.log(response);
     this.ls.setJsonValue('authToken', response.tokenEncript);
-    this.ls.setJsonValue("userEmail", response.userEmail);
+    this.ls.setJsonValue("username", response.username);
     this.ls.setJsonValue("roles", response.roles);
     this.ls.setJsonValue("expiraEn", response.expiraEn);
 
-    this.emitUserAndLogged(response.userEmail);
+    this.emitUserAndLogged(response.username);
   }
 
   emitUserAndLogged(userEmail: string): void {

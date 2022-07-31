@@ -1,11 +1,12 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService, ModalDirective } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 import { OrdenCargaControllerService, OrdenDeCarga } from '../client';
 import { RequestDelPesoFinal } from '../client/model/requestDelPesoFinal';
+import { RequestDelPesoInicial } from '../client/model/requestDelPesoInicial';
 
 @Component({
   selector: 'app-carga-datos',
@@ -14,6 +15,8 @@ import { RequestDelPesoFinal } from '../client/model/requestDelPesoFinal';
 })
 export class CargaDatosComponent implements OnInit {
 
+  @ViewChild('childModal', { static: false }) childModal?: ModalDirective;
+
   linesR: any[] = []
   lineaActual: any[] = ["-", "-", "-", "-"]
   index: number = 0;
@@ -21,17 +24,27 @@ export class CargaDatosComponent implements OnInit {
   frecuenciaMues: number = 1000
   cancelar: boolean = false
 
-
   modalRef?: BsModalRef;
   subscriptions: Subscription[] = [];
 
   orden: OrdenDeCarga;
   formPass: FormGroup;
+  formPesoF: FormGroup;
   passw: number;
   habilitado: boolean = false
+  habilitado2: boolean = true
+  habilitado3: boolean = true
+  siCarga: boolean = false
+  habilitado4: boolean = true
+  habilitado5: boolean = true
+  habilitado6: boolean = true
   err: boolean = false
+  intervalId: any;
 
-  habilitadoCarga: boolean = true
+  conciliacion: any = {};
+
+  max: number = 100;
+  actual: number = 0;
 
   constructor(private ap: ActivatedRoute,
     private api: OrdenCargaControllerService,
@@ -50,6 +63,8 @@ export class CargaDatosComponent implements OnInit {
   getOrden() {
     this.api.loadByNumOrdenUsingGET(this.numeroOrden).subscribe((resp: any) => {
       this.orden = resp;
+      this.max = this.orden.preset;
+      this.conciliacion = this.orden;
       console.log(resp)
     }, err => {
       console.log(err)
@@ -67,11 +82,18 @@ export class CargaDatosComponent implements OnInit {
     this.formPass = this.fb.group({
       password: ['', Validators.required]
     })
+    this.formPesoF = this.fb.group({
+      pesoFinal: ['', Validators.required]
+    })
   }
 
   get passwordInvalida() {
     return this.formPass.get('password').invalid && this.formPass.get('password').touched;
   }
+
+  get pesoFinalInvalido() {
+    return this.formPesoF.get('pesoFinal').invalid && this.formPesoF.get('pesoFinal').touched;
+  } 
 
   adjuPassw() {
     this.passw = this.formPass.get('password').value;
@@ -79,12 +101,12 @@ export class CargaDatosComponent implements OnInit {
       this.modalRef.hide();
       Swal.fire({
         title: 'Password correcta',
-        text: 'Se procede a cargar combustible',
+        text: 'Se procede a adjuntar el peso inicial',
         icon: 'success',
       }).then((result) => {
-        if (result.value) {
+        if (result.isConfirmed) {
           this.habilitado = true;
-          this.habilitadoCarga = false;
+          this.habilitado2 = false;
         }
       })
     } else {
@@ -92,6 +114,50 @@ export class CargaDatosComponent implements OnInit {
       this.err = true;
     }
   }
+
+  openModalPeso(template: TemplateRef<any>) {
+    this.subscriptions.push(
+      this.modalService.onHide.subscribe(() => {
+        this.unsubscribe();
+      })
+    );
+    this.modalRef = this.modalService.show(template, { class: 'modal-md' });
+  }
+
+  // adjuntarPesoInicial() {
+
+  //   if (this.formPeso.invalid)
+  //     return this.formPeso.markAllAsTouched();
+
+  //     this.habilitado2 = true;
+  //         this.habilitado3 = false;
+  //         this.modalRef.hide();
+
+  //   // var pesoIncialReq: RequestDelPesoInicial = {
+  //   //   numeroOrden: this.numeroOrden,
+  //   //   pesoInicial: this.formPeso.get('pesoInicial').value
+  //   // }
+
+  //   // this.api.adjuntarTaraUsingPUT(pesoIncialReq).subscribe((resp: any) => {
+  //   //   Swal.fire({
+  //   //     title: 'Peso inicial adjuntado',
+  //   //     text: 'Se procede a cargar combustible',
+  //   //     icon: 'success',
+  //   //   }).then((result) => {
+  //   //     this.habilitado2 = true;
+  //   //     this.habilitado3 = false;
+  //   //     this.modalRef.hide();
+  //   //   })
+  //   // }, err => {
+  //   //   console.log(err)
+  //   //   Swal.fire({
+  //   //     title: 'Error',
+  //   //     text: 'No se pudo adjuntar el peso inicial',
+  //   //     icon: 'error',
+  //   //   })
+  //   // })
+
+  // }
 
   csv(fileInput: Event) {
 
@@ -113,20 +179,52 @@ export class CargaDatosComponent implements OnInit {
       this.linesR = rows;
     }
 
-    this.habilitadoCarga = false
+    this.habilitado2 = true;
+    this.habilitado3 = false
     console.log(this.linesR)
   }
 
   carga() {
-    this.habilitadoCarga = true
-    this.habilitado = false
-    window.setInterval(() => {
-      if (!this.cancelar && this.index < this.linesR.length) {
-        console.log(this.index)
-        this.lineaActual = this.linesR[this.index];
-        this.index++;
-      }
-    }, this.frecuenciaMues);
+    this.habilitado3 = true
+    this.habilitado4 = false
+    this.siCarga = true
+    this.startIntervalo()
+  }
+
+  startIntervalo() {
+    if (this.habilitado3 == true && this.siCarga)
+      this.intervalId = setInterval(() => {
+        if (!this.cancelar && this.index < this.linesR.length) {
+          console.log(this.index)
+          console.log(this.max + " - " + this.actual)
+          this.lineaActual = this.linesR[this.index];
+          this.actual = Math.floor(this.lineaActual[0]);
+
+          //lineaActual = ["-", "-", "-", "-"] masa - densidad - temperatura - caudal
+
+          this.api.adjuntarDatoCargaUsingPUT(this.lineaActual[3], this.lineaActual[1], this.lineaActual[0], 
+            this.numeroOrden, this.orden.password, this.lineaActual[2]).subscribe((resp: any) => {
+              console.log(resp)
+            }, err => {
+              console.log(err)
+            }
+          )
+
+          //@RequestParam("numeroOrden") Long numeroOrden,
+          // @RequestParam("password") Integer password,
+          // @RequestParam("masaAcumulada") Double masaAcumulada,
+          // @RequestParam("densidad") Double densidad,
+          // @RequestParam("temperatura") Double temperatura,
+          // @RequestParam("caudal") Double caudal
+          this.index++;
+        }
+      }, this.frecuenciaMues);
+  }
+
+  intervalo() {
+    clearInterval(this.intervalId);
+    if (this.habilitado3 == true && this.siCarga)
+      this.startIntervalo();
   }
 
 
@@ -147,16 +245,73 @@ export class CargaDatosComponent implements OnInit {
   }
 
   cerrarOrden() {
-    this.cancelar = true; this.habilitado = true; 
-    let request: RequestDelPesoFinal = {
-      numeroOrden: this.numeroOrden,
-      pesoFinal: this.orden.pesoFinal
-    } 
-    this.api.adjuntarPesoFinalUsingPUT(request).subscribe(resp => {
-      console.log(resp)
-    }
-    , err => {
+    this.cancelar = true;
+
+    this.api.cerrarOrdenUsingPOST(this.numeroOrden).subscribe((resp: any) => {
+      this.habilitado4 = true;
+      this.habilitado5 = false;
+      Swal.fire({
+        title: 'Orden cerrada',
+        html: 'La orden de carga número: <strong>' + this.numeroOrden + '</strong> se ha cerrado correctamente',
+        icon: 'success',
+      })
+    }, err => {
+      this.habilitado4 = true;
+      this.habilitado5 = false;
       console.log(err)
+      Swal.fire({
+        title: 'Error',
+        html: 'No se ha podido cerrar la orden de carga número: <strong>' + this.numeroOrden + '</strong>',
+        icon: 'error',
+      })
+    })
+  }
+
+  openModalPesoFinal(template: TemplateRef<any>) {
+    this.subscriptions.push(
+      this.modalService.onHide.subscribe(() => {
+        this.unsubscribe();
+      })
+    );
+    this.modalRef = this.modalService.show(template, { class: 'modal-md' });
+  }
+
+  adjuntarPesoF() {
+
+    if (this.formPesoF.invalid)
+      return this.formPesoF.markAllAsTouched();
+
+    var pesoFinalReq: RequestDelPesoFinal = {
+      numeroOrden: this.numeroOrden,
+      pesoFinal: this.formPesoF.get('pesoFinal').value
+    }
+
+    this.api.adjuntarPesoFinalUsingPUT(pesoFinalReq).subscribe(resp => {
+      console.log(resp)
+      this.conciliacion = resp;
+      Swal.fire({
+        title: 'Peso final adjuntado',
+        html: 'El peso final de la orden de carga número: <strong>' + this.numeroOrden +
+          '</strong> se ha adjuntado correctamente, Quiere ver la conciliación de la orden?',
+        icon: 'success',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, ver conciliación'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.modalRef.hide();
+          this.childModal?.show();
+        }
+      }
+      )
+    }, err => {
+      console.log(err)
+      Swal.fire({
+        title: 'Error',
+        html: 'No se ha podido adjuntar el peso final de la orden de carga número: <strong>' + this.numeroOrden + '</strong>',
+        icon: 'error',
+      })
     }
     )
   }
