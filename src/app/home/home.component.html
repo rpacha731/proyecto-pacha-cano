@@ -2,7 +2,8 @@
 	<div class="row">
 		<div class="col text-center mt-5 mb-5 text-white">
 			<p> Bienvenido al sistema de carga de gas liquido. </p>
-			<p> Que desea hacer? </p>
+			<p *ngIf="!isLoggedIn()"> Por favor inicie sesión para continuar </p>
+			<p *ngIf="isLoggedIn()"> Que desea hacer? </p>
 			<a class="btn btn-primary me-3" routerLink="/carga" *ngIf="hasRole('ROLE_ADMIN') || hasRole('ROLE_USER')"
 				(click)="openModal(template)"> CARGAR </a>
 			<a class="btn btn-primary me-3" routerLink="/admin-users" *ngIf="hasRole('ROLE_ADMIN')"

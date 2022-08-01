@@ -1,9 +1,10 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { AdminControllerService, RequestDeCambioDeRol, Rol } from '../client';
+import { AdminControllerService, Configuration, RequestDeCambioDeRol, Rol } from '../client';
 import { User } from '../client/model/user';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-admin-users',
@@ -22,9 +23,17 @@ export class AdminUsersComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
-    private userAdmin: AdminControllerService) { }
+    private authService: AuthService,
+    private userAdmin: AdminControllerService) { 
+      let config = new Configuration();
+    config.accessToken = this.authService.getJwt();
+    this.userAdmin.configuration = config;
+    }
 
   ngOnInit() {
+    let config = new Configuration();
+    config.accessToken = this.authService.getJwt();
+    this.userAdmin.configuration = config;
     this.getUsers();
     this.getRoles();
   }

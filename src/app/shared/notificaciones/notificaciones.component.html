@@ -1,56 +1,50 @@
+<div class="dropdown ms-3">
 
-	<div class="dropdown ms-3">
+	<button type="button" class="btn btn-primary position-relative rounded-circle" data-bs-toggle="dropdown"
+		aria-expanded="false" id="dropdownMenu1" data-bs-target="dropdownMenu1">
 
-		<button type="button" class="btn btn-primary position-relative rounded-circle" data-bs-toggle="dropdown"
-			aria-expanded="false" id="dropdownMenu1" data-bs-target="dropdownMenu1">
+		<i class="bi bi-bell-fill fs-5"></i>
 
-			<i class="bi bi-bell-fill fs-5"></i>
-
-			<span *ngIf="contarNotificaciones() != 0" class="position-absolute top-0 start-100 translate-middle badge 
+		<span *ngIf="contarNotificaciones() != 0" class="position-absolute top-0 start-100 translate-middle badge 
 		rounded-pill bg-warning border border-light rounded-circle "> {{contarNotificaciones()}}
-				<span class="visually-hidden"> Notificaciones </span>
-			</span>
+			<span class="visually-hidden"> Notificaciones </span>
+		</span>
 
-		</button>
-		<ul class="scroll dropdown-menu dropdown-menu-end border-0 bg-primary" aria-labelledby="dropdownMenu1"
-			style="overflow-y: scroll; max-height: 455px; padding: 0.25rem 0 !important;">
-			<ng-container *ngIf="notificaciones.length != 0">
-				<ng-container *ngFor="let not of notificaciones; let i = index">
-					<div class="card border-0 mx-1" style="width: max-content; min-width: 300px; max-width: 300px;"
-						[ngClass]="notificaciones.length > 1 ? 'mb-1' : 'mb-0'"
-						[ngClass]="notificaciones.length == i + 1 ? 'mb-0' : 'mb-1'">
-						<div class="card-body px-3 py-2">
-							<div class="d-flex justify-content-between">
-								<p class="card-title mb-0 fw-bold" style="font-size: 15px;"> {{not.titulo}} </p>
-								<i class="bi text-primary" (click)="leerNotif(i)"
-									[ngClass]="not.leida ? '' : 'bi-check-all'"></i>
-							</div>
-							<p class="card-text mb-0"
-								style="font-size: 13px; background-color: #F9F9F9; border-radius: 5px;"
-								[innerHtml]="not.contenido"> </p>
-							<a class="cursor-pointer text-primary" style="font-size: 13px;"
-								routerLink="{{not.actionUrl}}">
-								{{not.evento}} </a>
-							<div class="d-flex justify-content-between align-items-baseline">
-								<p class="text-muted card-subtitle mb-0" style="font-size: 12px;">
-									{{not.fechaNotificacion |
-									fechahora}} </p>
-								<i class="bi bi-trash-fill text-danger" (click)="borrarNotif(i)"></i>
-							</div>
+	</button>
+	<ul class="scroll dropdown-menu dropdown-menu-end border-0 bg-primary" aria-labelledby="dropdownMenu1"
+		style="max-height: 455px; padding: 0.25rem 0 !important;">
+		<ng-container *ngIf="notificaciones.length != 0">
+			<ng-container *ngFor="let not of notificaciones; let i = index">
+				<div class="card border-0 mx-1" style="width: max-content; min-width: 300px; max-width: 300px;"
+					[ngClass]="notificaciones.length > 1 ? 'mb-1' : 'mb-0'"
+					[ngClass]="notificaciones.length == i + 1 ? 'mb-0' : 'mb-1'">
+					<div class="card-body px-3 py-2">
+						<div class="d-flex justify-content-between">
+							<p class="card-title mb-0 fw-bold" style="font-size: 15px;"> {{not.titulo}} </p>
+						</div>
+						<p class="card-text"
+							style="font-size: 13px; margin-top: 3px; margin-bottom: 3px; background-color: #F9F9F9; border-radius: 5px;"
+							[innerHtml]="not.contenido"> </p>
+						<div class="d-flex justify-content-between align-items-baseline">
+							<p class="text-muted card-subtitle mb-0" style="font-size: 12px;">
+								{{not.fechaNotificacion |
+								fechahora}} </p>
+							<span class="badge rounded-pill bg-primary text-black cursor-pointer"> Aceptar </span>
 						</div>
 					</div>
-				</ng-container>
-			</ng-container>
-
-
-
-			<ng-container *ngIf="notificaciones.length == 0">
-				<div class="card border-0 mx-2" style="width: max-content; min-width: 300px;">
-					<p class="card-text text-muted my-1 mx-3" style="font-size: 14px;">
-						No hay notificaciones en este momento... <i class="bi bi-emoji-sunglasses"></i> </p>
 				</div>
 			</ng-container>
+		</ng-container>
 
-		</ul>
 
-	</div>
+
+		<ng-container *ngIf="notificaciones.length == 0">
+			<div class="card border-0 mx-2" style="width: max-content; min-width: 300px;">
+				<p class="card-text text-muted my-1 mx-3" style="font-size: 14px;">
+					No hay notificaciones en este momento... <i class="bi bi-emoji-sunglasses"></i> </p>
+			</div>
+		</ng-container>
+
+	</ul>
+
+</div>

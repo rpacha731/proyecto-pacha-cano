@@ -6,7 +6,9 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
-import { OrdenCargaControllerService, OrdenDeCarga, RequestDelPesoInicial } from '../client';
+import { Configuration, OrdenCargaControllerService, OrdenDeCarga, RequestDelPesoInicial } from '../client';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-ordenes',
@@ -37,12 +39,25 @@ export class OrdenesComponent implements OnInit {
   ordenesPagina: OrdenDeCarga[] = []
   ordenesPaginaAux: OrdenDeCarga[] = []
 
-  constructor(private ordenesService: OrdenCargaControllerService,
+  constructor(
+     private ordenesService: OrdenCargaControllerService,
+     private authService: AuthService,
     private router: Router,
     private modalService: BsModalService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder) { 
+      let a = new Configuration();
+    a.accessToken = this.authService.getJwt();
+    a.withCredentials = true;
+    console.log(a);
+    this.ordenesService.configuration = a;
+    
+
+    }
 
   ngOnInit() {
+    let a = new Configuration();
+    a.accessToken = this.authService.getJwt();
+    this.ordenesService.configuration = a;
     this.cargarOrdenes();
     this.createFormTara();
   }
@@ -64,7 +79,8 @@ export class OrdenesComponent implements OnInit {
 
   createFormTara() {
     this.formTara = this.fb.group({
-      pesoInicial: ['', Validators.required]
+      pesoInicial: ['', Validators.required],
+      temperatura: ['40', Validators.required]
     })
   }
 
@@ -72,8 +88,12 @@ export class OrdenesComponent implements OnInit {
   get pesoInicialInvalido() {
     return this.formTara.get('pesoInicial').invalid && this.formTara.get('pesoInicial').touched;
   }
+  get temperaturaInvalida() {
+    return this.formTara.get('temperatura').invalid && this.formTara.get('temperatura').touched;
+  }
 
   cargarOrdenes() {
+    console.log(this.ordenesService.configuration )
     this.ordenesService.listadoUsingGET().subscribe((resp: any) => {
       this.ordenes = resp
       this.totalItems = this.ordenes.length
@@ -98,7 +118,8 @@ export class OrdenesComponent implements OnInit {
 
     var pesoInicialReq: RequestDelPesoInicial = {
       numeroOrden: this.ordenesPaginaAux[this.ind].numeroOrden,
-      pesoInicial: this.formTara.controls.pesoInicial.value
+      pesoInicial: this.formTara.controls.pesoInicial.value,
+      temperaturaUmbral: this.formTara.controls.temperatura.value
     }
     this.ordenesService.adjuntarTaraUsingPUT(pesoInicialReq).subscribe((resp: any) => {
       this.ordenesPaginaAux[this.ind] = resp
@@ -177,4 +198,14 @@ export class OrdenesComponent implements OnInit {
     this.subscriptions = [];
   }
 
+  filtrar (num: number) {
+    if (num == 0) {
+      this.ordenesPaginaAux = this.ordenes.slice(0, 10);
+      this.totalItems = this.ordenes.length
+    } else {
+      this.ordenesPaginaAux = this.ordenes.filter(o => o.estado == 'E' + num)
+      this.totalItems = this.ordenesPaginaAux.length
+    }
+    console.log(this.ordenesPaginaAux)
+  }
 }

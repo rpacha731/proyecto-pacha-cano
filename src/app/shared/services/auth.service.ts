@@ -30,6 +30,8 @@ export class AuthService {
 
   hasRole(role: string) {
     let roles = this.ls.getJsonValue('roles');
+    if (roles == null) 
+      return false;
     for (let i = 0; i < roles.length; i++) 
       if (roles[i].nombre === role) 
         return true;
@@ -37,7 +39,8 @@ export class AuthService {
 
   clearData() {
     this.ls.clearToken();
-
+    this.loggedIn.emit(false);
+    // this.useremail.emit('');
   }
 
   setData(response: any) {

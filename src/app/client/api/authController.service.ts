@@ -93,6 +93,8 @@ export class AuthControllerService {
         const consumes: string[] = [
         ];
 
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
+
         return this.httpClient.get<any>(`${this.basePath}/api/v1/auth-info`,
             {
                 params: queryParameters,

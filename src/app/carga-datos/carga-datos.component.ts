@@ -1,12 +1,14 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CdTimerComponent } from 'angular-cd-timer';
 import { BsModalRef, BsModalService, ModalDirective } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
-import { OrdenCargaControllerService, OrdenDeCarga } from '../client';
+import { Configuration, OrdenCargaControllerService, OrdenDeCarga } from '../client';
 import { RequestDelPesoFinal } from '../client/model/requestDelPesoFinal';
 import { RequestDelPesoInicial } from '../client/model/requestDelPesoInicial';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-carga-datos',
@@ -16,6 +18,7 @@ import { RequestDelPesoInicial } from '../client/model/requestDelPesoInicial';
 export class CargaDatosComponent implements OnInit {
 
   @ViewChild('childModal', { static: false }) childModal?: ModalDirective;
+  @ViewChild('timer') timer?: CdTimerComponent;
 
   linesR: any[] = []
   lineaActual: any[] = ["-", "-", "-", "-"]
@@ -43,6 +46,8 @@ export class CargaDatosComponent implements OnInit {
 
   conciliacion: any = {};
 
+  tiempoEstimado: string = "Sin datos"
+
   max: number = 100;
   actual: number = 0;
 
@@ -50,9 +55,17 @@ export class CargaDatosComponent implements OnInit {
     private api: OrdenCargaControllerService,
     private modalService: BsModalService,
     private fb: FormBuilder,
-    private router: Router) { }
+    private router: Router,
+    private authService: AuthService) {
+    let config = new Configuration();
+    config.accessToken = this.authService.getJwt();
+    this.api.configuration = config;
+  }
 
   ngOnInit(): void {
+    let config = new Configuration();
+    config.accessToken = this.authService.getJwt();
+    this.api.configuration = config;
     this.ap.params.subscribe(resp => {
       this.numeroOrden = resp.id;
     })
@@ -93,7 +106,7 @@ export class CargaDatosComponent implements OnInit {
 
   get pesoFinalInvalido() {
     return this.formPesoF.get('pesoFinal').invalid && this.formPesoF.get('pesoFinal').touched;
-  } 
+  }
 
   adjuPassw() {
     this.passw = this.formPass.get('password').value;
@@ -187,7 +200,14 @@ export class CargaDatosComponent implements OnInit {
   carga() {
     this.habilitado3 = true
     this.habilitado4 = false
+    this.timer.start();
     this.siCarga = true
+    this.api.cambiarFrecuenciaUsingPUT(this.frecuenciaMues, this.numeroOrden).subscribe((resp: any) => {
+      console.log(resp)
+    }, err => {
+      console.log(err)
+    }
+    )
     this.startIntervalo()
   }
 
@@ -202,29 +222,37 @@ export class CargaDatosComponent implements OnInit {
 
           //lineaActual = ["-", "-", "-", "-"] masa - densidad - temperatura - caudal
 
-          this.api.adjuntarDatoCargaUsingPUT(this.lineaActual[3], this.lineaActual[1], this.lineaActual[0], 
+          this.api.adjuntarDatoCargaUsingPUT(this.lineaActual[3], this.lineaActual[1], this.lineaActual[0],
             this.numeroOrden, this.orden.password, this.lineaActual[2]).subscribe((resp: any) => {
-              console.log(resp)
+              console.log(resp.estado)
+              this.tiempoEstimado = resp.estado;
             }, err => {
               console.log(err)
-            }
-          )
+              if (err.error.code == 409)
+                this.cancelar = true;
+                this.habilitado4 = true;
+                this.habilitado5 = false;
+                this.timer.stop();
+                clearInterval(this.intervalId);
+                return
 
-          //@RequestParam("numeroOrden") Long numeroOrden,
-          // @RequestParam("password") Integer password,
-          // @RequestParam("masaAcumulada") Double masaAcumulada,
-          // @RequestParam("densidad") Double densidad,
-          // @RequestParam("temperatura") Double temperatura,
-          // @RequestParam("caudal") Double caudal
+            }
+            )
           this.index++;
         }
-      }, this.frecuenciaMues);
+      }, 250);
   }
 
   intervalo() {
-    clearInterval(this.intervalId);
-    if (this.habilitado3 == true && this.siCarga)
-      this.startIntervalo();
+    this.api.cambiarFrecuenciaUsingPUT(this.frecuenciaMues, this.numeroOrden).subscribe((resp: any) => {
+      console.log(resp)
+    }, err => {
+      console.log(err)
+    }
+    )
+    // clearInterval(this.intervalId);
+    // if (this.habilitado3 == true && this.siCarga)
+    //   this.startIntervalo();
   }
 
 
@@ -250,6 +278,8 @@ export class CargaDatosComponent implements OnInit {
     this.api.cerrarOrdenUsingPOST(this.numeroOrden).subscribe((resp: any) => {
       this.habilitado4 = true;
       this.habilitado5 = false;
+      this.timer.stop();
+      this.tiempoEstimado = "Sin datos";
       Swal.fire({
         title: 'Orden cerrada',
         html: 'La orden de carga número: <strong>' + this.numeroOrden + '</strong> se ha cerrado correctamente',
@@ -314,6 +344,10 @@ export class CargaDatosComponent implements OnInit {
       })
     }
     )
+  }
+
+  navigate() {
+    this.router.navigate(['/ordenes']);
   }
 
 }

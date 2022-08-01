@@ -113,6 +113,10 @@ export interface OrdenDeCarga {
      * Temperatura promedio
      */
     temperaturaPromedio?: number;
+    /**
+     * Temperatura de umbral para enviar notificación
+     */
+    temperaturaUmbral?: OrdenDeCarga.TemperaturaUmbralEnum;
 }
 export namespace OrdenDeCarga {
     export type EstadoEnum = 'E1' | 'E2' | 'E3' | 'E4';
@@ -129,5 +133,11 @@ export namespace OrdenDeCarga {
         NUMBER_5: 5 as FrecuenciaEnum,
         NUMBER_10: 10 as FrecuenciaEnum,
         NUMBER_15: 15 as FrecuenciaEnum
+    };
+    export type TemperaturaUmbralEnum = 40.0 | 45.0 | 50.0;
+    export const TemperaturaUmbralEnum = {
+        NUMBER_40_DOT_0: 40.0 as TemperaturaUmbralEnum,
+        NUMBER_45_DOT_0: 45.0 as TemperaturaUmbralEnum,
+        NUMBER_50_DOT_0: 50.0 as TemperaturaUmbralEnum
     };
 }

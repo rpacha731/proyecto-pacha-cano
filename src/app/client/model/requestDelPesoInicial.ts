@@ -23,4 +23,8 @@ export interface RequestDelPesoInicial {
      * Peso inicial o tara
      */
     pesoInicial: number;
+    /**
+     * Temperatura umbral de carga
+     */
+    temperaturaUmbral: number;
 }

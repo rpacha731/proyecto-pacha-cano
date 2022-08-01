@@ -25,6 +25,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { LoadingComponent } from './shared/loading/loading.component';
+import { CdTimerModule } from 'angular-cd-timer';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { LoadingComponent } from './shared/loading/loading.component';
     HttpClientModule,
     AppRoutingModule,
     FontAwesomeModule,
+    CdTimerModule,
     ApiModule,
     PaginationModule.forRoot(),
     ModalModule.forRoot(),

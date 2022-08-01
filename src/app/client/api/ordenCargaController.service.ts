@@ -135,6 +135,8 @@ export class OrdenCargaControllerService {
             'application/json'
         ];
 
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
+
         return this.httpClient.put<any>(`${this.basePath}/api/v1/ordenes-carga/carga`,
             null,
             {
@@ -183,6 +185,8 @@ export class OrdenCargaControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
+
         return this.httpClient.put<any>(`${this.basePath}/api/v1/ordenes-carga/peso-final`,
             pesoFinalRequest,
             {
@@ -229,6 +233,8 @@ export class OrdenCargaControllerService {
         if (httpContentTypeSelected != undefined) {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
+
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
 
         return this.httpClient.put<any>(`${this.basePath}/api/v1/ordenes-carga/tara`,
             pesoInicialRequest,
@@ -283,6 +289,8 @@ export class OrdenCargaControllerService {
             'application/json'
         ];
 
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
+
         return this.httpClient.put<any>(`${this.basePath}/api/v1/ordenes-carga/cambiar-frecuencia/${encodeURIComponent(String(numOrden))}`,
             null,
             {
@@ -326,6 +334,8 @@ export class OrdenCargaControllerService {
         const consumes: string[] = [
             'application/json'
         ];
+
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
 
         return this.httpClient.post<any>(`${this.basePath}/api/v1/ordenes-carga/cerrar/${encodeURIComponent(String(numOrden))}`,
             null,
@@ -374,6 +384,8 @@ export class OrdenCargaControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
+
         return this.httpClient.post<any>(`${this.basePath}/api/v1/ordenes-carga`,
             ordenCarga,
             {
@@ -411,6 +423,8 @@ export class OrdenCargaControllerService {
         const consumes: string[] = [
         ];
 
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
+
         return this.httpClient.get<any>(`${this.basePath}/api/v1/camiones`,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -447,6 +461,8 @@ export class OrdenCargaControllerService {
         const consumes: string[] = [
         ];
 
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
+
         return this.httpClient.get<any>(`${this.basePath}/api/v1/choferes`,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -482,6 +498,8 @@ export class OrdenCargaControllerService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
+
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
 
         return this.httpClient.get<any>(`${this.basePath}/api/v1/clientes`,
             {
@@ -524,6 +542,8 @@ export class OrdenCargaControllerService {
         const consumes: string[] = [
         ];
 
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
+
         return this.httpClient.get<any>(`${this.basePath}/api/v1/ordenes-carga/E${encodeURIComponent(String(i))}`,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -560,6 +580,8 @@ export class OrdenCargaControllerService {
         const consumes: string[] = [
         ];
 
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
+
         return this.httpClient.get<any>(`${this.basePath}/api/v1/productos`,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -595,6 +617,8 @@ export class OrdenCargaControllerService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
+
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
 
         return this.httpClient.get<any>(`${this.basePath}/api/v1/ordenes-carga`,
             {
@@ -637,6 +661,8 @@ export class OrdenCargaControllerService {
         const consumes: string[] = [
         ];
 
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
+
         return this.httpClient.get<any>(`${this.basePath}/api/v1/ordenes-carga/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -678,6 +704,8 @@ export class OrdenCargaControllerService {
         const consumes: string[] = [
         ];
 
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
+
         return this.httpClient.get<any>(`${this.basePath}/api/v1/ordenes-carga/numero-orden/${encodeURIComponent(String(numOrden))}`,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -718,6 +746,8 @@ export class OrdenCargaControllerService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
+
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
 
         return this.httpClient.get<any>(`${this.basePath}/api/v1/ordenes-carga/conciliacion/${encodeURIComponent(String(numOrden))}`,
             {

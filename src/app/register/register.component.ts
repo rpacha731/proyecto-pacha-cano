@@ -23,7 +23,9 @@ export class RegisterComponent implements OnInit {
     private authServiceREST: AuthControllerService,
     private authService: AuthService,
     private router: Router, 
-    private ls: LocalService) { }
+    private ls: LocalService) {
+      
+     }
 
   ngOnInit() {
     this.createFormSignup();

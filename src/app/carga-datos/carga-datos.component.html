@@ -1,5 +1,14 @@
 <div class="container bg-dark" style="min-height: 484px;">
-    <div class="row mt-5 mb-4 align-items-center">
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="card shadow-sm text-center">
+                <div class="card-header bg">
+                    <h5 class="card-title m-0"> Orden de carga número <strong>{{numeroOrden}}</strong> </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3 mb-4 align-items-center">
         <div class="col-12 col-md-6">
 
             <div class="card shadow-sm text-center">
@@ -29,7 +38,7 @@
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             Caudal
                             <span class="badge text-dark rounded-pill bg" style="opacity: 0.8;">{{lineaActual[3]}}
-                                <span> KG / HORA
+                                <span> KG / SEG
                                 </span> </span>
                         </li>
                     </ul>
@@ -113,8 +122,8 @@
             </progressbar>
 
             <div class="d-flex justify-content-between mt-3 bg-light rounded p-2 ps-3 pe-3">
-                <p class="m-0"> Tiempo transcurrido: </p>
-                <p class="m-0"> Tiempo estimado: </p>
+                <p class="m-0"> Tiempo transcurrido: <cd-timer #timer [autoStart]="false" format="intelli"></cd-timer> </p>
+                <p class="m-0"> Tiempo estimado: {{tiempoEstimado}} </p>
             </div>
 
         </div>
@@ -184,9 +193,9 @@
     <div class="modal-dialog modal-md modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="childModalLabel">Conciliación de la orden n° {{conciliacion.numeroOrden}}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="childModal.hide()">
-                    <span aria-hidden="true">&times;</span>
+                <h5 class="modal-title">Conciliación de la orden n° {{conciliacion.numeroOrden}}</h5>
+                <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="childModal.hide()">
+                    <span aria-hidden="true" class="visually-hidden">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -196,20 +205,20 @@
                             <div class="card-body p-1">
                                 <div class="d-flex justify-content-around align-items-baseline">
                                     <p class="mb-0"> Peso inicial y final: <br> 
-                                        {{conciliacion.pesoInicial}} / {{conciliacion.pesoFinal}} </p>
+                                        {{conciliacion.pesoInicial}} kg / {{conciliacion.pesoFinal}} kg </p>
                                 </div>
                             </div>
                         </div>
-
+        
                         <div class="card shadow-sm mb-2 text-center">
                             <div class="card-body p-1">
                                 <div class="d-flex justify-content-around align-items-baseline">
                                     <p class="mb-0"> Neto balanza y diferencia con caudal: <br> 
-                                        {{conciliacion.netoBalanza}} / {{conciliacion.difBalanzaYCaudal}} </p>
+                                        {{conciliacion.netoBalanza}} kg / {{conciliacion.diferenciaBalanzaYCaudal}} kg </p>
                                 </div>
                             </div>
                         </div>
-
+        
                         
                     </div>
                     <div class="col-6">
@@ -217,7 +226,7 @@
                             <div class="card-body p-1">
                                 <div class="d-flex justify-content-around align-items-baseline">
                                     <p class="mb-0"> Masa acumulada total y caudal promedio: <br> 
-                                        {{conciliacion.masaAcumuladaTotal}} / {{conciliacion.caudalPromedio}} </p>
+                                        {{conciliacion.masaAcumuladaTotal | number:'1.2-2' }} kg / {{conciliacion.caudalPromedio | number:'1.2-2'}} kg/seg </p>
                                 </div>
                             </div>
                         </div>
@@ -225,7 +234,7 @@
                             <div class="card-body p-1">
                                 <div class="d-flex justify-content-around align-items-baseline">
                                     <p class="mb-0"> Temperatura y densidad promedio: <br> 
-                                        {{conciliacion.temperaturaPromedio}} / {{conciliacion.densidadPromedio}} </p>
+                                        {{conciliacion.temperaturaPromedio | number:'1.2-2'}} °C / {{conciliacion.densidadPromedio | number:'1.2-2'}} kg/m </p>
                                 </div>
                             </div>
                         </div>
@@ -233,7 +242,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" (click)="childModal.hide()"> Aaceptar </button>
+                <button type="button" class="btn btn-primary" (click)="childModal.hide(); navigate()"> Aceptar </button>
             </div>
         </div>
     </div>

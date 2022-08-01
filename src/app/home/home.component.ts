@@ -36,6 +36,10 @@ export class HomeComponent implements OnInit {
     return this.authService.hasRole(role);
   }
 
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
   openModal(template: TemplateRef<any>) {
     this.subscriptions.push(
       this.modalService.onHide.subscribe(() => {

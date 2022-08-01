@@ -56,55 +56,6 @@ export class NotificacionesControllerService {
 
 
     /**
-     * Borra una notificación
-     * 
-     * @param idNotif idNotif
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public borrarNotificacionUsuarioUsingPOST(idNotif: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public borrarNotificacionUsuarioUsingPOST(idNotif: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public borrarNotificacionUsuarioUsingPOST(idNotif: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public borrarNotificacionUsuarioUsingPOST(idNotif: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (idNotif === null || idNotif === undefined) {
-            throw new Error('Required parameter idNotif was null or undefined when calling borrarNotificacionUsuarioUsingPOST.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (idNotif !== undefined && idNotif !== null) {
-            queryParameters = queryParameters.set('idNotif', <any>idNotif);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-
-        return this.httpClient.post<any>(`${this.basePath}/api/notificaciones-user/borrar`,
-            null,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
      * Lee una notificación
      * 
      * @param idNotif idNotif
@@ -140,6 +91,8 @@ export class NotificacionesControllerService {
         const consumes: string[] = [
             'application/json'
         ];
+
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
 
         return this.httpClient.post<any>(`${this.basePath}/api/notificaciones-user/leer`,
             null,
@@ -178,6 +131,8 @@ export class NotificacionesControllerService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
+
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
 
         return this.httpClient.get<any>(`${this.basePath}/api/notificaciones-user`,
             {

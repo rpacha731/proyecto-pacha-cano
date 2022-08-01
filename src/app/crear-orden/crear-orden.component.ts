@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, ControlContainer, FormArray, FormBuilder, FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { Chofer, OrdenDeCarga, Producto, Camion, Cliente, OrdenCargaControllerService } from '../client';
+import { Chofer, OrdenDeCarga, Producto, Camion, Cliente, OrdenCargaControllerService, Configuration } from '../client';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-crear-orden',
@@ -24,9 +25,17 @@ export class CrearOrdenComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private router: Router,
-    private apiOrdenes: OrdenCargaControllerService) { }
+    private apiOrdenes: OrdenCargaControllerService,
+    private authService: AuthService) { 
+      let config = new Configuration();
+    config.accessToken = this.authService.getJwt();
+    this.apiOrdenes.configuration = config;
+    }
 
   ngOnInit() {
+    let config = new Configuration();
+    config.accessToken = this.authService.getJwt();
+    this.apiOrdenes.configuration = config;
     this.crearForm();
     this.getProductos();
     this.getCamiones();

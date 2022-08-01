@@ -12,7 +12,7 @@ import { RegisterComponent } from './register/register.component';
 
 
 const routes: Routes = [ 
-  { path: 'home', component: HomeComponent, canActivate: [UserGuard] },
+  { path: 'home', component: HomeComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'crear-orden', component: CrearOrdenComponent, canActivate: [AdminGuard] },
   { path: 'admin-users', component: AdminUsersComponent, canActivate: [AdminGuard] },

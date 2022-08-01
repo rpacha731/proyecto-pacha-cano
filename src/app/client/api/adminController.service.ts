@@ -92,6 +92,8 @@ export class AdminControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
+
         return this.httpClient.put<any>(`${this.basePath}/api/v1/admin/users/changeRoles`,
             changeRolesRequest,
             {
@@ -135,6 +137,8 @@ export class AdminControllerService {
             'application/json'
         ];
 
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
+
         return this.httpClient.put<any>(`${this.basePath}/api/v1/admin/users/enable/${encodeURIComponent(String(id))}`,
             null,
             {
@@ -172,6 +176,8 @@ export class AdminControllerService {
         const consumes: string[] = [
         ];
 
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
+
         return this.httpClient.get<any>(`${this.basePath}/api/v1/admin/roles`,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -207,6 +213,8 @@ export class AdminControllerService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
+
+        headers = headers.set('Authorization', `Bearer ${this.configuration.accessToken}`);
 
         return this.httpClient.get<any>(`${this.basePath}/api/v1/admin/users`,
             {

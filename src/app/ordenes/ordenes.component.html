@@ -18,11 +18,20 @@
 									id="inputBuscar" (keyup)="buscar()" [(ngModel)]="cadena">
 
 								<div class="my-auto">
-									<span class="badge rounded-pill E1 me-2">Estado E1</span>
-									<span class="badge rounded-pill E2 me-2">Estado E2</span>
-									<span class="badge rounded-pill E3 me-2">Estado E3</span>
-									<span class="badge rounded-pill E4">Estado E4</span>
 
+									<span class="badge rounded-pill bg-success me-2 cursor-pointer"
+										(click)="filtrar(0)">Todos</span>
+									<span class="badge rounded-pill E1 me-2 cursor-pointer" (click)="filtrar(1)">Estado
+										E1</span>
+									<span class="badge rounded-pill E2 me-2 cursor-pointer" (click)="filtrar(2)">Estado
+										E2</span>
+									<span class="badge rounded-pill E3 me-2 cursor-pointer" (click)="filtrar(3)">Estado
+										E3</span>
+									<span class="badge rounded-pill E4 me-5 cursor-pointer" (click)="filtrar(4)">Estado
+										E4</span>
+									<button class="btn btn-sm btn-primary" [routerLink]="['/crear-orden']" routerLinkActive="router-link-active">
+										<i class="fa fa-plus"></i> Nueva Orden
+									</button>
 								</div>
 							</div>
 
@@ -58,22 +67,26 @@
 								<p *ngIf="orden.registroDatosCarga.length == 0" class="mb-0"> Sin datos </p>
 								<p *ngIf="orden.registroDatosCarga.length != 0" class="mb-0">
 									{{orden.registroDatosCarga.at(-1).masaAcumulada}} kg |
-									{{orden.registroDatosCarga.at(-1).caudal}} kg/hora |
+									{{orden.registroDatosCarga.at(-1).caudal}} kg/seg |
 									{{orden.registroDatosCarga.at(-1).temperatura}} °C </p>
 							</td>
 							<td> {{orden.preset}} kg</td>
-							<td>
-								<span class="badge rounded-pill bg-primary me-2 text-black cursor-pointer"
-									(click)="openDetails(details, i)"> Ver detalles </span>
-								<span class="badge rounded-pill bg-primary text-black cursor-pointer dropdown"
-									id="dropdownAcc" data-bs-toggle="dropdown"> Acciones
-									<ul class="dropdown-menu" aria-labelledby="dropdownAcc" style="font-size: 13px;">
-										<li class="dropdown-item cursor-pointer" (click)="openModal(template, i)"
-											*ngIf="orden.estado == 'E1'">Enviar tara / peso inicial</li>
-										<li class="dropdown-item cursor-pointer" *ngIf="orden.estado == 'E2'"
-											(click)="cargarNafta(i)">Cargar gas / combustible</li>
-									</ul>
-								</span>
+							<td class="d-flex justify-content-center flex-row">
+								<span class="badge rounded-pill bg-primary me-0 text-black cursor-pointer"
+									(click)="openDetails(details, i)" [ngClass]="{'me-2': orden.estado == 'E1', 'me-2': orden.estado == 'E2'}"> Ver detalles </span>
+								<ng-container *ngIf="orden.estado !== 'E4' && orden.estado !== 'E3'">
+									<span class="badge rounded-pill bg-primary text-black cursor-pointer dropdown"
+										id="dropdownAcc" data-bs-toggle="dropdown"> Acciones
+										<ul class="dropdown-menu" aria-labelledby="dropdownAcc"
+											style="font-size: 13px;">
+											<li class="dropdown-item cursor-pointer" (click)="openModal(template, i)"
+												*ngIf="orden.estado == 'E1'">Enviar tara / peso inicial</li>
+											<li class="dropdown-item cursor-pointer" *ngIf="orden.estado == 'E2'"
+												(click)="cargarNafta(i)">Cargar gas / combustible</li>
+										</ul>
+									</span>
+								</ng-container>
+
 							</td>
 						</tr>
 					</ng-container>
@@ -109,6 +122,24 @@
 					</span></div>
 			</div>
 		</div>
+		<div class="row gy-2">
+			<div class="col-12">
+				<div class="form-floating">
+					<select class="form-select w-100" formControlName="temperatura"
+						[class.is-invalid]="temperaturaInvalida">
+
+						<option value="40" selected>40 °C</option>
+						<option value="45">45 °C</option>
+						<option value="50">50 °C</option>
+					</select>
+
+					<label for="temperatura">Temperatura</label>
+				</div>
+
+				<!-- <div class="text-end"><span class="text-warning" style="font-size: 12px"> Tara en kilogramos
+					</span></div> -->
+			</div>
+		</div>
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-secondary" (click)="modalRef?.hide()"> Cancelar </button>
@@ -116,7 +147,7 @@
 	</div>
 </ng-template>
 
-<ng-template #concil> 
+<ng-template #concil>
 
 	<div class="modal-header">
 		<h5 class="modal-title">Conciliación de la orden n° {{conciliacion.numeroOrden}}</h5>
@@ -130,7 +161,7 @@
 				<div class="card shadow-sm mb-2 text-center">
 					<div class="card-body p-1">
 						<div class="d-flex justify-content-around align-items-baseline">
-							<p class="mb-0"> Peso inicial y final: <br> 
+							<p class="mb-0"> Peso inicial y final: <br>
 								{{conciliacion.pesoInicial}} kg / {{conciliacion.pesoFinal}} kg </p>
 						</div>
 					</div>
@@ -139,28 +170,30 @@
 				<div class="card shadow-sm mb-2 text-center">
 					<div class="card-body p-1">
 						<div class="d-flex justify-content-around align-items-baseline">
-							<p class="mb-0"> Neto balanza y diferencia con caudal: <br> 
+							<p class="mb-0"> Neto balanza y diferencia con caudal: <br>
 								{{conciliacion.netoBalanza}} kg / {{conciliacion.diferenciaBalanzaYCaudal}} kg </p>
 						</div>
 					</div>
 				</div>
 
-				
+
 			</div>
 			<div class="col-6">
 				<div class="card shadow-sm mb-2 text-center">
 					<div class="card-body p-1">
 						<div class="d-flex justify-content-around align-items-baseline">
-							<p class="mb-0"> Masa acumulada total y caudal promedio: <br> 
-								{{conciliacion.masaAcumuladaTotal | number:'1.2-2' }} kg / {{conciliacion.caudalPromedio | number:'1.2-2'}} kg/hora </p>
+							<p class="mb-0"> Masa acumulada total y caudal promedio: <br>
+								{{conciliacion.masaAcumuladaTotal | number:'1.2-2' }} kg / {{conciliacion.caudalPromedio
+								| number:'1.2-2'}} kg/seg </p>
 						</div>
 					</div>
 				</div>
 				<div class="card shadow-sm mb-2 text-center">
 					<div class="card-body p-1">
 						<div class="d-flex justify-content-around align-items-baseline">
-							<p class="mb-0"> Temperatura y densidad promedio: <br> 
-								{{conciliacion.temperaturaPromedio | number:'1.2-2'}} °C / {{conciliacion.densidadPromedio | number:'1.2-2'}} kg/mt </p>
+							<p class="mb-0"> Temperatura y densidad promedio: <br>
+								{{conciliacion.temperaturaPromedio | number:'1.2-2'}} °C /
+								{{conciliacion.densidadPromedio | number:'1.2-2'}} kg/m </p>
 						</div>
 					</div>
 				</div>
@@ -215,7 +248,7 @@
 				<div class="card shadow-sm mb-2 text-center">
 					<div class="card-body p-1">
 						<div class="d-flex justify-content-around align-items-baseline">
-							<p class="mb-0"> Peso inicial: {{ordencita.pesoInicial == -1  ? 'Sin datos' :
+							<p class="mb-0"> Peso inicial: {{ordencita.pesoInicial == -1 ? 'Sin datos' :
 								ordencita.pesoInicial + ' kg'}} <br>
 								Peso final: {{ordencita.pesoFinal == -1 ? 'Sin datos' : ordencita.pesoFinal + ' kg'}}
 							</p>
